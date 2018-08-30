@@ -1,0 +1,8 @@
+kubectl run tracker --image=season/fastdfs tracker
+kubectl expose deployment tracker --name=tracker --port=22122
+
+kubectl run storage --image=season/fastdfs storage --env="tracker=192.168.1.2:22122"
+kubectl expose deployment storage --name=fastdfs-nginx --port=8080
+kubectl expose deployment storage --name=storage --port=23000
+
+#kubectl run fdfs_sh --image=season/fastdfs sh

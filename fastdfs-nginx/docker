@@ -1,0 +1,8 @@
+docker run -ti -d --name tracker -v ~/tracker_data:/fastdfs/tracker/data --net=host season/fastdfs tracker
+
+
+docker run -ti --name storage -v ~/storage_data:/fastdfs/storage/data -v ~/store_path:/fastdfs/store_path --net=host -e tracker:192.168.1.2:22122 season/fastdfs storage
+
+
+docker run -ti --name fdfs_sh --net=host season/fastdfs sh
+

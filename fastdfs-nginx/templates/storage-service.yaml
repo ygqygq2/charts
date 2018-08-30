@@ -10,29 +10,14 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port.storage }}
-      targetPort: {{ .Values.service.port.storage }}
+    - name: storage
+      port: {{ .Values.service.port.storage }}
       protocol: TCP
-      name: storage
-  selector:
-    app: {{ template "fastdfs-nginx.name" . }}
-    release: {{ .Release.Name }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "fastdfs-nginx.fullname" . }}-storage-nginx
-  labels:
-    app: {{ template "fastdfs-nginx.name" . }}
-    chart: {{ template "fastdfs-nginx.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port.storageNginx }}
-      targetPort: {{ .Values.service.port.storageNginx }}
+      targetPort: storage
+    - name: storage-nginx
+      port: {{ .Values.service.port.storageNginx }}
       protocol: TCP
-      name: storage-nginx
+      targetPort: storage-nginx
   selector:
     app: {{ template "fastdfs-nginx.name" . }}
     release: {{ .Release.Name }}
