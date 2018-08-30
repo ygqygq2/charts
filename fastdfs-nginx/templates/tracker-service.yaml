@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fastdfs-nginx.fullname" . }}-tracker
+  labels:
+    app: {{ template "fastdfs-nginx.name" . }}
+    chart: {{ template "fastdfs-nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.tracker }}
+      targetPort: {{ .Values.service.port.tracker }}
+      protocol: TCP
+      name: tracker
+  selector:
+    app: {{ template "fastdfs-nginx.name" . }}
+    release: {{ .Release.Name }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fastdfs-nginx.fullname" . }}-tracker-nginx
+  labels:
+    app: {{ template "fastdfs-nginx.name" . }}
+    chart: {{ template "fastdfs-nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.trackerNginx }}
+      targetPort: {{ .Values.service.port.trackerNginx }}
+      protocol: TCP
+      name: tracker-nginx
+  selector:
+    app: {{ template "fastdfs-nginx.name" . }}
+    release: {{ .Release.Name }}

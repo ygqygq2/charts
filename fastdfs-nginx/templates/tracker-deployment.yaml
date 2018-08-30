@@ -1,0 +1,65 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "fastdfs-nginx.fullname" . }}-tracker
+  labels:
+    app: {{ template "fastdfs-nginx.name" . }}
+    chart: {{ template "fastdfs-nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount.tracker }}
+  selector:
+    matchLabels:
+      app: {{ template "fastdfs-nginx.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fastdfs-nginx.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: tracker
+              containerPort: 22122
+              protocol: TCP
+            - name: tracker-nginx
+              containerPort: 80
+              protocol: TCP
+         # livenessProbe:
+         #   httpGet:
+         #     path: /
+         #     port: tracker-nginx
+         # readinessProbe:
+         #   httpGet:
+         #     path: /
+         #     port: tracker-nginx
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+        volumeMounts:
+          - name: data
+            mountPath: /var/fdfs
+      volumes:
+      - name:
+        {{- if .Values.persistentVolume.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistentVolume.existingClaim.tracker | default (include "fastdfs-nginx.fullname" .) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end -}}

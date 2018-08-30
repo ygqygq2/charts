@@ -1,0 +1,84 @@
+# Default values for fastdfs-nginx.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+## replicas number for each component
+replicaCount:
+  tracker: 2
+  storage: 2
+  
+image:
+  repository: ygqygq2/fastdfs-nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port:
+    tracker: 22122
+    trackerNginx: 80
+    storage: 23000
+    storageNginx: 8080
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## Configure resource requests and limits
+### ref: http://kubernetes.io/docs/user-guide/compute-resources/
+###
+resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  tracker:
+    requests:
+     cpu: 100m
+     memory: 128Mi
+  storage:
+    requests:
+     cpu: 100m
+     memory: 128Mi
+
+## Node labels and tolerations for pod assignment
+### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistentVolume: 
+  enabled: true
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
+  ##   Azure, standard on GKE, AWS & OpenStack)
+  ##
+  storageClass: "ceph-rbd"
+  accessMode: ReadWriteOnce
+  size: 
+    tracker: 5Gi
+    storage: 20Gi
+  annotations: {}
+  existingClaim:
+    tracker: ""
+    storage: ""
+
