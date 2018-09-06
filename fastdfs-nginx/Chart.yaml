@@ -3,8 +3,8 @@ appVersion: "1.0.0"
 description: FastDFS-Nginx chart for Kubernetes
 name: fastdfs-nginx
 version: 0.1.0
-home: https://www.mysql.com/
-icon: https://www.mysql.com/common/logos/logo-mysql-170x115.png
+home: https://github.com/happyfish100/fastdfs
+icon: 
 keywords:
 - fastdfs
 maintainers:

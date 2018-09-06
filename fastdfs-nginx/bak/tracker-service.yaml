@@ -7,17 +7,17 @@ metadata:
     chart: {{ template "fastdfs-nginx.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if .Values.service.annotations }}
+  annotations:
+{{ .Values.service.annotations | toYaml | trimSuffix "\n" | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - name: tracker
-      port: {{ .Values.service.port.tracker }}
-      protocol: TCP
-      targetPort: tracker
     - name: tracker-nginx
       port: {{ .Values.service.port.trackerNginx }}
       protocol: TCP
       targetPort: tracker-nginx
   selector:
-    app: {{ template "fastdfs-nginx.name" . }}
+    app: {{ template "fastdfs-nginx.name" . }}-tracker
     release: {{ .Release.Name }}

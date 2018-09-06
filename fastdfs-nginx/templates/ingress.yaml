@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "fastdfs-nginx.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
+{{- $http := .Values.trackerPorts.trackernginx.containerPort -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -32,7 +33,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: http
+              serviceName: {{ $fullName }}-tracker-headless
+              servicePort: {{ $http }}
   {{- end }}
 {{- end }}

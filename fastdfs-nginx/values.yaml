@@ -3,23 +3,88 @@
 # Declare variables to be passed into your templates.
 
 
-## replicas number for each component
-replicaCount:
-  tracker: 2
-  storage: 2
-  
-image:
-  repository: ygqygq2/fastdfs-nginx
-  tag: latest
-  pullPolicy: IfNotPresent
+## replicas number and pvc size
+fastdfs:
+  storage:
+    - name: group1
+      replica: 2
+      size: 20Gi
+    - name: group2
+      replica: 2
+      size: 2Gi
+  tracker:
+    replica: 2
+    size: 5Gi
+    configFiles:
+      tracker.conf: |
+        #tracker.conf
+        upstream fdfs_group1 {
+            dynamic_resolve fallback=stale fail_timeout=30s;
+            server fdfstest-fastdfs-nginx-storage-group1-headless:8080;
+            check interval=3000 rise=2 fall=5 timeout=1000 type=http;
+        }
+        upstream fdfs_group2 {
+            dynamic_resolve fallback=stale fail_timeout=30s;
+            server fdfstest-fastdfs-nginx-storage-group2-headless:8080;
+            check interval=3000 rise=2 fall=5 timeout=1000 type=http;
+        }
+        server {
+            listen       80 ;
+            # server_name  _ ;
+        
+            location / {
+                root   html;
+                index  index.html index.htm;
+            }
+            location /status {
+                check_status;
+                access_log   off;
+                allow 127.0.0.1;
+                deny all;
+            }
+            location ~/group1/ {
+                proxy_pass http://fdfs_group1;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            }
+            location ~/group2/ {
+                proxy_pass http://fdfs_group2;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            }
+        }
 
 service:
   type: ClusterIP
-  port:
-    tracker: 22122
-    trackerNginx: 80
-    storage: 23000
-    storageNginx: 8080
+  annotations: {}
+
+image:
+  repository: ygqygq2/fastdfs-nginx
+  tag: latest
+  pullPolicy: Always
+
+## Headless service.
+##
+headless:
+  annotations: {}
+
+trackerPorts:
+  tracker:
+    containerPort: 22122  # Port number for fastdfs container tracker port.
+    protocol: TCP  # Protocol 
+  trackernginx:
+    containerPort: 80  # Port number for fastdfs container nginx port.
+    protocol: TCP  # Protocol 
+
+storagePorts:
+  storage:
+    containerPort: 23000  # Port number for fastdfs container storage port.
+    protocol: TCP  # Protocol 
+  storagenginx:
+    containerPort: 8080  # Port number for fastdfs container nginx port.
+    protocol: TCP  # Protocol 
 
 ingress:
   enabled: false
@@ -28,7 +93,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - chart-example.local
+    - fdfs.test.cn
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
@@ -65,20 +130,13 @@ affinity: {}
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistentVolume: 
-  enabled: true
+  enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "ceph-rbd"
+  storageClass: "-"
   accessMode: ReadWriteOnce
-  size: 
-    tracker: 5Gi
-    storage: 20Gi
   annotations: {}
-  existingClaim:
-    tracker: ""
-    storage: ""
-

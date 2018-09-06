@@ -1,0 +1,119 @@
+{{- $root := . -}}
+{{- range $skey, $svalue := .Values.fastdfs.storage -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: {{ template "fastdfs-nginx.name" $root }}
+    chart: {{ template "fastdfs-nginx.chart" $root }}
+    heritage: {{ $.Release.Service }}
+    release: {{ $.Release.Name }}
+  name: {{ template "fastdfs-nginx.fullname" $root }}-storage-{{ $svalue.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "fastdfs-nginx.name" $root }}-storage-{{ $svalue.name }}
+      release: {{ $.Release.Name }}
+  serviceName: {{ template "fastdfs-nginx.fullname" $root }}-storage-{{ $svalue.name }}-headless
+  replicas: {{ $svalue.replica }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fastdfs-nginx.name" $root }}-storage-{{ $svalue.name }}
+        release: {{ $.Release.Name }}
+      annotations:
+      {{- if $.Values.podAnnotations }}
+{{ toYaml $.Values.podAnnotations | indent 8 }}
+      {{- end }}
+    spec:
+      containers:
+        - name: {{ template "fastdfs-nginx.name" $root }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+          imagePullPolicy: "{{ $.Values.image.pullPolicy }}"
+          args:
+            - storage
+          env:
+            - name: GROUP_NAME
+              value: {{ $svalue.name }}
+            - name: TRACKER_SERVER
+              value: {{ template "fastdfs-nginx.fullname" $root }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
+          ports:
+            - name: storage
+              containerPort: {{ $.Values.storagePorts.storage.containerPort }}
+            - name: storage-nginx
+              containerPort: {{ $.Values.storagePorts.storagenginx.containerPort }}
+          resources:
+{{ toYaml $.Values.resources.storage | indent 12 }}
+          volumeMounts:
+          - name: data-storage
+            mountPath: /var/fdfs
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - |
+                  set -x
+                  ps aux |grep 'fdfs_storaged /etc/fdfs/storage.conf start'|grep -v grep \
+                  && curl --connect-timeout 1 -s 127.0.0.1:{{ $.Values.storagePorts.storagenginx.containerPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - |
+                  set -x
+                  ps aux |grep 'fdfs_storaged /etc/fdfs/storage.conf start'|grep -v grep \
+                  && curl --connect-timeout 1 -s 127.0.0.1:{{ $.Values.storagePorts.storagenginx.containerPort }}
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 3
+      volumes:
+      - name: data-storage
+    {{- with $.Values.nodeSelector }}
+      nodeSelector:
+      {{ toYaml $root | indent 8 }}
+    {{- end }}
+    {{- with $.Values.affinity }}
+      affinity:
+      {{ toYaml $root | indent 8 }}
+    {{- end }}
+    {{- with $.Values.tolerations }}
+      tolerations:
+      {{ toYaml $root | indent 8 }}
+    {{- end }}
+  {{- if $.Values.persistentVolume.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data-storage
+      labels:
+        app: {{ template "fastdfs-nginx.name" $root }}
+        chart: {{ template "fastdfs-nginx.chart" $root }}
+        release: {{ $.Release.Name }}
+        heritage: {{ $.Release.Service }}
+    spec:
+      accessModes:
+        - {{ $.Values.persistentVolume.accessMode | quote }}
+      annotations:
+      {{- range $key, $value := $.Values.persistentVolume.annotations }}
+        {{ $key }}: {{ $value }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ $svalue.size }}
+      {{- if $.Values.persistentVolume.storageClass }}
+        {{- if (eq "-" $.Values.persistentVolume.storageClass) }}
+      storageClassName: ""
+        {{- else }}
+      storageClassName: "{{ $.Values.persistentVolume.storageClass }}"
+        {{- end }}
+      {{- end }}
+  {{- else }}
+      - name: data-storage
+        emptyDir: {}
+  {{- end }}
+---
+{{- end }}
