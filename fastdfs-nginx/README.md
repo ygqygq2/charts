@@ -52,7 +52,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ## Persistence
 
-The [MySQL](https://hub.docker.com/_/mysql/) image stores the MySQL data and configurations at the `/var/fdfs` path of the container.
+The [FastDFS image](https://github.com/ygqygq2/fastdfs-nginx) stores the data and configurations at the `/var/fdfs` path of the container.
 
 By default persistence is enabled, and a PersistentVolumeClaim is created and mounted in that directory. As a result, a persistent volume will need to be defined:
 
