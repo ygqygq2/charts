@@ -1,0 +1,67 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "mod-chart.fullname" . }}
+  labels:
+    app: {{ template "mod-chart.name" . }}
+    chart: {{ template "mod-chart.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "mod-chart.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mod-chart.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: {{ .Values.service.protocol }}
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: http
+          resources:
+            {{- toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          - name: data-storage
+            mountPath: /app/public
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | indent 8 }}
+      {{- end }}
+     {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | indent 8 }}
+      {{- end }}
+      {{- if $.Values.persistentVolume.enabled }}
+      volumes:
+      - name: data-storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistentVolume.existingClaim | default (include "mod-chart.fullname" .) }}
+      {{- else }}
+      - name: data-storage
+        emptyDir: {}
+      {{- end }}
