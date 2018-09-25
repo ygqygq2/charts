@@ -55,20 +55,20 @@ persistentVolume:
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "cephfs"
-  accessMode: ReadWriteMany
+  storageClass: ""
+  accessMode: ReadWriteOnce
   annotations: {}
   size: 2Gi
-  existingClaim: cephfs-pv-claim1
+  existingClaim: ""
 
 ingress:
-  enabled: true
+  enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - files.jira.xin
+    - files.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
