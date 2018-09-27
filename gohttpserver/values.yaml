@@ -48,7 +48,7 @@ affinity: {}
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistentVolume: 
-  enabled: true
+  enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
@@ -56,10 +56,12 @@ persistentVolume:
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
   storageClass: ""
-  accessMode: ReadWriteOnce
+  accessMode: ReadWriteMany
   annotations: {}
   size: 2Gi
-  existingClaim: ""
+  existingClaim: []
+    # - cephfs-pv-claim1
+    # - cephfs-pv-claim2
 
 ingress:
   enabled: false

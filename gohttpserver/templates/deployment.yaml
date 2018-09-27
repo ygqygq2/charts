@@ -21,7 +21,7 @@ spec:
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{ toYaml .Values.imagePullSecrets | indent 8 }}
+        {{- toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -42,8 +42,15 @@ spec:
           resources:
             {{- toYaml .Values.resources | indent 12 }}
           volumeMounts:
+          {{- if and .Values.persistentVolume.enabled .Values.persistentVolume.existingClaim }}
+            {{- range .Values.persistentVolume.existingClaim }}
+          - name: {{ . }}
+            mountPath: /app/public/{{ . }}
+            {{- end }}
+          {{- else }}
           - name: data-storage
             mountPath: /app/public
+          {{- end }}
           command:
           - /app/gohttpserver 
           - --root 
@@ -70,11 +77,19 @@ spec:
       tolerations:
         {{- toYaml . | indent 8 }}
       {{- end }}
-      {{- if $.Values.persistentVolume.enabled }}
       volumes:
+      {{- if $.Values.persistentVolume.enabled }}
+        {{- if .Values.persistentVolume.existingClaim }}
+          {{- range .Values.persistentVolume.existingClaim }}
+      - name: {{ . }}
+        persistentVolumeClaim:
+          claimName: {{ . }}
+          {{- end }}
+        {{- else }}
       - name: data-storage
         persistentVolumeClaim:
-          claimName: {{ .Values.persistentVolume.existingClaim | default (include "gohttpserver.fullname" .) }}
+          claimName: {{ template "gohttpserver.name" . }}
+        {{- end }}
       {{- else }}
       - name: data-storage
         emptyDir: {}
