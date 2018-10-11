@@ -28,6 +28,9 @@ spec:
         - name: {{ template "fastdfs-nginx.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: TRACKER_SERVER
+              value: {{ template "fastdfs-nginx.fullname" $root }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
           ports:
             - name: tracker
               containerPort: {{ .Values.trackerPorts.tracker.containerPort }}
