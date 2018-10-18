@@ -21,7 +21,7 @@ spec:
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{- toYaml .Values.imagePullSecrets | indent 8 }}
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -40,21 +40,21 @@ spec:
           #    path: /
           #    port: http
           resources:
-{{- toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
           - name: data-storage
             mountPath: /app/public
       {{- with .Values.nodeSelector }}
       nodeSelector:
-{{- toYaml . | indent 8 }}
+{{ toYaml . | indent 8 }}
       {{- end }}
      {{- with .Values.affinity }}
       affinity:
-{{- toYaml . | indent 8 }}
+{{ toYaml . | indent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-{{- toYaml . | indent 8 }}
+{{ toYaml . | indent 8 }}
       {{- end }}
       volumes:
       {{- if $.Values.persistentVolume.enabled }}

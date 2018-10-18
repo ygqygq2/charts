@@ -21,7 +21,7 @@ spec:
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml .Values.imagePullSecrets | indent 8 }}
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -41,7 +41,7 @@ spec:
           #    port: http
           {{- with .Values.resources }}
           resources:
-            {{- toYaml .Values.resources| indent 10 }}
+{{ toYaml . | indent 10 }}
           {{- end }}
           volumeMounts:
           - name: ceph-conf
