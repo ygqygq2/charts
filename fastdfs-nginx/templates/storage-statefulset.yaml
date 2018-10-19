@@ -75,15 +75,15 @@ spec:
       - name: data-storage
     {{- with $.Values.nodeSelector }}
       nodeSelector:
-{{ toYaml $root | indent 8 }}
+      {{ toYaml $root | indent 8 }}
     {{- end }}
     {{- with $.Values.affinity }}
       affinity:
-{{ toYaml $root | indent 8 }}
+      {{ toYaml $root | indent 8 }}
     {{- end }}
     {{- with $.Values.tolerations }}
       tolerations:
-{{ toYaml $root | indent 8 }}
+      {{ toYaml $root | indent 8 }}
     {{- end }}
   {{- if $.Values.persistentVolume.enabled }}
   volumeClaimTemplates:

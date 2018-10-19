@@ -30,7 +30,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: TRACKER_SERVER
-              value: {{ template "fastdfs-nginx.fullname" $root }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
+              value: {{ template "fastdfs-nginx.fullname" . }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
           ports:
             - name: tracker
               containerPort: {{ .Values.trackerPorts.tracker.containerPort }}
