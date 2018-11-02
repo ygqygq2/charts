@@ -47,3 +47,23 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+serviceMonitor:
+  enabled: false
+  # on what port are the metrics exposed by etcd
+  exporterPort: 9128
+  # for apps that have deployed outside of the cluster, list their adresses here
+  endpoints: []
+  # Are we talking http or https?
+  scheme: http
+  # service selector label key to target ceph exporter pods
+  serviceSelectorLabelKey: app
+  # default rules are in templates/ceph-exporter.rules.yaml
+  prometheusRules: {}
+  # Custom Labels to be added to ServiceMonitor
+  # 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
+  additionalServiceMonitorLabels: 
+    release: prometheus-operator
+  #Custom Labels to be added to Prometheus Rules CRD
+  additionalRulesLabels: 
+    release: prometheus-operator

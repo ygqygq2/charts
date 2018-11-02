@@ -13,7 +13,7 @@ spec:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.port }}
       protocol: TCP
-      name: http
+      name: http-metrics
   selector:
     app: {{ template "ceph-exporter.name" . }}
     release: {{ .Release.Name }}

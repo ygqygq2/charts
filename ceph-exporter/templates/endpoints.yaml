@@ -1,0 +1,22 @@
+{{- if .Values.endpoints }}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  labels:
+    app: {{ template "ceph-exporter.name" . }}
+    component: ceph-exporter
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    chart: {{ template "ceph-exporter.chart" . }}
+  name: {{ template "ceph-exporter.fullname" . }}
+  namespace: "{{ .Release.Namespace }}"
+subsets:
+  - addresses:
+      {{- range .Values.serviceMonitor.endpoints }}
+      - ip: {{ . }}
+      {{- end }}
+    ports:
+      - name: {{ .Values.serviceMonitor.scheme }}-metrics
+        port: {{ .Values.serviceMonitor.exporterPort }}
+        protocol: TCP
+{{- end }}

@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app: "prometheus"
+    chart: {{ template "ceph-exporter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    prometheus: {{ .Release.Name }}
+    {{- if .Values.serviceMonitor.additionalRulesLabels }}
+{{ toYaml .Values.serviceMonitor.additionalRulesLabels | indent 4 }}
+    {{- else if .Values.serviceMonitor.additionalRulesConfigMapLabels }}       # Deprecated for .Values.additionalRulesLabels
+{{ toYaml .Values.serviceMonitor.additionalRulesConfigMapLabels | indent 4 }}  # Deprecated for .Values.additionalRulesLabels
+    {{- end }} 
+  name: {{ template "ceph-exporter.fullname" . }}
+spec:
+{{- if .Values.serviceMonitor.prometheusRules }}
+  groups:
+{{ toYaml .Values.serviceMonitor.prometheusRules | indent 4 }}
+{{ else }}
+{{ include "ceph-exporter.rules.yaml.tpl" . | indent 2}}
+{{ end }}

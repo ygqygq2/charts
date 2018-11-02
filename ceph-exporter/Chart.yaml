@@ -1,5 +1,13 @@
 apiVersion: v1
-appVersion: "1.0"
+appVersion: "2.0.1-luminous"
 description: A Helm chart for Kubernetes
 name: ceph-exporter
-version: 0.1.0
+version: 1.0.0
+home: https://github.com/digitalocean/ceph_exporter/
+icon: 
+keywords:
+- ceph
+- exporter
+maintainers:
+- email: 29ygq@sina.com
+  name: Chinge Yang

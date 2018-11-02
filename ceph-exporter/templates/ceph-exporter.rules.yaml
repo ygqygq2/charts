@@ -1,0 +1,13 @@
+{{ define "ceph-exporter.rules.yaml.tpl" }}
+groups:
+- name: ceph-exporter.rules
+  rules:
+  - alert: CephExporterDown
+    expr: absent(up{job="ceph-exporter"} == 1)
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: There is no running ceph exporter.
+      summary: Ceph exporter is down
+{{ end }}

@@ -30,3 +30,14 @@ Create chart name and version as used by the chart label.
 {{- define "ceph-exporter.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Return the appropriate apiVersion value to use for the prometheus-operator managed k8s resources
+*/}}
+{{- define "prometheus-operator.apiVersion" -}}
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" }}
+{{- printf "%s" "monitoring.coreos.com/v1" -}}
+{{- else -}}
+{{- printf "%s" "monitoring.coreos.com/v1alpha1" -}}
+{{- end -}}
+{{- end -}}

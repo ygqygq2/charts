@@ -21,27 +21,27 @@ spec:
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 8 }}
+        {{- toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: http-metrics
               containerPort: {{ .Values.service.port }}
               protocol: {{ .Values.service.protocol }}
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http-metrics
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http-metrics
           {{- with .Values.resources }}
           resources:
-{{ toYaml . | indent 10 }}
+            {{- toYaml .Values.resources| indent 10 }}
           {{- end }}
           volumeMounts:
           - name: ceph-conf

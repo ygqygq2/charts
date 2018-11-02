@@ -37,9 +37,17 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | -----------------------    | ----------------------------------- | -------------------------------------- |
 | `replicaCount`             | replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 9128                 |
-| `image`                    | `ceph-exporter` image, tag.             | `digitalocean/ceph_exporter` `latest` |
-| `ingress`                  | Ingress for the ceph-exporter.          | `false`                                |
+| `image`                    | `ceph-exporter` image, tag.             | `digitalocean/ceph_exporter` `latest`|
+| `ingress`                  | Ingress for the ceph-exporter.          | `false`                            |
 | `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |
+| `serviceMonitor.enabled`   | ceph exporter metrics               | `false`
+| `serviceMonitor.exporterPort`| ceph exporter port                | 9128
+| `serviceMonitor.endpoints` | ceph exporter server ip             | `[]`
+| `serviceMonitor.scheme`   | ceph exporter scheme http            | `http`
+| `serviceMonitor.serviceSelectorLabelKey`| ceph exporter service selector label key| `app`                 |
+| `serviceMonitor.prometheusRules`| prometheusRules                | `{}`                                   |
+| `serviceMonitor.additionalServiceMonitorLabels`| one of prometheus operator label| `release: prometheus-operator`|
+| `serviceMonitor.additionalRulesLabels`| one of prometheus operator label| `release: prometheus-operator`  |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
