@@ -20,5 +20,5 @@ spec:
     matchNames:
       - "{{ .Release.Namespace }}"
   endpoints:
-  - port: http
+  - port: {{ .Values.serviceMonitor.scheme }}-metrics
     interval: 30s
