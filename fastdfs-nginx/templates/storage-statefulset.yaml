@@ -35,8 +35,11 @@ spec:
           env:
             - name: GROUP_NAME
               value: {{ $svalue.name }}
-            - name: TRACKER_SERVER
-              value: {{ template "fastdfs-nginx.fullname" $root }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
+            - name: GET_TRACKER_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "fastdfs-nginx.fullname" $root }}
+                  key: get_tracker_server
           ports:
             - name: storage
               containerPort: {{ $.Values.storagePorts.storage.containerPort }}

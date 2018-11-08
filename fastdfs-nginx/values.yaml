@@ -63,7 +63,7 @@ service:
 image:
   repository: ygqygq2/fastdfs-nginx
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 ## Headless service.
 ##

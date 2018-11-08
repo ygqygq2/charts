@@ -1,3 +1,8 @@
+{{- $trackerSvcName := (printf "%s-tracker-headless" (include "fastdfs-nginx.fullname" .)) }}
+{{- $trackerPort := int $.Values.trackerPorts.tracker.containerPort }}
+{{- $numList := until (int $.Values.fastdfs.tracker.replica) }}
+{{- $firstNum := first $numList }}
+{{- $lastNum := last $numList }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,3 +14,4 @@ metadata:
     heritage: "{{ .Release.Service }}"
 data:
 {{ toYaml .Values.fastdfs.tracker.configFiles | indent 2 }}
+  get_tracker_server: {{ printf "'echo %s-tracker-{%d..%d}.%s:%d|sed \"s/ /,/g\"'" (include "fastdfs-nginx.fullname" .) $firstNum $lastNum $trackerSvcName $trackerPort }}
