@@ -29,11 +29,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: GET_TRACKER_SERVER
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "fastdfs-nginx.fullname" . }}
-                  key: get_tracker_server
+            - name: TRACKER_SERVER
+              value: {{ template "fastdfs-nginx.fullname" . }}-tracker-headless:{{ $.Values.trackerPorts.tracker.containerPort }}
           ports:
             - name: tracker
               containerPort: {{ .Values.trackerPorts.tracker.containerPort }}
