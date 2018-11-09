@@ -25,9 +25,12 @@ scriptFile:
     function createdir() {
     # Remember permissions, you may have to fix them:
     while read line; do
-        user=$(echo $line|awk '{print $1}')
+        [[ $(echo $line|grep '^#') ]] && continue
+        user=$(echo $line|awk -F: '{print $1}')
+        user_id=$(echo $line|awk '{print $1}')
+        group_id=$(echo $line|awk '{print $1}')
         mkdir -p /home/$user/upload 
-        chown -R $user:users /home/$user
+        chown -R $user:users /home/$user/upload
     done < /etc/sftp/users.conf
     }
 
