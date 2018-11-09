@@ -15,46 +15,6 @@ fastdfs:
   tracker:
     replica: 2
     size: 5Gi
-    configFiles:
-      tracker.conf: |
-        #tracker.conf
-        upstream fdfs_group1 {
-            dynamic_resolve fallback=stale fail_timeout=30s;
-            server fdfstest-fastdfs-nginx-storage-group1-headless:8080;
-            check interval=3000 rise=2 fall=5 timeout=1000 type=http;
-        }
-        upstream fdfs_group2 {
-            dynamic_resolve fallback=stale fail_timeout=30s;
-            server fdfstest-fastdfs-nginx-storage-group2-headless:8080;
-            check interval=3000 rise=2 fall=5 timeout=1000 type=http;
-        }
-        server {
-            listen       80 ;
-            # server_name  _ ;
-        
-            location / {
-                root   html;
-                index  index.html index.htm;
-            }
-            location /status {
-                check_status;
-                access_log   off;
-                allow 127.0.0.1;
-                deny all;
-            }
-            location ~/group1/ {
-                proxy_pass http://fdfs_group1;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            }
-            location ~/group2/ {
-                proxy_pass http://fdfs_group2;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            }
-        }
 
 service:
   type: ClusterIP

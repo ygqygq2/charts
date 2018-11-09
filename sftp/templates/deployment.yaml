@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "sftp.fullname" . }}
+  labels:
+    app: {{ template "sftp.name" . }}
+    chart: {{ template "sftp.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "sftp.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "sftp.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{- toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ template "sftp.name" . }}
+              containerPort: {{ .Values.service.port }}
+              protocol: {{ .Values.service.protocol }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ template "sftp.name" . }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ template "sftp.name" . }}
+          #command:
+          #  - /entrypoint
+          resources:
+            {{- toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+          - name: config-map
+            mountPath: /etc/sftp/
+            #subPath: users.conf
+            readOnly: true
+          - name: config-script
+            mountPath: /etc/sftp.d/
+            #subPath: bindmount.sh
+            readOnly: false
+          {{- if and .Values.persistentVolume.enabled .Values.persistentVolume.existingClaim }}
+            {{- range .Values.persistentVolume.existingClaim }}
+          - name: {{ . }}
+            mountPath: /home/{{ . }}
+            {{- end }}
+          {{- else }}
+          - name: data-storage
+            mountPath: /home
+          {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | indent 8 }}
+      {{- end }}
+     {{- with .Values.affinity }}
+      affinity:
+{{- toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+{{- toYaml . | indent 8 }}
+      {{- end }}
+      volumes:
+      - name: config-dir
+        emptyDir: {}
+      - name: config-map
+        configMap:
+          name: {{ template "sftp.fullname" . }}
+          items:
+          - key: users.conf
+            path: users.conf
+      - name: config-script
+        configMap:
+          name: {{ template "sftp.fullname" . }}
+          items:
+          - key: bindmount.sh
+            path: bindmount.sh
+      {{- if $.Values.persistentVolume.enabled }}
+        {{- if .Values.persistentVolume.existingClaim }}
+          {{- range .Values.persistentVolume.existingClaim }}
+      - name: {{ . }}
+        persistentVolumeClaim:
+          claimName: {{ . }}
+          {{- end }}
+        {{- else }}
+      - name: data-storage
+        persistentVolumeClaim:
+          claimName: {{ template "sftp.fullname" . }}
+        {{- end }}
+      {{- else }}
+      - name: data-storage
+        emptyDir: {}
+      {{- end }}
