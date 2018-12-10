@@ -10,10 +10,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-      protocol: TCP
-      name: http
+  {{- range $key, $value := .Values.service.ports }}
+    - name: {{ $key }}
+      targetPort: {{ $key }}
+{{ toYaml $value | indent 6 }}
+  {{- end }}
   selector:
     app: {{ template "mod-chart.name" . }}
     release: {{ .Release.Name }}

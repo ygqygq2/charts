@@ -1,6 +1,6 @@
-# mod-chart - Multiple tracker, Multiple storage
+# mod-chart - JAVA微服务模板
 
-[mod-chart](https://github.com/ygqygq2/mod-chart)是什么
+[mod-chart](https://)是什么
 
 ## Introduction
 
@@ -16,7 +16,7 @@ This chart bootstraps mod-chart deployment on a [Kubernetes](http://kubernetes.i
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release local/mod-chart
+$ helm install --name my-release mycharts/mod-chart
 ```
 
 The command deploys mod-chart cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -35,20 +35,28 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
+| `statefulset.enabled`      | use statefulset to start            | `false`                                |
+| `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8000                 |
-| `image`                    | `mod-chart` image, tag.             | `mod-chart` `latest`                   |
-| `ingress`                  | Ingress for the mod-chart.          | `false`                                |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
+| `env`                      | container env setting               | `[]`                                   |
+| `config`                   | configmap to use                    | `[]`                                   |
+| `secret`                   | secret to use                       | `[]`                                   |
+| `image`                    | `mod-chart` image, tag.            | `reg.utcook.com/pub/dockerImageName` `dockerTag`|
+| `ingress`                  | Ingress for the mod-chart.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
 | `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
 | `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
 | `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |
+| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
+| `deployment`               | deployment annotations initContainers| `{}`                                  |
+| `extraContainers`          | sidecar containers                  | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ## Persistence
 
-The [mod-chart image](https://) stores the data and configurations at the `/mod-chart` path of the container.
+The [mod-chart image](https://) stores the data and configurations at the `/data` path of the container.
 

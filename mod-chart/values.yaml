@@ -2,34 +2,97 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+statefulset:
+  enabled: false
+replicaCount: 1
+## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
+## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
+deploymentStrategy: {}
+  # rollingUpdate:
+  #   maxSurge: 25%
+  #   maxUnavailable: 25%
+  # type: RollingUpdate
+
+# 副本个数
 replicaCount: 1
 
+# 容器image及tag
 image:
-  repository: ygqygq2/mod-chart
-  tag: latest
-  pullPolicy: IfNotPresent
-  imagePullSecrets:   # 如果需要docker仓库验证
+  repository: reg.utcook.com/pub/dockerImageName
+  tag: dockerTag
+  pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  imagePullSecrets: {}   # 如果需要docker仓库验证
+#  imagePullSecrets: gitlab-registry   # 如果需要docker仓库验证
 
 service:
-  type: ClusterIP
-  protocol: TCP
-  port: 8000
+  type: ClusterIP  # 一般不用修改
+  ports:
+    web:  # 多端口暴露时，复制一段，ingress默认只暴露此名为web的端口
+      port: 8080  # Service port number for client-a port.
+      protocol: TCP  # Service port protocol for client-a port.
+    debug:
+      port: 5005  # Service port number for client-b port.
+      protocol: TCP  # Service port protocol for client-b port.
 
+## env set
+## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
+env: []
+#  - name: DEMO_GREETING
+#    value: "Hello from the environment"
+#  - name: DEMO_FAREWELL
+#    value: "Such a sweet sorrow"
+
+## command set
+startCommand: []
+#  - "java -Xdebug -Xnoagent -Djava.compiler=NONE"
+#  - "-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
+#  - "-Djava.security.egd=file:/dev/urandom"
+#  - "-jar /test.jar"
+#  - "-Duser.timezone=GMT+08"
+
+## Enable configmap and add data in configmap
+config:
+  enabled: false
+  mountPath: /conf
+  data: 
+
+## To use an additional secret, set enable to true and add data
+secret:
+  enabled: false
+  mountPath: /etc/secret-volume
+  readOnly: true
+  data: 
+
+## liveness and readiness 
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+healthCheck:
+  enabled: true
+  type: tcp  # http/tcp
+  port: web  # 上面的端口名或端口
+  httpPath: '/'  # http时必须设置
+  livenessInitialDelaySeconds: 10  # 初始延迟秒数
+  livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
+  readinessInitialDelaySeconds: 10  # 初始延迟秒数
+  readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
+ 
 resources: {}
+  # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
   # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
 
 ## Node labels and tolerations for pod assignment
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
+labels: {}
+podAnnotations: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
@@ -37,7 +100,7 @@ affinity: {}
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
-persistentVolume: 
+persistentVolume:   # 是否存储持久化
   enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -45,21 +108,72 @@ persistentVolume:
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "-"
+  storageClass: "-"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
   accessMode: ReadWriteOnce
   annotations: {}
-  size: 2Gi
-  existingClaim: {}
+  size: 1Gi  # 大小
+  existingClaim: {}  # 使用已存在的pvc
+  mountPaths: []
+  #  - name: config
+  #    mountPath: /config
+  #    subPath: config
+  #  - name: data
+  #    mountPath: /data
+  #    subPath: data
 
-ingress:
-  enabled: true
+ingress:  # 是否使用nginx暴露域名或端口
+  enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - local.ygqygq2
+    - chart-example.local
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+
+deployment:
+## Add annotations in deployment to enhance deployment configurations
+  annotations: {}
+  ## Add init containers. e.g. to be used to give specific permissions for data
+  ## Add your own init container or uncomment and modify the given example.
+  initContainers: {}
+  #  - name: fmp-volume-permission
+  #    image: busybox
+  #    imagePullPolicy: IfNotPresent
+  #    command: ['chown','-R', '200', '/extra-data']
+  #    volumeMounts:
+  #      - name: extra-data
+  #        mountPath: /extra-data
+  ## Uncomment and modify this to run a command after starting the nexus container.
+  postStart:
+    command:    # '["/bin/sh", "-c", "ls"]'
+  additionalContainers: 
+  additionalVolumes: 
+
+extraContainers: {}
+  ## Additional containers to be added to the controller pod.
+  ## See https://github.com/lemonldap-ng-controller/lemonldap-ng-controller as example.
+#  - name: my-sidecar
+#    image: nginx:latest
+#  - name: lemonldap-ng-controller
+#    image: lemonldapng/lemonldap-ng-controller:0.2.0
+#    args:
+#      - /lemonldap-ng-controller
+#      - --alsologtostderr
+#      - --configmap=$(POD_NAMESPACE)/lemonldap-ng-configuration
+#    env:
+#      - name: POD_NAME
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: metadata.name
+#      - name: POD_NAMESPACE
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: metadata.namespace
+#    volumeMounts:
+#    - name: copy-portal-skins
+#      mountPath: /srv/var/lib/lemonldap-ng/portal/skins
