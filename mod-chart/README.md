@@ -1,4 +1,4 @@
-# mod-chart - JAVA微服务模板
+# mod-chart - helm chart 模板
 
 [mod-chart](https://)是什么
 
