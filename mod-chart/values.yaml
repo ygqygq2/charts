@@ -115,7 +115,7 @@ persistentVolume:   # 是否存储持久化
   existingClaim: {}  # 使用已存在的pvc
   mountPaths: []
   #  - mountPath: /config
-       name: data-storage
+  #    name: data-storage
   #    subPath: config
   #  - mountPath: /data
   #    name: data-sorage
