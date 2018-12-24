@@ -42,7 +42,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `env`                      | container env setting               | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `mod-chart` image, tag.            | `reg.utcook.com/pub/dockerImageName` `dockerTag`|
+| `image`                    | `mod-chart` image, tag.            | `reg.mod-chart.com/pub/dockerImageName` `dockerTag`|
 | `ingress`                  | Ingress for the mod-chart.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |

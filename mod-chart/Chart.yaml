@@ -1,12 +1,20 @@
 apiVersion: v1
-appVersion: "1.0"
-description: A Helm chart for Kubernetes
+appVersion: 1.14.2
+description: Chart for the nginx server
+engine: gotpl
 name: mod-chart
 version: 1.0.0
-home: https://
-icon: 
+home: http://www.nginx.org
+icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:
-- java
+- nginx
+- http
+- web
+- www
+- reverse proxy
 maintainers:
 - email: 29ygq@sina.com
   name: Chinge Yang
+sources:
+- https://github.com/bitnami/bitnami-docker-nginx
+version: 2.1.2
