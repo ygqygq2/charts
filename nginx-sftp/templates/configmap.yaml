@@ -1,0 +1,16 @@
+{{- if .Values.config.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "utcook-nginx.name" . }}
+  labels:
+    app: {{ template "utcook-nginx.name" . }}
+    chart: {{ template "utcook-nginx.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+    {{- end }}
+data:
+{{ toYaml .Values.config.data | indent 2 }}
+{{- end -}}
