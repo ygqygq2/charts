@@ -8,11 +8,11 @@ metadata:
     {{- toYaml .Values.persistentVolume.annotations | indent 4 }}
   {{- end }}
   labels:
-    app: {{ template "utcook-nginx.name" . }}
-    chart: {{ template "utcook-nginx.chart" . }}
+    app: {{ template "nginx-sftp.name" . }}
+    chart: {{ template "nginx-sftp.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "utcook-nginx.fullname" . }}
+  name: {{ template "nginx-sftp.fullname" . }}
 spec:
   accessModes:
     - {{ .Values.persistentVolume.accessMode }}

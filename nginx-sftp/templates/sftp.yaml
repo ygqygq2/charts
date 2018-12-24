@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "utcook-nginx.fullname" . }}-sftp
+  name: {{ template "nginx-sftp.fullname" . }}-sftp
   labels:
-    app: {{ template "utcook-nginx.fullname" . }}
+    app: {{ template "nginx-sftp.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"

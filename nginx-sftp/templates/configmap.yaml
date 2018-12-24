@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "utcook-nginx.name" . }}
+  name: {{ template "nginx-sftp.name" . }}
   labels:
-    app: {{ template "utcook-nginx.name" . }}
-    chart: {{ template "utcook-nginx.chart" . }}
+    app: {{ template "nginx-sftp.name" . }}
+    chart: {{ template "nginx-sftp.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     {{- if .Values.labels }}

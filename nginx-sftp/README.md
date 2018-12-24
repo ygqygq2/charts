@@ -1,10 +1,10 @@
-# utcook-nginx - 有sftp功能的nginx
+# nginx-sftp - 有sftp功能的nginx
 
-[utcook-nginx](https://)是什么
+[nginx-sftp](https://)是什么
 
 ## Introduction
 
-This chart bootstraps utcook-nginx deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps nginx-sftp deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -16,10 +16,10 @@ This chart bootstraps utcook-nginx deployment on a [Kubernetes](http://kubernete
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release ./utcook-nginx
+$ helm install --name my-release ./nginx-sftp
 ```
 
-The command deploys utcook-nginx cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+The command deploys nginx-sftp cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 ### Uninstall
 
@@ -42,8 +42,8 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `env`                      | container env setting               | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `utcook-nginx` image, tag.            | `reg.utcook-nginx.com/pub/dockerImageName` `dockerTag`|
-| `ingress`                  | Ingress for the utcook-nginx.         | `false`                                |
+| `image`                    | `nginx-sftp` image, tag.            | `reg.nginx-sftp.com/pub/dockerImageName` `dockerTag`|
+| `ingress`                  | Ingress for the nginx-sftp.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
 | `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
@@ -53,10 +53,12 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
+| `metrics`                  | nginx metrics                       | see more in `values.yaml`              |
+| `sftp`                     | sftp to upload files                | see more in `values.yaml`              |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ## Persistence
 
-The [utcook-nginx image](https://) stores the data and configurations at the `/data` path of the container.
+The [nginx-sftp image](https://) stores the data and configurations at the `/home/dev/upload` path of the container.
 

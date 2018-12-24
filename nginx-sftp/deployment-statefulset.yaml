@@ -6,10 +6,10 @@ apiVersion: apps/v1
 kind: Deployment
 {{- end }}
 metadata:
-  name: {{ template "utcook-nginx.fullname" . }}
+  name: {{ template "nginx-sftp.fullname" . }}
   labels:
-    app: {{ template "utcook-nginx.name" . }}
-    chart: {{ template "utcook-nginx.chart" . }}
+    app: {{ template "nginx-sftp.name" . }}
+    chart: {{ template "nginx-sftp.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.labels }}
@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "utcook-nginx.fullname" . }}
+  serviceName: {{ template "nginx-sftp.fullname" . }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -30,7 +30,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ template "utcook-nginx.name" . }}
+      app: {{ template "nginx-sftp.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -47,7 +47,7 @@ spec:
   {{- end }}
 {{- end }}
       labels:
-        app: {{ template "utcook-nginx.name" . }}
+        app: {{ template "nginx-sftp.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.image.imagePullSecrets }}
@@ -165,7 +165,7 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.vhost }}
-            - name: {{ template "utcook-nginx.name" . }}-vhost
+            - name: {{ template "nginx-sftp.name" . }}-vhost
               mountPath: /opt/bitnami/nginx/conf/vhosts
             {{- end }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
@@ -174,33 +174,33 @@ spec:
         {{- end }}
       volumes:
         {{- if .Values.vhost }}
-        - name: {{ template "utcook-nginx.name" . }}-vhost
+        - name: {{ template "nginx-sftp.name" . }}-vhost
           configMap:
-            name: {{ template "utcook-nginx.name" . }}-vhost
+            name: {{ template "nginx-sftp.name" . }}-vhost
         {{- end }}
         {{- if .Values.sftp.enabled }}
         - name: sftp-user
           configMap:
-            name: {{ template "utcook-nginx.fullname" . }}-sftp
+            name: {{ template "nginx-sftp.fullname" . }}-sftp
             items:
             - key: users.conf
               path: users.conf
         - name: sftp-script
           configMap:
-            name: {{ template "utcook-nginx.fullname" . }}-sftp
+            name: {{ template "nginx-sftp.fullname" . }}-sftp
             items:
             - key: bindmount.sh
               path: bindmount.sh
         {{- end }}
         {{- if .Values.config.enabled }}
-        - name: {{ template "utcook-nginx.name" . }}-conf
+        - name: {{ template "nginx-sftp.name" . }}-conf
           configMap:
-            name: {{ template "utcook-nginx.name" . }}
+            name: {{ template "nginx-sftp.name" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "utcook-nginx.name" . }}-secret
+        - name: {{ template "nginx-sftp.name" . }}-secret
           secret:
-            secretName: {{ template "utcook-nginx.name" . }}
+            secretName: {{ template "nginx-sftp.name" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}
@@ -209,7 +209,7 @@ spec:
         {{- if .Values.persistentVolume.enabled }}
         - name: data-storage
           persistentVolumeClaim:
-            claimName: {{ .Values.persistentVolume.existingClaim | default (include "utcook-nginx.fullname" .) }}
+            claimName: {{ .Values.persistentVolume.existingClaim | default (include "nginx-sftp.fullname" .) }}
         {{- else }}
         - name: data-storage
           emptyDir: {}
@@ -220,8 +220,8 @@ spec:
   - metadata:
       name: data-storage
       labels:
-        app: {{ template "utcook-nginx.name" . }}
-        chart: {{ template "utcook-nginx.chart" . }}
+        app: {{ template "nginx-sftp.name" . }}
+        chart: {{ template "nginx-sftp.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
@@ -242,7 +242,7 @@ spec:
             {{- end }}
           {{- end }}
   {{- else }}
-      - name: {{ template "utcook-nginx.fullname" . }}
+      - name: {{ template "nginx-sftp.fullname" . }}
         emptyDir: {}
   {{- end }}
 {{- end -}}

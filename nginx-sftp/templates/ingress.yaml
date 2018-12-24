@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "utcook-nginx.fullname" . -}}
+{{- $fullName := include "nginx-sftp.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    app: {{ template "utcook-nginx.name" . }}
-    chart: {{ template "utcook-nginx.chart" . }}
+    app: {{ template "nginx-sftp.name" . }}
+    chart: {{ template "nginx-sftp.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
