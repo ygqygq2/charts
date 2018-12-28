@@ -108,6 +108,10 @@ spec:
           resources:
 {{ toYaml .Values.sftp.resources | indent 12 }}
           volumeMounts:
+          - name: config-sshd
+            mountPath: /etc/ssh/sshd_config
+            subPath: sshd_config
+            readOnly: false
           - name: sftp-user
             mountPath: /etc/sftp/
             readOnly: true
@@ -180,6 +184,12 @@ spec:
             name: {{ template "nginx-sftp.name" . }}-vhost
         {{- end }}
         {{- if .Values.sftp.enabled }}
+        - name: config-sshd
+          configMap:
+            name: {{ template "nginx-sftp.fullname" . }}-sftp
+            items:
+            - key: sshd_config
+              path: sshd_config
         - name: sftp-user
           configMap:
             name: {{ template "nginx-sftp.fullname" . }}-sftp

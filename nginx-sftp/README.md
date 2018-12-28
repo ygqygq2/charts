@@ -44,9 +44,9 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `secret`                   | secret to use                       | `[]`                                   |
 | `image`                    | `nginx-sftp` image, tag.            | `reg.nginx-sftp.com/pub/dockerImageName` `dockerTag`|
 | `ingress`                  | Ingress for the nginx-sftp.         | `false`                                |
-| `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
+| `persistentVolume.enabled` | Create a volume to store data       | `true`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
+| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
 | `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
 | `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
 | `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |

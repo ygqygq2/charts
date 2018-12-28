@@ -118,14 +118,14 @@ affinity: {}
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistentVolume:   # 是否存储持久化
-  enabled: true
+  enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "cephfs"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
+  storageClass: "-"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
   accessMode: ReadWriteMany
   annotations: {}
   #  helm.sh/resource-policy: keep
@@ -156,6 +156,30 @@ ingress:  # 是否使用nginx暴露域名或端口
 ##
 sftp:
   enabled: true
+
+  # sshd_config
+  sshConfFile:
+    sshd_config: |
+      Protocol 2
+      HostKey /etc/ssh/ssh_host_ed25519_key
+      HostKey /etc/ssh/ssh_host_rsa_key
+      
+      # Faster connection
+      # See: https://github.com/atmoz/sftp/issues/11
+      UseDNS no
+      
+      # Limited access
+      PermitRootLogin no
+      X11Forwarding no
+      AllowTcpForwarding no
+      
+      # Force sftp and chroot jail
+      Subsystem sftp internal-sftp
+      ForceCommand internal-sftp
+      ChrootDirectory %h
+      
+      # Enable this for more logs
+      LogLevel ERROR
 
   # Authentication options
   usersConfFile:
