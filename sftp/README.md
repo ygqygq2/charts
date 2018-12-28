@@ -36,6 +36,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
 | `replicaCount`             | replicas number                     | `1`                                    |
+| `sshConfFile`              | sftp ssh config file                | look it in values.yaml                 |
 | `usersConfFile`            | sftp users config file              | look it in values.yaml                 |
 | `scriptFile`               | docker start to run this script     | look it in values.yaml                 |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 22                   |
