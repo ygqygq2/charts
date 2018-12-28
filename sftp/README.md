@@ -42,10 +42,10 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 22                   |
 | `image`                    | `sftp` image, tag.          | `ygqygq2/sftp` `latest`    |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `[]`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `[]`                                   |
+| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
 | `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
