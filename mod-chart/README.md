@@ -45,10 +45,10 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `image`                    | `mod-chart` image, tag.            | `reg.mod-chart.com/pub/dockerImageName` `dockerTag`|
 | `ingress`                  | Ingress for the mod-chart.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
 | `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
