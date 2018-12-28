@@ -10,6 +10,29 @@ usersConfFile:
     dev:dev:1001:100
     #dev1:dev1:1002:100
 
+sshConfFile:
+  sshd_config: |
+    Protocol 2
+    HostKey /etc/ssh/ssh_host_ed25519_key
+    HostKey /etc/ssh/ssh_host_rsa_key
+    
+    # Faster connection
+    # See: https://github.com/atmoz/sftp/issues/11
+    UseDNS no
+    
+    # Limited access
+    PermitRootLogin no
+    X11Forwarding no
+    AllowTcpForwarding no
+    
+    # Force sftp and chroot jail
+    Subsystem sftp internal-sftp
+    ForceCommand internal-sftp
+    ChrootDirectory %h
+    
+    # Enable this for more logs
+    LogLevel ERROR
+
 scriptFile:
   bindmount.sh: |
     #!/bin/bash
@@ -40,7 +63,7 @@ scriptFile:
     #bindmount /data/docs /home/peter/docs --read-only
 
 image:
-  repository: ygqygq2/sftp
+  repository: reg.utcook.com/pub/sftp
   tag: latest
   pullPolicy: IfNotPresent
   imagePullSecrets:   # 如果需要docker仓库验证
@@ -80,7 +103,7 @@ persistentVolume:
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: ""
+  storageClass: "cephfs"
   accessMode: ReadWriteMany
   annotations: {}
   size: 500Mi

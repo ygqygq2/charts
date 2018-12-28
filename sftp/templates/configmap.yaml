@@ -9,4 +9,5 @@ metadata:
     heritage: "{{ .Release.Service }}"
 data:
 {{ toYaml .Values.usersConfFile | indent 2 }}
-{{ toYaml .Values.scriptFile| indent 2 }}
+{{ toYaml .Values.scriptFile | indent 2 }}
+{{ toYaml .Values.sshConfFile | indent 2 }}

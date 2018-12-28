@@ -42,6 +42,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | indent 12 }}
           volumeMounts:
+          - name: config-sshd
+            mountPath: /etc/ssh/sshd_config
+            subPath: sshd_config
+            readOnly: false
           - name: config-map
             mountPath: /etc/sftp/
             #subPath: users.conf
@@ -53,11 +57,11 @@ spec:
           {{- if and .Values.persistentVolume.enabled .Values.persistentVolume.existingClaim }}
             {{- range .Values.persistentVolume.existingClaim }}
           - name: {{ . }}
-            mountPath: /home/{{ . }}
+            mountPath: /home/dev/upload/{{ . }}
             {{- end }}
           {{- else }}
           - name: data-storage
-            mountPath: /home
+            mountPath: /home/dev/upload
           {{- end }}
 
       {{- with .Values.nodeSelector }}
@@ -75,6 +79,12 @@ spec:
       volumes:
       - name: config-dir
         emptyDir: {}
+      - name: config-sshd
+        configMap:
+          name: {{ template "sftp.fullname" . }}
+          items:
+          - key: sshd_config
+            path: sshd_config
       - name: config-map
         configMap:
           name: {{ template "sftp.fullname" . }}
