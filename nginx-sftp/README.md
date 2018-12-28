@@ -1,6 +1,6 @@
 # nginx-sftp - 有sftp功能的nginx
 
-[nginx-sftp](https://)是什么
+[nginx-sftp](https://github.com/ygqygq2/charts/tree/master/nginx-sftp)是什么
 
 ## Introduction
 
@@ -60,5 +60,5 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ## Persistence
 
-The [nginx-sftp image](https://) stores the data and configurations at the `/home/dev/upload` path of the container.
+The [nginx-sftp image](https://github.com/ygqygq2/sftp) stores the data and configurations at the `/home/dev/upload` path of the container.
 

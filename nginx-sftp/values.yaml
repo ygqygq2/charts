@@ -132,7 +132,7 @@ persistentVolume:   # 是否存储持久化
   size: 500Mi  # 大小
   existingClaim: {}  # 使用已存在的pvc
   mountPaths: 
-    - mountPath: /opt/bitnami/nginx/html/utcook
+    - mountPath: /opt/bitnami/nginx/html/example
       name: data-storage
   #    subPath: html
   #  - name: data-storage
