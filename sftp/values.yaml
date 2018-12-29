@@ -16,8 +16,6 @@ sshConfFile:
     HostKey /etc/ssh/ssh_host_ed25519_key
     HostKey /etc/ssh/ssh_host_rsa_key
     
-    # Faster connection
-    # See: https://github.com/atmoz/sftp/issues/11
     UseDNS no
     
     # Limited access
