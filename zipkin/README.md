@@ -1,4 +1,4 @@
-# zipkin - JAVA微服务模板
+# zipkin - A distributed tracing system.
 
 [zipkin](https://zipkin.io/)是什么
 
@@ -42,7 +42,9 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `env`                      | container env setting               | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `zipkin` image, tag.            | `openzipkin/zipkin` `2`                    |
+| `image`                    | `zipkin` image, tag.                | `openzipkin/zipkin` `2`                |
+| `dependencies`             | zipkin-dependencies                 | `openzipkin/zipkin-dependencies` `2`   |
+| `dependencies.schedule`    | zipkin-dependencies cronjob         | `"*/5 * * * *"`                        |
 | `ingress`                  | Ingress for the zipkin.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
