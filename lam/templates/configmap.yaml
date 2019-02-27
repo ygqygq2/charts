@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "mod-chart.fullname" . }}
+  name: {{ template "lam.name" . }}
   labels:
-    app: {{ template "mod-chart.name" . }}
-    chart: {{ template "mod-chart.chart" . }}
+    app: {{ template "lam.name" . }}
+    chart: {{ template "lam.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     {{- if .Values.labels }}
