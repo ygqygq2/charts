@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "elasticsearch2.fullname" . }}
+  labels:
+    app: {{ template "elasticsearch2.name" . }}
+    chart: {{ template "elasticsearch2.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+    {{- end }}
+data:
+  elasticsearch.yml: |-
+    cluster.name: {{ template "elasticsearch2.fullname" . }}
+    node.name: ${HOSTNAME}
+    network.host: 0.0.0.0
+    discovery.zen.ping.unicast.hosts: ["{{ template "elasticsearch2.fullname" . }}"]
+    discovery.zen.minimum_master_nodes: 2
+{{- if .Values.config.enabled -}}
+{{ toYaml .Values.config.data | indent 2 }}
+{{- end -}}

@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: "2.4.6"
+description: A Helm chart for Kubernetes
+name: elasticsearch2
+version: 1.0.0
+home: https://www.elastic.co/products/elasticsearch
+icon: 
+keywords:
+- elasticsearch
+maintainers:
+- email: 29ygq@sina.com
+  name: Chinge Yang
