@@ -170,7 +170,7 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.vhost }}
-            - name: {{ template "nginx-sftp.name" . }}-vhost
+            - name: {{ template "nginx-sftp.fullname" . }}-vhost
               mountPath: /opt/bitnami/nginx/conf/vhosts
             {{- end }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
@@ -179,9 +179,9 @@ spec:
         {{- end }}
       volumes:
         {{- if .Values.vhost }}
-        - name: {{ template "nginx-sftp.name" . }}-vhost
+        - name: {{ template "nginx-sftp.fullname" . }}-vhost
           configMap:
-            name: {{ template "nginx-sftp.name" . }}-vhost
+            name: {{ template "nginx-sftp.fullname" . }}-vhost
         {{- end }}
         {{- if .Values.sftp.enabled }}
         - name: config-sshd
@@ -204,14 +204,14 @@ spec:
               path: bindmount.sh
         {{- end }}
         {{- if .Values.config.enabled }}
-        - name: {{ template "nginx-sftp.name" . }}-conf
+        - name: {{ template "nginx-sftp.fullname" . }}-conf
           configMap:
-            name: {{ template "nginx-sftp.name" . }}
+            name: {{ template "nginx-sftp.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "nginx-sftp.name" . }}-secret
+        - name: {{ template "nginx-sftp.fullname" . }}-secret
           secret:
-            secretName: {{ template "nginx-sftp.name" . }}
+            secretName: {{ template "nginx-sftp.fullname" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}

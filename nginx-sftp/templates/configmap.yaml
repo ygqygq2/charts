@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "nginx-sftp.name" . }}
+  name: {{ template "nginx-sftp.fullname" . }}
   labels:
     app: {{ template "nginx-sftp.name" . }}
     chart: {{ template "nginx-sftp.chart" . }}
