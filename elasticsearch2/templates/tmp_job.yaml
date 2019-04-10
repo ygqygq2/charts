@@ -15,10 +15,6 @@ metadata:
 {{ toYaml .Values.deployment.annotations | indent 4 }}
 {{- end }}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "elasticsearch2.fullname" . }}
-  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
 {{ toYaml .Values.deploymentStrategy | indent 4 }}

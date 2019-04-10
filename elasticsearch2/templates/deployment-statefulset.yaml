@@ -119,10 +119,12 @@ spec:
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
+{{- if .Values.persistentVolume.enabled }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
         {{- if .Values.deployment.additionalContainers }}
 {{ toYaml .Values.deployment.additionalContainers | indent 8 }}
         {{- end }}
+{{- end }}
       volumes:
         - name: config
           configMap:
@@ -159,13 +161,13 @@ spec:
         chart: {{ template "elasticsearch2.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
-    spec:
-      accessModes:
-        - {{ .Values.persistentVolume.accessMode | quote }}
       annotations:
       {{- range $key, $value := $.Values.persistentVolume.annotations }}
         {{ $key }}: {{ $value }}
       {{- end }}
+    spec:
+      accessModes:
+        - {{ .Values.persistentVolume.accessMode | quote }}
       resources:
         requests:
           storage: {{ .Values.persistentVolume.size }}
@@ -177,7 +179,7 @@ spec:
             {{- end }}
           {{- end }}
   {{- else }}
-      - name: data-storage
-        emptyDir: {}
+        - name: data-storage
+          emptyDir: {}
   {{- end }}
 {{- end -}}
