@@ -1,4 +1,4 @@
-# Default values for nginx-sftp.
+# Default values for nginx-php-sftp.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -18,8 +18,8 @@ replicaCount: 1
 
 # 容器image及tag
 image:
-  repository: bitnami/nginx
-  tag: 1.14.2
+  repository: 1and1internet/ubuntu-16-nginx-php-7.0
+  tag: latest
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: {}   # 如果需要docker仓库验证
 
@@ -132,7 +132,7 @@ persistentVolume:   # 是否存储持久化
   size: 500Mi  # 大小
   existingClaim: {}  # 使用已存在的pvc
   mountPaths: 
-    - mountPath: /opt/bitnami/nginx/html/example
+    - mountPath: /var/www/html
       name: data-storage
   #    subPath: html
   #  - name: data-storage
@@ -208,7 +208,7 @@ sftp:
           group_id=$(echo $line|awk '{print $1}')
           mkdir -p /home/$user/upload
           chown -R $user:users /home/$user/upload
-          #ln -s 
+          ln -s 
       done < /etc/sftp/users.conf
       }
 
