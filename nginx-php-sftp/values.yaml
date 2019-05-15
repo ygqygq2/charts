@@ -184,7 +184,7 @@ sftp:
   # Authentication options
   usersConfFile:
     users.conf: |
-      dev:dev:1001:100
+      dev:dev:999:100
       #dev1:dev1:1002:100
 
   scriptFile:
