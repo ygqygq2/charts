@@ -1,4 +1,4 @@
-# Default values for mod-chart.
+# Default values for utcook.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -18,9 +18,9 @@ replicaCount: 1
 
 # 容器image及tag
 image:
-  repository: ygqygq2/imageName
-  tag: imageTag
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  repository: reg.harbor.com/pub/dockerImageName
+  tag: dockerTag
+  pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: {}   # 如果需要docker仓库验证
 
 service:
@@ -29,10 +29,10 @@ service:
     web:  # 多端口暴露时，复制一段，ingress默认只暴露此名为web的端口
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
-#    ssh:
-#      port: 22  # Service port number for client-b port.
-#      protocol: TCP  # Service port protocol for client-b port.
-#
+    debug:
+      port: 5005  # Service port number for client-b port.
+      protocol: TCP  # Service port protocol for client-b port.
+
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
 env: []
@@ -48,7 +48,6 @@ startCommand: []
 #  - "-Djava.security.egd=file:/dev/urandom"
 #  - "-jar /test.jar"
 #  - "-Duser.timezone=GMT+08"
-
 
 ## Enable configmap and add data in configmap
 config:
@@ -67,7 +66,7 @@ secret:
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
-  type: http  # http/tcp
+  type: tcp  # http/tcp
   port: web  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
   livenessInitialDelaySeconds: 10  # 初始延迟秒数
@@ -111,15 +110,14 @@ persistentVolume:   # 是否存储持久化
   storageClass: "-"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
   accessMode: ReadWriteOnce
   annotations: {}
-    # helm.sh/resource-policy: keep
   size: 1Gi  # 大小
   existingClaim: {}  # 使用已存在的pvc
   mountPaths: []
-  #  - mountPath: /config
-  #    name: data-storage
+  #  - name: data-storage
+  #    mountPath: /config
   #    subPath: config
-  #  - mountPath: /data
-  #    name: data-sorage
+  #  - name: data-storage
+  #    mountPath: /data
   #    subPath: data
 
 ingress:  # 是否使用nginx暴露域名或端口
@@ -136,40 +134,24 @@ ingress:  # 是否使用nginx暴露域名或端口
   #      - chart-example.local
 
 
-## Add init containers. e.g. to be used to give specific permissions for data
-## Add your own init container or uncomment and modify the given example.
-initContainers: []
 deployment:
 ## Add annotations in deployment to enhance deployment configurations
   annotations: {}
+  ## Add init containers. e.g. to be used to give specific permissions for data
+  ## Add your own init container or uncomment and modify the given example.
+  initContainers: {}
+  #  - name: fmp-volume-permission
+  #    image: busybox
+  #    imagePullPolicy: IfNotPresent
+  #    command: ['chown','-R', '200', '/extra-data']
+  #    volumeMounts:
+  #      - name: extra-data
+  #        mountPath: /extra-data
+  ## Uncomment and modify this to run a command after starting the nexus container.
   postStart:
     command:    # '["/bin/sh", "-c", "ls"]'
   additionalContainers: 
   additionalVolumes: 
-
-## Prometheus Exporter / Metrics
-##
-metrics:
-  enabled: false
-  image:
-    registry: docker.io
-    repository: nginx/nginx-prometheus-exporter
-    tag: 0.1.0
-    pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ##
-    # pullSecrets:
-    #   - myRegistrKeySecretName
-  ## Metrics exporter pod Annotation and Labels
-  podAnnotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9113"
-    ## Metrics exporter resource requests and limits
-    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-    ##
-  # resources: {}
 
 extraContainers: {}
   ## Additional containers to be added to the controller pod.
