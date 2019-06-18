@@ -36,14 +36,15 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
 | `statefulset.enabled`      | use statefulset to start            | `false`                                |
+| `global`                   | global setting                      | see in values.yaml                     |
 | `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
 | `env`                      | container env setting               | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `utcook` image, tag.            | `reg.utcook.com/pub/dockerImageName` `dockerTag`|
-| `ingress`                  | Ingress for the utcook.         | `false`                                |
+| `image`                    | `utcook` image, tag.                | `bitnami/nginx` `latest`               |
+| `ingress`                  | Ingress for the utcook.             | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
 | `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
@@ -53,6 +54,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
+| `istio`                    | canary deployment and istio support.| see in values.yaml                     |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 

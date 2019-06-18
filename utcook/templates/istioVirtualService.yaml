@@ -1,0 +1,84 @@
+{{- if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ template "utcook.servicename" . }}
+  labels:
+    app: {{ template "utcook.name" . }}
+    chart: {{ template "utcook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{- if (eq "tcp" .Values.istio.virtualService.type) }}
+  hosts:
+  - {{ template "utcook.servicename" . }}
+  tcp:
+  - match:
+    - port: {{ $.Values.service.ingressPort }}
+    route:
+{{ toYaml .Values.istio.virtualService.tcp | indent 6 }}
+{{- else }}
+  {{- if .Values.istio.gateway.enabled }}
+  gateways:
+  - {{ template "utcook.fullname" . }}
+  {{- end }}
+  hosts:
+  - mesh
+  - {{ template "utcook.servicename" . }}
+  {{- if .Values.istio.gateway.enabled }}
+  {{- $hostsUniq := list }}
+    {{- range $key, $value := .Values.istio.gateway.servers }}
+      {{- range $value.hosts }}
+        {{- $hostsUniq = append $hostsUniq . }}
+      {{- end }}
+    {{- end }}
+  {{- $hostsUniq = $hostsUniq | uniq }}
+  {{- range $hostsUniq }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+  http:
+  {{- if .Values.istio.virtualService.timeout }}
+  - timeout: {{ .Values.istio.virtualService.timeout }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.retries }}
+  - retries:
+{{ toYaml .Values.istio.virtualService.retries | indent 6 }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.fault }}
+  - fault:
+{{ toYaml .Values.istio.virtualService.fault | indent 6 }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.match }}
+  - match:
+{{ toYaml .Values.istio.virtualService.match | indent 6 }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.redirect }}
+  - redirect :
+{{ toYaml .Values.istio.virtualService.redirect | indent 6 }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.rewrite }}
+  - rewrite:
+{{ toYaml .Values.istio.virtualService.rewrite | indent 6 }}
+  {{- end }}
+  {{- if .Values.istio.virtualService.mirror }}
+  - mirror:
+{{ toYaml .Values.istio.virtualService.mirror | indent 6 }}
+  {{- end }}
+  - route:
+    - destination:
+        host: {{ template "utcook.servicename" . }}
+        subset: default
+      weight: {{ .Values.istio.default.weight }}
+    {{- range $skey, $svalue := .Values.istio.canary }}
+    - destination:
+        host: {{ template "utcook.servicename" $ }}
+        subset: {{ $svalue.name }}
+        {{- if $.Values.istio.gateway.enabled }}
+        port:
+          number: {{ $.Values.service.ingressPort }}
+        {{- end }}
+      weight: {{ $svalue.weight }}
+    {{- end }}
+{{- end }}
+{{- end -}}

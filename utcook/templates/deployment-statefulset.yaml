@@ -12,6 +12,8 @@ metadata:
     chart: {{ template "utcook.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    version: {{ template "utcook.version" . }}
+    canary: "false"
 {{- if .Values.labels }}
 {{ toYaml .Values.labels | indent 4 }}
 {{- end }}
@@ -22,7 +24,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "utcook.fullname" . }}
+  serviceName: {{ template "utcook.servicename" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -32,6 +34,8 @@ spec:
     matchLabels:
       app: {{ template "utcook.name" . }}
       release: {{ .Release.Name }}
+      version: {{ template "utcook.version" . }}
+      canary: "false"
   template:
     metadata:
     {{- if .Values.podAnnotations }}
@@ -41,6 +45,8 @@ spec:
       labels:
         app: {{ template "utcook.name" . }}
         release: {{ .Release.Name }}
+        version: {{ template "utcook.version" . }}
+        canary: "false"
     spec:
       {{- if .Values.image.imagePullSecrets }}
       imagePullSecrets:
@@ -59,7 +65,14 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- if .Values.global.imagePullSecrets }}
+          imagePullSecrets:
+            {{- range .Values.global.imagePullSecrets }}
+            - name: {{ . }}
+            {{- end }}
+          {{- else }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- end }}
           {{- if .Values.deployment.postStart.command }}
           lifecycle:
             postStart:

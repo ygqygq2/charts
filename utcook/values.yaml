@@ -5,6 +5,11 @@
 statefulset:
   enabled: false
 
+global:
+  pullPolicy: {}
+  imagePullSecrets: []
+  #  - private-registry-key
+
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
 deploymentStrategy: {}
@@ -13,25 +18,28 @@ deploymentStrategy: {}
   #   maxUnavailable: 25%
   # type: RollingUpdate
 
-# 副本个数
+## 副本个数
 replicaCount: 1
 
-# 容器image及tag
+## 容器image及tag
 image:
-  repository: reg.harbor.com/pub/dockerImageName
-  tag: dockerTag
+  repository: bitnami/nginx
+  tag: latest
   pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
-  imagePullSecrets: {}   # 如果需要docker仓库验证
+  imagePullSecrets: []   # 如果需要docker仓库验证
+  #  - private-registry-key
 
+## Istio named service ports
+## ref: https://istio.io/docs/setup/kubernetes/prepare/requirements/
 service:
+  # name: 
   type: ClusterIP  # 一般不用修改
+  ingressPort: 8080
   ports:
-    web:  # 多端口暴露时，复制一段，ingress默认只暴露此名为web的端口
+    ## 多端口暴露时，复制一段，ingress默认只暴露此端口
+    http:
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
-    debug:
-      port: 5005  # Service port number for client-b port.
-      protocol: TCP  # Service port protocol for client-b port.
 
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
@@ -67,7 +75,7 @@ secret:
 healthCheck:
   enabled: true
   type: tcp  # http/tcp
-  port: web  # 上面的端口名或端口
+  port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
   livenessInitialDelaySeconds: 10  # 初始延迟秒数
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
@@ -133,7 +141,128 @@ ingress:  # 是否使用nginx暴露域名或端口
   #    hosts:
   #      - chart-example.local
 
+## canary deployment
+istio:
+  enabled: false
+  ## default subset, 非canary
+  default:
+    weight: 100
+  ## canary subset
+  canary:
+    - name: v1
+      replicaCount: 1
+      weight: 0
+      image:
+        repository: bitnami/nginx
+        tag: latest
+        pullPolicy: IfNotPresent
 
+  ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/
+  virtualService:
+    ## http/tcp
+    type: http
+
+    ## corsPolicy
+    ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#CorsPolicy
+    corsPolicy: {}
+      # allowOrigin:
+      # - example.com
+      # allowMethods:
+      # - POST
+      # - GET
+      # allowCredentials: false
+      # allowHeaders:
+      # - X-Foo-Bar
+      # maxAge: "24h"
+
+    ## TCPRoute, when type is tcp
+    tcp: {}
+    #   route:
+    #   - destination:
+    #       host: mongo.backup.svc.cluster.local
+    #       port:
+    #         number: 27017
+
+    ## 注意请求的重试和超时还可以针对每个请求分别设置
+    ## 超时设置，默认15s
+    timeout: ""
+    ## 重试次数
+    retries: {}
+    #   attempts: 3
+    #   perTryTimeout: 2s    
+
+    ## 故障注入
+    fault: {}
+    #   delay:
+    #     percentage:
+    #       value: 10
+    #     fixedDelay: 5s
+    #   abort:
+    #     percentage: 
+    #       value: 10
+    #     httpStatus: 400
+    
+    ## HTTPMatchRequest
+    match: {}
+    #   - uri:
+    #       exact: /v1/getProductRatings
+    # 
+    #   - sourceLabels:
+    #    app: reviews
+
+    ## HTTPRedirect
+    redirect: {}
+    #   uri: /v1/bookRatings
+    #   authority: newratings.default.svc.cluster.local
+
+    ## HTTPRewrite
+    rewrite: {}
+    #   uri: /v1/bookRatings
+
+    ## mirror
+    mirror: {}
+    #   host: httpbin
+    #   subset: v2
+  
+  
+  serviceEntry:
+    enabled: false
+    spec: {}
+    #   hosts:
+    #   - *.foo.com
+    #   location: MESH_EXTERNAL
+    #   ports:
+    #   - number: 80
+    #     name: http
+    #     protocol: HTTP
+    #   - number: 443
+    #     name: https
+    #     protocol: HTTPS
+    #   resolution: DNS
+
+  gateway:
+    enabled: false
+    servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      ## 多域名时，vs涉及去重
+      hosts:
+      - uk.bookinfo.com
+    #   tls:
+    #     httpsRedirect: true # 用 301 重定向指令响应 http 协议的请求。
+    # - port:
+    #     number: 443
+    #     name: https
+    #     protocol: HTTPS
+    #   hosts:
+    #   - en.bookinfo.com
+    #   tls:
+    #     mode: SIMPLE # 在这一端口开放 https 服务。
+    #     serverCertificate: /etc/certs/servercert.pem
+    #     privateKey: /etc/certs/privatekey.pem
+  
 deployment:
 ## Add annotations in deployment to enhance deployment configurations
   annotations: {}

@@ -30,3 +30,21 @@ Create chart name and version as used by the chart label.
 {{- define "utcook.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Create deployment version as used by the chart label.
+*/}}
+{{- define "utcook.version" -}}
+{{- printf "%s" .Values.image.tag | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Create service name  as used by the chart label.
+*/}}
+{{- define "utcook.servicename" -}}
+{{- if .Values.service.name -}}
+{{- printf "%s" .Values.service.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s" (include "utcook.fullname" .) | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}

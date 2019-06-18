@@ -1,0 +1,13 @@
+{{- if and .Values.istio.enabled .Values.istio.serviceEntry.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ template "utcook.fullname" . }}
+  labels:
+    app: {{ template "utcook.name" . }}
+    chart: {{ template "utcook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{ toYaml .Values.istio.serviceEntry.spec | indent 2 }}
+{{- end -}}

@@ -1,0 +1,16 @@
+{{- if and .Values.istio.enabled .Values.istio.gateway.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ template "utcook.fullname" . }}
+  labels:
+    app: {{ template "utcook.name" . }}
+    chart: {{ template "utcook.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+{{ toYaml .Values.istio.gateway.servers | indent 2 }}
+{{- end -}}

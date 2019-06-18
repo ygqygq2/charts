@@ -1,7 +1,8 @@
+{{- if .Values.statefulset.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ default .Values.service.name (include "utcook.fullname" .) }}
+  name: {{ default .Values.service.name (include "utcook.fullname" .) }}-headless
   labels:
     app: {{ template "utcook.name" . }}
     chart: {{ template "utcook.chart" . }}
@@ -9,6 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
     service: {{ .Release.Name }}
 spec:
+  clusterIP: None
   type: {{ .Values.service.type }}
   ports:
   {{- range $key, $value := .Values.service.ports }}
@@ -19,3 +21,4 @@ spec:
   selector:
     app: {{ template "utcook.name" . }}
     release: {{ .Release.Name }}
+{{- end -}}
