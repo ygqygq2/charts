@@ -2,7 +2,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: {{ default .Values.service.name (include "utcook.fullname" .) }}
+  name: {{ template "utcook-istio.servicename" . }}
   labels:
     app: {{ template "utcook.name" . }}
     chart: {{ template "utcook.chart" . }}
@@ -12,7 +12,7 @@ spec:
   # trafficPolicy:
   #   tls:
   #     mode: ISTIO_MUTUAL
-  host: {{ default .Values.service.name (include "utcook.fullname" .) }}
+  host: {{ template "utcook-istio.servicename" . }}
   subsets:
   - name: default
     labels:

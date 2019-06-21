@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ default .Values.service.name (include "utcook.fullname" .) }}-headless
+  name: {{ template "utcook-istio.servicename" . }}-headless
   labels:
     app: {{ template "utcook.name" . }}
     chart: {{ template "utcook.chart" . }}
