@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+nameOverride: ""
+fullnameOverride: ""
+
 # Authentication options
 usersConfFile:
   users.conf: |
@@ -61,10 +64,10 @@ scriptFile:
     #bindmount /data/docs /home/peter/docs --read-only
 
 image:
-  repository: reg.utcook.com/pub/sftp
+  repository: ygqygq2/sftp
   tag: latest
   pullPolicy: IfNotPresent
-  imagePullSecrets:   # 如果需要docker仓库验证
+  imagePullSecrets: [] 
 
 service:
   type: ClusterIP
@@ -101,7 +104,7 @@ persistentVolume:
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "cephfs"
+  storageClass: "-"
   accessMode: ReadWriteMany
   annotations: {}
   size: 500Mi

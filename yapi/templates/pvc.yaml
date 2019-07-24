@@ -1,5 +1,5 @@
-{{- if .Values.persistentVolume.enabled -}}
-  {{- if not .Values.persistentVolume.existingClaim -}}
+{{- if not .Values.statefulset.enabled -}}
+{{- if and .Values.persistentVolume.enabled (not .Values.persistentVolume.existingClaim) }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -8,11 +8,11 @@ metadata:
 {{ toYaml .Values.persistentVolume.annotations | indent 4 }}
   {{- end }}
   labels:
-    app: {{ template "sftp.name" . }}
-    chart: {{ template "sftp.chart" . }}
+    app: {{ template "yapi.name" . }}
+    chart: {{ template "yapi.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "sftp.fullname" . }}
+  name: {{ template "yapi.fullname" . }}
 spec:
   accessModes:
     - {{ .Values.persistentVolume.accessMode }}
@@ -26,5 +26,5 @@ spec:
   resources:
     requests:
       storage: "{{ .Values.persistentVolume.size }}"
-  {{- end -}}
+{{- end }}
 {{- end -}}
