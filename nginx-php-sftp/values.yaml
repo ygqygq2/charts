@@ -5,6 +5,9 @@
 statefulset:
   enabled: false
 
+nameOverride: ""
+fullnameOverride: ""
+
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
 deploymentStrategy: {}
@@ -21,7 +24,7 @@ image:
   repository: 1and1internet/ubuntu-16-nginx-php-7.0
   tag: latest
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
-  imagePullSecrets: {}   # 如果需要docker仓库验证
+  imagePullSecrets: []
 
 service:
   type: ClusterIP  # 一般不用修改
@@ -52,6 +55,8 @@ startCommand: []
 #  - "-jar /test.jar"
 #  - "-Duser.timezone=GMT+08"
 
+## nginx server configure
+vhost: ""
 # vhost: |-
 #   # example PHP-FPM vhost
 #   server {
@@ -77,13 +82,14 @@ config:
 secret:
   enabled: false
   mountPath: /etc/secret-volume
+  subPath: ""
   readOnly: true
-  data: 
+  data: {} 
 
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
-  enabled: true
+  enabled: false
   type: http  # http/tcp
   port: web  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
@@ -113,6 +119,7 @@ podAnnotations: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+annotations: {}
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -125,7 +132,7 @@ persistentVolume:   # 是否存储持久化
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "-"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
+  storageClass: "-"
   accessMode: ReadWriteMany
   annotations: {}
   #  helm.sh/resource-policy: keep
@@ -156,6 +163,8 @@ ingress:  # 是否使用nginx暴露域名或端口
 ##
 sftp:
   enabled: true
+
+  resources: {}
 
   # sshd_config
   sshConfFile:
@@ -208,7 +217,6 @@ sftp:
           group_id=$(echo $line|awk '{print $1}')
           mkdir -p /home/$user/upload
           chown -R $user:users /home/$user/upload
-          ln -s 
       done < /etc/sftp/users.conf
       }
 
@@ -234,24 +242,31 @@ sftp:
     ##
   # resources: {}
 
+## Uncomment and modify this to run a command after starting the core container.
+## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/bash","/pre-stop.sh"]
+  # postStart:
+  #   exec:
+  #     command: ["/bin/bash","/post-start.sh"]
+
 deployment:
-## Add annotations in deployment to enhance deployment configurations
-  annotations: {}
+  additionalVolumes: []
+
+## init containers
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ## Add init containers. e.g. to be used to give specific permissions for data
   ## Add your own init container or uncomment and modify the given example.
-  initContainers: {}
-  #  - name: fmp-volume-permission
-  #    image: busybox
-  #    imagePullPolicy: IfNotPresent
-  #    command: ['chown','-R', '200', '/extra-data']
-  #    volumeMounts:
-  #      - name: extra-data
-  #        mountPath: /extra-data
-  ## Uncomment and modify this to run a command after starting the nexus container.
-  postStart:
-    command:    # '["/bin/sh", "-c", "ls"]'
-  additionalContainers: 
-  additionalVolumes: 
+initContainers: {}
+#  - name: fmp-volume-permission
+#    image: busybox
+#    imagePullPolicy: IfNotPresent
+#    command: ['chown','-R', '200', '/extra-data']
+#    volumeMounts:
+#      - name: extra-data
+#        mountPath: /extra-data
 
 ## Prometheus Exporter / Metrics
 ##
@@ -275,11 +290,10 @@ metrics:
     ## Metrics exporter resource requests and limits
     ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
     ##
-  # resources: {}
+  resources: {}
 
-extraContainers: {}
-  ## Additional containers to be added to the controller pod.
-  ## See https://github.com/lemonldap-ng-controller/lemonldap-ng-controller as example.
+additionalContainers: {}
+## Additional containers to be added to the core pod.
 #  - name: my-sidecar
 #    image: nginx:latest
 #  - name: lemonldap-ng-controller

@@ -19,9 +19,9 @@ spec:
         app: {{ template "gohttpserver.name" . }}
         release: {{ .Release.Name }}
     spec:
-      {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- range .Values.image.imagePullSecrets }}
+        - name: {{ . }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -31,14 +31,30 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: {{ .Values.service.protocol }}
-          #livenessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
-          #readinessProbe:
-          #  httpGet:
-          #    path: /
-          #    port: http
+          {{- if .Values.healthCheck.enabled }}
+          livenessProbe:
+            {{- if eq .Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ .Values.healthCheck.httpPath }}
+              port: http
+            {{- else }}
+            tcpSocket:
+              port: http
+            {{- end }}
+            initialDelaySeconds: {{ .Values.healthCheck.livenessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.livenessPeriodSeconds }}
+          readinessProbe:
+            {{- if eq .Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ .Values.healthCheck.httpPath }}
+              port: http
+            {{- else }}
+            tcpSocket:
+              port: http
+            {{- end }}
+            initialDelaySeconds: {{ .Values.healthCheck.readinessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
+          {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:

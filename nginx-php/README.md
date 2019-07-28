@@ -1,6 +1,6 @@
-# nginx-php - JAVA微服务模板
+# nginx-php - nginx php服务器
 
-[nginx-php](https://)是什么
+[nginx-php](https://github.com/1and1internet/ubuntu-16-nginx-php-7.0)是基于1and1internet的nginx php做的chart。
 
 ## Introduction
 
@@ -16,7 +16,7 @@ This chart bootstraps nginx-php deployment on a [Kubernetes](http://kubernetes.i
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/nginx-php
+$ helm install my-release nginx-php
 ```
 
 The command deploys nginx-php cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -38,25 +38,28 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `statefulset.enabled`      | use statefulset to start            | `false`                                |
 | `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080                 |
 | `env`                      | container env setting               | `[]`                                   |
-| `config`                   | configmap to use                    | `[]`                                   |
-| `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `nginx-php` image, tag.            | `reg.nginx-php.com/pub/dockerImageName` `dockerTag`|
-| `ingress`                  | Ingress for the nginx-php.         | `false`                                |
+| `startCommand`             | Start command                       | `[]`                                   |
+| `config`                   | Additional configmap to use         | see in `values.yaml`                   |
+| `secret`                   | Additional secret to use            | see in `values.yaml`                   |
+| `image`                    | `nginx-php-sftp` image, tag.            | `1and1internet/ubuntu-16-nginx-php-7.0` `latest`|
+| `ingress`                  | Ingress for the nginx-php-sftp.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
+| `persistentVolume.size`         | Persistent volume access modes | `500Mi`                                |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
+| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `healthCheck.enabled`      | Liveness and readiness probes       | `false`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 
-The [nginx-php image](https://) stores the data and configurations at the `/data` path of the container.
+The [nginx-php image](https://github.com/1and1internet/ubuntu-16-nginx-php-7.0) stores the data and configurations at the `/var/www` path of the container.
 

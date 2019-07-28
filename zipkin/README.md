@@ -1,6 +1,6 @@
 # zipkin - A distributed tracing system.
 
-[zipkin](https://zipkin.io/)是什么
+[Zipkin](https://zipkin.io/) is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures. Features include both the collection and lookup of this data.
 
 ## Introduction
 
@@ -16,7 +16,7 @@ This chart bootstraps zipkin deployment on a [Kubernetes](http://kubernetes.io) 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/zipkin
+$ helm install my-release zipkin
 ```
 
 The command deploys zipkin cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -40,23 +40,26 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `replicaCount`             | replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 9411                 |
 | `env`                      | container env setting               | `[]`                                   |
+| `startCommand`             | start command                       | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
 | `image`                    | `zipkin` image, tag.                | `openzipkin/zipkin` `2`                |
 | `dependencies`             | zipkin-dependencies                 | `openzipkin/zipkin-dependencies` `2`   |
-| `dependencies.schedule`    | zipkin-dependencies cronjob         | `"*/5 * * * *"`                        |
-| `ingress`                  | Ingress for the zipkin.         | `false`                                |
+| `dependencies.schedule`    | zipkin-dependencies cronjob         | `"*/10 * * * *"`                       |
+| `ingress`                  | Ingress for the zipkin.         | `false`                                    |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                             |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                 |
+| `persistentVolume.size`         | Persistent volume access modes      | `1Gi`                             |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                              |
+| `persistentVolume.mountPaths`   | Persistent directory path      | `[]`                                   |
+| `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
+| `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 

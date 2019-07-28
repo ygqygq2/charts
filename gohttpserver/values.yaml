@@ -4,26 +4,40 @@
 
 replicaCount: 1
 
+nameOverride: ""
+fullnameOverride: ""
+
 # Authentication options
 auth:
   type: http
   userName: admin
   passWord: admin
-# enable upload support
+  # enable upload support
   upload: true
-# enable delete support
+  # enable delete support
   delete: true
 
 image:
   repository: codeskyblue/gohttpserver
   tag: latest
   pullPolicy: IfNotPresent
-  imagePullSecrets:   # 如果需要docker仓库验证
+  imagePullSecrets: [] 
 
 service:
   type: ClusterIP
   protocol: TCP
   port: 8000
+
+## liveness and readiness 
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+healthCheck:
+  enabled: true
+  type: tcp # http/tcp
+  httpPath: '/'  # http时必须设置
+  livenessInitialDelaySeconds: 10  # 初始延迟秒数
+  livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
+  readinessInitialDelaySeconds: 10  # 初始延迟秒数
+  readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

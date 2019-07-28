@@ -16,7 +16,7 @@ This chart bootstraps utcook deployment on a [Kubernetes](http://kubernetes.io) 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/utcook
+$ helm install my-release utcook
 ```
 
 The command deploys utcook cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -41,16 +41,19 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `replicaCount`             | replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
 | `env`                      | container env setting               | `[]`                                   |
-| `config`                   | configmap to use                    | `[]`                                   |
-| `secret`                   | secret to use                       | `[]`                                   |
+| `startCommand`             | Start command                       | `[]`                                   |
+| `config`                   | Additional configmap to use         | see in `values.yaml`                   |
+| `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | `utcook` image, tag.                | `bitnami/nginx` `latest`               |
 | `ingress`                  | Ingress for the utcook.             | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
+| `persistentVolume.size`         | Persistent volume access modes | `1Gi`                                  |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                              |
+| `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
+| `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
+| `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |

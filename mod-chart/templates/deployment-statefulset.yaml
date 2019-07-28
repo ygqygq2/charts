@@ -197,7 +197,7 @@ spec:
             {{- end }}
           {{- end }}
   {{- else }}
-      - name: data-storage
-        emptyDir: {}
+        - name: data-storage
+          emptyDir: {}
   {{- end }}
 {{- end -}}

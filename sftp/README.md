@@ -67,6 +67,7 @@ The following table lists the configurable parameters of the sftp chart and thei
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                             |
 | `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                 |
+| `persistentVolume.size`         | Persistent volume access modes      | `500Mi`                                |
 | `persistentVolume.existingClaim`| Persistent volume existingClaim name| `[]`                              |
 | `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                              |
 | `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |

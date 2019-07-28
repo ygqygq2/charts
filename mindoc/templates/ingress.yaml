@@ -4,7 +4,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ template "mindoc.fullname" . }}
   labels:
     app: {{ template "mindoc.name" . }}
     chart: {{ template "mindoc.chart" . }}

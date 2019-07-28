@@ -2,13 +2,26 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry and imagePullSecrets
+##
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+#     - myRegistryKeySecretName
+
 statefulset:
   enabled: false
 
-global:
-  pullPolicy: {}
-  imagePullSecrets: []
-  #  - private-registry-key
+## String to partially override fullname template (will maintain the release name)
+##
+nameOverride: ""
+
+## String to fully override fullname template
+##
+fullnameOverride: ""
+
 
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
@@ -61,14 +74,15 @@ startCommand: []
 config:
   enabled: false
   mountPath: /conf
-  data: 
+  data: {}
 
 ## To use an additional secret, set enable to true and add data
 secret:
   enabled: false
   mountPath: /etc/secret-volume
+  subPath: ""
   readOnly: true
-  data: 
+  data: {} 
 
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -103,6 +117,7 @@ podAnnotations: {}
 nodeSelector: {}
 tolerations: []
 affinity: {}
+annotations: {}
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
@@ -115,9 +130,10 @@ persistentVolume:   # 是否存储持久化
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: "-"  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
+  storageClass: "-"
   accessMode: ReadWriteOnce
   annotations: {}
+  #   helm.sh/resource-policy: keep
   size: 1Gi  # 大小
   existingClaim: {}  # 使用已存在的pvc
   mountPaths: []
@@ -262,29 +278,35 @@ istio:
     #     mode: SIMPLE # 在这一端口开放 https 服务。
     #     serverCertificate: /etc/certs/servercert.pem
     #     privateKey: /etc/certs/privatekey.pem
+
+## Uncomment and modify this to run a command after starting the core container.
+## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/bash","/pre-stop.sh"]
+  # postStart:
+  #   exec:
+  #     command: ["/bin/bash","/post-start.sh"]
   
 deployment:
-## Add annotations in deployment to enhance deployment configurations
-  annotations: {}
-  ## Add init containers. e.g. to be used to give specific permissions for data
-  ## Add your own init container or uncomment and modify the given example.
-  initContainers: {}
-  #  - name: fmp-volume-permission
-  #    image: busybox
-  #    imagePullPolicy: IfNotPresent
-  #    command: ['chown','-R', '200', '/extra-data']
-  #    volumeMounts:
-  #      - name: extra-data
-  #        mountPath: /extra-data
-  ## Uncomment and modify this to run a command after starting the nexus container.
-  postStart:
-    command:    # '["/bin/sh", "-c", "ls"]'
-  additionalContainers: 
-  additionalVolumes: 
+  additionalVolumes: []
 
-extraContainers: {}
-  ## Additional containers to be added to the controller pod.
-  ## See https://github.com/lemonldap-ng-controller/lemonldap-ng-controller as example.
+## init containers
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+## Add init containers. e.g. to be used to give specific permissions for data
+## Add your own init container or uncomment and modify the given example.
+initContainers: {}
+#  - name: fmp-volume-permission
+#    image: busybox
+#    imagePullPolicy: IfNotPresent
+#    command: ['chown','-R', '200', '/extra-data']
+#    volumeMounts:
+#      - name: extra-data
+#        mountPath: /extra-data
+
+additionalContainers: {}
+## Additional containers to be added to the core pod.
 #  - name: my-sidecar
 #    image: nginx:latest
 #  - name: lemonldap-ng-controller

@@ -1,9 +1,9 @@
 apiVersion: v1
 appVersion: "6.6"
-description: A Helm chart for Kubernetes
+description: LDAP Account Manager (LAM)
 name: lam
 version: 1.0.0
-home: https://www.ldap-account-manager.org/lamcms/releases
+home: https://www.ldap-account-manager.org/lamcms/
 icon: 
 keywords:
 - lam

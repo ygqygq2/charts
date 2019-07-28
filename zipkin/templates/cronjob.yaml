@@ -10,6 +10,8 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   schedule: "{{ .Values.dependencies.schedule }}"
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 5
   jobTemplate:
     metadata:
       labels:
@@ -21,11 +23,9 @@ spec:
     spec:
       template:
         spec:
-          failedJobsHistoryLimit: 5
-          successfulJobsHistoryLimit: 5
-          {{- if .Values.dependencies.image.imagePullSecrets }}
           imagePullSecrets:
-            - name: {{ .Values.dependencies.image.imagePullSecrets }}
+          {{- range .Values.dependencies.image.imagePullSecrets }}
+            - name: {{ . }}
           {{- end }}
           restartPolicy: Never
           containers:

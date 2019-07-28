@@ -17,9 +17,9 @@ metadata:
 {{- if .Values.labels }}
 {{ toYaml .Values.labels | indent 4 }}
 {{- end }}
-{{- if .Values.deployment.annotations }}
+{{- if .Values.annotations }}
   annotations:
-{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -48,13 +48,11 @@ spec:
         version: {{ template "utcook.version" . }}
         canary: "false"
     spec:
-      {{- if .Values.image.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ .Values.image.imagePullSecrets }}
-      {{- end }}
-      {{- if .Values.deployment.initContainers }}
+{{- include "moodle.imagePullSecrets" . | indent 6 }}
+
+      {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.deployment.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 6 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -64,20 +62,11 @@ spec:
 {{ toYaml .Values.tolerations | indent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- if .Values.global.imagePullSecrets }}
-          imagePullSecrets:
-            {{- range .Values.global.imagePullSecrets }}
-            - name: {{ . }}
-            {{- end }}
-          {{- else }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- end }}
-          {{- if .Values.deployment.postStart.command }}
+          image: {{ template "utcook.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.lifecycle }}
           lifecycle:
-            postStart:
-              exec:
-                command: {{ .Values.postStart.command }}
+{{ toYaml .Values.lifecycle | indent 12 }}
           {{- end }}
           {{- if .Values.startCommand }}
           command:
@@ -130,8 +119,8 @@ spec:
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
-        {{- if .Values.deployment.additionalContainers }}
-{{ toYaml .Values.deployment.additionalContainers | indent 8 }}
+        {{- if .Values.additionalContainers }}
+{{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
@@ -184,7 +173,7 @@ spec:
             {{- end }}
           {{- end }}
   {{- else }}
-      - name: data-storage
-        emptyDir: {}
+        - name: data-storage
+          emptyDir: {}
   {{- end }}
 {{- end -}}

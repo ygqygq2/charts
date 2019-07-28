@@ -1,6 +1,6 @@
 # lam - ldap-account-manager
 
-[lam](https://www.ldap-account-manager.org/lamcms/releases)是什么
+[lam](https://www.ldap-account-manager.org/lamcms/releases)LDAP Account Manager (LAM) is a webfrontend for managing entries (e.g. users, groups, DHCP settings) stored in an LDAP directory.
 
 ## Introduction
 
@@ -16,7 +16,7 @@ This chart bootstraps lam deployment on a [Kubernetes](http://kubernetes.io) clu
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/lam
+$ helm install my-release lam
 ```
 
 The command deploys lam cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -40,23 +40,25 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `replicaCount`             | replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 80                   |
 | `env`                      | container env setting               | `[]`                                   |
-| `config`                   | configmap to use                    | `[]`                                   |
-| `secret`                   | secret to use                       | `[]`                                   |
+| `config`                   | Additional configmap to use         | see in `values.yaml`                   |
+| `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.6`|
 | `ingress`                  | Ingress for the lam.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
+| `persistentVolume.size`         | Persistent volume access modes | `50Mi`                                |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
+| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `deployment`               | deployment annotations initContainers| `{}`                                  |
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 
-The [lam image](https://) stores the data and configurations at the `/data` path of the container.
+The [lam image](https://hub.docker.com/r/ldapaccountmanager/lam) no need stores the data, but configurations cache to volume in the container is better.
 

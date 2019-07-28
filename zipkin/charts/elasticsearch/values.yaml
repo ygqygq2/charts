@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 appVersion: "6.5.1"
 
+nameOverride: ""
+fullnameOverride: ""
+
 ## Define serviceAccount names for components. Defaults to component's fully qualified name.
 ##
 serviceAccounts:
@@ -36,13 +39,13 @@ image:
   tag: "6.5.3"
   pullPolicy: "IfNotPresent"
   # If specified, use these secrets to access the image
-  # pullSecrets:
+  pullSecrets: []
   #   - registry-secret
 
 initImage:
   repository: "busybox"
   tag: "latest"
-  pullPolicy: "IfNotPresent"
+  pullPolicy: "Always"
 
 cluster:
   name: "elasticsearch"
@@ -51,7 +54,7 @@ cluster:
   xpackEnable: false
   # Some settings must be placed in a keystore, so they need to be mounted in from a secret.
   # Use this setting to specify the name of the secret
-  # keystoreSecret: eskeystore
+  keystoreSecret: ""
   config: {}
   # Custom parameters, as string, to be added to ES_JAVA_OPTS environment variable
   additionalJavaOpts: ""
@@ -68,7 +71,7 @@ client:
   loadBalancerIP: {}
   loadBalancerSourceRanges: {}
 ## (dict) If specified, apply these annotations to the client service
-#  serviceAnnotations:
+  serviceAnnotations: {}
 #    example: client-svc-foo
   heapSize: "512m"
   antiAffinity: "soft"
@@ -81,10 +84,10 @@ client:
       # memory: "1024Mi"
     requests:
       cpu: "25m"
-      memory: "1024Mi"
+      memory: "512Mi"
   priorityClassName: ""
   ## (dict) If specified, apply these annotations to each client Pod
-  # podAnnotations:
+  podAnnotations: {}
   #   example: client-foo
   podDisruptionBudget:
     enabled: false
@@ -97,11 +100,11 @@ client:
       # kubernetes.io/tls-acme: "true"
     path: /
     hosts:
-      - elasticsearch.utcook.com
-    tls: 
-      - secretName: all-utcook
-        hosts:
-          - elasticsearch.utcook.com
+      - chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
 master:
   name: master
@@ -109,11 +112,11 @@ master:
   replicas: 3
   heapSize: "512m"
   persistence:
-    enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     name: data
     size: "4Gi"
-    storageClass: "ceph-rbd"
+    storageClass: "-"
   antiAffinity: "soft"
   nodeAffinity: {}
   nodeSelector: {}
@@ -127,7 +130,7 @@ master:
       memory: "512Mi"
   priorityClassName: ""
   ## (dict) If specified, apply these annotations to each master Pod
-  # podAnnotations:
+  podAnnotations: {}
   #   example: master-foo
   podDisruptionBudget:
     enabled: false
@@ -139,14 +142,14 @@ master:
 data:
   name: data
   exposeHttp: false
-  replicas: 1
+  replicas: 2
   heapSize: "1536m"
   persistence:
-    enabled: true
+    enabled: false
     accessMode: ReadWriteOnce
     name: data
-    size: "20Gi"
-    storageClass: "ceph-rbd"
+    size: "30Gi"
+    storageClass: "-"
   terminationGracePeriodSeconds: 3600
   antiAffinity: "soft"
   nodeAffinity: {}
@@ -161,7 +164,7 @@ data:
       memory: "1536Mi"
   priorityClassName: ""
   ## (dict) If specified, apply these annotations to each data Pod
-  # podAnnotations:
+  podAnnotations: {}
   #   example: data-foo
   podDisruptionBudget:
     enabled: false

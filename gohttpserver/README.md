@@ -1,6 +1,6 @@
-# gohttpserver - Multiple tracker, Multiple storage
+# gohttpserver - The best HTTP Static File Server, write with golang+vue.
 
-[gohttpserver](https://github.com/codeskyblue/gohttpserver)是什么
+[gohttpserver](https://github.com/codeskyblue/gohttpserver)The best HTTP Static File Server, write with golang+vue demo site: [https://gohttpserver.herokuapp.com/](https://gohttpserver.herokuapp.com/)
 
 ## Introduction
 
@@ -16,8 +16,12 @@ This chart bootstraps gohttpserver deployment on a [Kubernetes](http://kubernete
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release local/gohttpserver
+$ helm install my-release gohttpserver
 ```
+
+>tip:
+>The default user is: admin
+>The default password is: admin
 
 The command deploys gohttpserver cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
@@ -45,15 +49,16 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `image`                    | `gohttpserver` image, tag.          | `codeskyblue/gohttpserver` `latest`    |
 | `ingress`                  | Ingress for the gohttpserver.       | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
-| `persistence.existingClaim`| Persistent volume existingClaim name| `[]`                                   |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                             |
+| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                 |
+| `persistentVolume.size`         | Persistent volume access modes      | `2Gi`                             |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `[]`                              |
+| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                              |
 | `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 
-The [gohttpserver image](https://hub.docker.com/r/mllu/gohttpserver/tags/) stores the data and configurations at the `/app/public` path of the container.
+The [gohttpserver image](https://hub.docker.com/r/codeskyblue/gohttpserver) stores the data and configurations at the `/app/public` path of the container.
 

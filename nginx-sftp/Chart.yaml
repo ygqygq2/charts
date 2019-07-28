@@ -3,7 +3,7 @@ appVersion: 1.14.2
 description: Chart for the nginx server
 engine: gotpl
 name: nginx-sftp
-version: 1.1.0
+version: 1.0.0
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:
@@ -11,6 +11,7 @@ keywords:
 - http
 - web
 - www
+- sftp
 - reverse proxy
 maintainers:
 - email: 29ygq@sina.com

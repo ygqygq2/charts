@@ -5,6 +5,9 @@
 statefulset:
   enabled: false
 
+nameOverride: ""
+fullnameOverride: ""
+
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
 deploymentStrategy: {}
@@ -21,7 +24,7 @@ image:
   repository: ldapaccountmanager/lam
   tag: 6.6
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
-  imagePullSecrets: {}   # 如果需要docker仓库验证
+  imagePullSecrets: []
 
 service:
   type: ClusterIP  # 一般不用修改
@@ -56,8 +59,9 @@ config:
 secret:
   enabled: false
   mountPath: /etc/secret-volume
+  subPath: ""
   readOnly: true
-  data: 
+  data: {} 
 
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -104,7 +108,7 @@ persistentVolume:   # 是否存储持久化
   ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
   ##   Azure, standard on GKE, AWS & OpenStack)
   ##
-  storageClass: ""  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
+  storageClass: "-"
   accessMode: ReadWriteOnce
   annotations: {}
     # helm.sh/resource-policy: keep
@@ -126,15 +130,26 @@ ingress:  # 是否使用nginx暴露域名或端口
   path: /
   hosts:
     - chart-example.local
-  tls: 
+  tls: []
   #  - secretName: {}
   #    hosts:
   #      - chart-example.local
 
 
+## Uncomment and modify this to run a command after starting the core container.
+## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/bash","/pre-stop.sh"]
+  # postStart:
+  #   exec:
+  #     command: ["/bin/bash","/post-start.sh"]
 deployment:
-## Add annotations in deployment to enhance deployment configurations
-  annotations: {}
+  additionalVolumes: []
+
+## init containers
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ## Add init containers. e.g. to be used to give specific permissions for data
   ## Add your own init container or uncomment and modify the given example.
   initContainers: {}
@@ -145,15 +160,9 @@ deployment:
   #    volumeMounts:
   #      - name: extra-data
   #        mountPath: /extra-data
-  ## Uncomment and modify this to run a command after starting the nexus container.
-  postStart:
-    command:    # '["/bin/sh", "-c", "ls"]'
-  additionalContainers: 
-  additionalVolumes: 
 
-extraContainers: {}
-  ## Additional containers to be added to the controller pod.
-  ## See https://github.com/lemonldap-ng-controller/lemonldap-ng-controller as example.
+additionalContainers: {}
+## Additional containers to be added to the core pod.
 #  - name: my-sidecar
 #    image: nginx:latest
 #  - name: lemonldap-ng-controller

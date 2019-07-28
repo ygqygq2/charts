@@ -42,13 +42,13 @@ spec:
         app: {{ template "lam.name" . }}
         release: {{ .Release.Name }}
     spec:
-      {{- if .Values.image.imagePullSecrets }}
       imagePullSecrets:
-        - name: {{ .Values.image.imagePullSecrets }}
+      {{- range .Values.image.imagePullSecrets }}
+        - name: {{ . }}
       {{- end }}
-      {{- if .Values.deployment.initContainers }}
+      {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.deployment.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 6 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -60,11 +60,9 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.deployment.postStart.command }}
+          {{- if .Values.lifecycle }}
           lifecycle:
-            postStart:
-              exec:
-                command: {{ .Values.postStart.command }}
+{{ toYaml .Values.lifecycle | indent 12 }}
           {{- end }}
           {{- if .Values.startCommand }}
           command:
@@ -106,8 +104,8 @@ spec:
           {{- end }}
           volumeMounts:
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
-        {{- if .Values.deployment.additionalContainers }}
-{{ toYaml .Values.deployment.additionalContainers | indent 8 }}
+        {{- if .Values.additionalContainers }}
+{{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
@@ -160,7 +158,7 @@ spec:
             {{- end }}
           {{- end }}
   {{- else }}
-      - name: data-storage
-        emptyDir: {}
+        - name: data-storage
+          emptyDir: {}
   {{- end }}
 {{- end -}}
