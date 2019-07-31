@@ -35,26 +35,31 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
-| `statefulset.enabled`      | use statefulset to start            | `false`                                |
-| `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
-| `replicaCount`             | replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
-| `env`                      | container env setting               | `[]`                                   |
-| `config`                   | configmap to use                    | `[]`                                   |
-| `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `mod-chart` image, tag.            | `reg.mod-chart.com/pub/dockerImageName` `dockerTag`|
+| `statefulset.enabled`      | Use statefulset to start            | `false`                                |
+| `global`                   | Global setting                      | see in values.yaml                     |
+| `deploymentStrategy`       | Deployment rollingUpdate setting    | `{}`                                   |
+| `replicaCount`             | Replicas number                     | `1`                                    |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080                 |
+| `env`                      | Container env setting               | `[]`                                   |
+| `startCommand`             | Start command                       | `[]`                                   |
+| `config`                   | Additional configmap to use         | see in `values.yaml`                   |
+| `secret`                   | Additional secret to use            | see in `values.yaml`                   |
+| `image`                    | `mod-chart` image, tag.            | `bitnami/nginx` `latest`|
 | `ingress`                  | Ingress for the mod-chart.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
+| `persistentVolume.size`         | Persistent volume access modes | `1Gi`                                  |
 | `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
 | `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `healthCheck.enabled`      | liveness and readiness probes       | `false`                                |
+| `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
-| `deployment`               | deployment annotations initContainers| `{}`                                  |
-| `extraContainers`          | sidecar containers                  | `{}`                                   |
+| `lifecycle`                | Pod lifecycle                       | `{}`                                   |
+| `deployment.additionalVolumes`| Deployment additionalVolumes     | `[]`                                   |
+| `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 

@@ -15,14 +15,14 @@ metadata:
 {{- if .Values.labels }}
 {{ toYaml .Values.labels | indent 4 }}
 {{- end }}
-{{- if .Values.deployment.annotations }}
+{{- if .Values.annotations }}
   annotations:
-{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "nacos.fullname" . }}-headless
+  serviceName: {{ template "mod-chart.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -38,20 +38,17 @@ spec:
   {{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
-{{- if .Values.metrics.podAnnotations.enabled }}
+{{- if .Values.metrics.podAnnotations }}
 {{ toYaml .Values.metrics.podAnnotations | indent 8 }}
 {{- end }}
       labels:
         app: {{ template "mod-chart.name" . }}
         release: {{ .Release.Name }}
     spec:
-      {{- if .Values.image.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ .Values.image.imagePullSecrets }}
-      {{- end }}
-      {{- if .Values.deployment.initContainers }}
+{{ toYaml (include "mod-chart.imagePullSecrets" .) | indent 8 }}
+      {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -84,13 +81,11 @@ spec:
 {{ toYaml .Values.metrics.resources | indent 12 }}
 {{- end }}
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.deployment.postStart.command }}
+          image: {{ template "mod-chart.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.lifecycle }}
           lifecycle:
-            postStart:
-              exec:
-                command: {{ .Values.postStart.command }}
+{{ toYaml .Values.lifecycle | indent 12 }}
           {{- end }}
           {{- if .Values.startCommand }}
           command:
@@ -143,8 +138,8 @@ spec:
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
-        {{- if .Values.deployment.additionalContainers }}
-{{ toYaml .Values.deployment.additionalContainers | indent 8 }}
+        {{- if .Values.additionalContainers }}
+{{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}

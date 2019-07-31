@@ -59,7 +59,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `extraContainers`          | sidecar containers                  | `{}`                                   |
 | `istio`                    | canary deployment and istio support.| see in values.yaml                     |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 ## Persistence
 

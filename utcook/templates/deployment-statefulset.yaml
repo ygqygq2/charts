@@ -48,8 +48,8 @@ spec:
         version: {{ template "utcook.version" . }}
         canary: "false"
     spec:
-{{- include "moodle.imagePullSecrets" . | indent 6 }}
-
+		  imagePullSecrets:
+{{- include "utcook.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
 {{ toYaml .Values.initContainers | indent 6 }}
