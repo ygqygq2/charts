@@ -45,7 +45,7 @@ spec:
         app: {{ template "mod-chart.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{ toYaml (include "mod-chart.imagePullSecrets" .) | indent 8 }}
+{{- include "mod-chart.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
 {{ toYaml .Values.initContainers | indent 8 }}
