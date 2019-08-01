@@ -35,7 +35,7 @@ spec:
   template:
     metadata:
       annotations:
-  {{- if .Values.podAnnotations }}
+{{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
 {{- if .Values.metrics.podAnnotations }}
@@ -75,7 +75,7 @@ spec:
             httpGet:
               path: /metrics
               port: metrics
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15
             timeoutSeconds: 1
           resources:
 {{ toYaml .Values.metrics.resources | indent 12 }}
@@ -83,6 +83,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ template "mod-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.securityContext }}
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}			
+          {{- end }}					
           {{- if .Values.lifecycle }}
           lifecycle:
 {{ toYaml .Values.lifecycle | indent 12 }}

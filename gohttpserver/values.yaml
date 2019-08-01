@@ -21,7 +21,7 @@ image:
   repository: codeskyblue/gohttpserver
   tag: latest
   pullPolicy: IfNotPresent
-  imagePullSecrets: [] 
+  pullSecrets: [] 
 
 service:
   type: ClusterIP

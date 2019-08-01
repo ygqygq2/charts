@@ -127,7 +127,9 @@ spec:
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
         {{- end }}
+{{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
@@ -135,12 +137,12 @@ spec:
         {{- if .Values.config.enabled }}
         - name: {{ template "zipkin.name" . }}-conf
           configMap:
-            name: {{ template "zipkin.name" . }}
+            name: {{ template "zipkin.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
         - name: {{ template "zipkin.name" . }}-secret
           secret:
-            secretName: {{ template "zipkin.name" . }}
+            secretName: {{ template "zipkin.fullname" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}

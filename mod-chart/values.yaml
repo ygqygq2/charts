@@ -154,10 +154,6 @@ ingress:  # 是否使用nginx暴露域名或端口
   #    hosts:
   #      - chart-example.local
 
-## Add init containers. e.g. to be used to give specific permissions for data
-## Add your own init container or uncomment and modify the given example.
-initContainers: []
-
 ## Prometheus Exporter / Metrics
 ##
 metrics:
@@ -195,6 +191,11 @@ lifecycle: {}
 ## Deployment additional volumes.
 deployment:
   additionalVolumes: []
+
+## Container Security Context
+securityContext: {}
+#   fsGroup: 1001
+#   runAsUser: 1001				
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/

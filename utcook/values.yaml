@@ -22,7 +22,6 @@ nameOverride: ""
 ##
 fullnameOverride: ""
 
-
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
 deploymentStrategy: {}
@@ -39,13 +38,13 @@ image:
   repository: bitnami/nginx
   tag: latest
   pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
-  imagePullSecrets: []   # 如果需要docker仓库验证
+  pullSecrets: []   # 如果需要docker仓库验证
   #  - private-registry-key
 
 ## Istio named service ports
 ## ref: https://istio.io/docs/setup/kubernetes/prepare/requirements/
 service:
-  # name: 
+  name: ""
   type: ClusterIP  # 一般不用修改
   ingressPort: 8080
   ports:

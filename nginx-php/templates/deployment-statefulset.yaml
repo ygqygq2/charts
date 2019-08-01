@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "nginx-php.fullname" . }}
+  serviceName: {{ template "nginx-php.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -34,23 +34,21 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
-    {{- if .Values.podAnnotations }}
       annotations:
-{{ toYaml .Values.podAnnotations | indent 8}}
-    {{- end }}
+{{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
+{{- if .Values.metrics.podAnnotations }}
+{{ toYaml .Values.metrics.podAnnotations | indent 8 }}
+{{- end }}
       labels:
         app: {{ template "nginx-php.name" . }}
         release: {{ .Release.Name }}
     spec:
-      securityContext:
-        runAsUser: 999
-      imagePullSecrets:
-      {{- range .Values.image.imagePullSecrets }}
-        - name: {{ . }}
-      {{- end }}
+{{- include "nginx-php.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -60,8 +58,12 @@ spec:
 {{ toYaml .Values.tolerations | indent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ template "nginx-php.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.securityContext }}
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}			
+          {{- end }}					
           {{- if .Values.lifecycle }}
           lifecycle:
 {{ toYaml .Values.lifecycle | indent 12 }}
@@ -106,28 +108,53 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
-            - name: {{ template "nginx-php.fullname" . }}-conf
+            - name: {{ template "nginx-php.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
             {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "nginx-php.fullname" . }}-secret
+            - name: {{ template "nginx-php.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
+{{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }}
+{{- if .Values.metrics.enabled }}
+        - name: metrics
+          image: {{ template "nginx-php.metrics.image" . }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
+          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8081/nginx_status']
+          ports:
+          - name: metrics
+            containerPort: 9113
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+          resources:
+{{ toYaml .Values.metrics.resources | indent 12 }}
+{{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
-        - name: {{ template "nginx-php.fullname" . }}-conf
+        - name: {{ template "nginx-php.name" . }}-conf
           configMap:
             name: {{ template "nginx-php.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "nginx-php.fullname" . }}-secret
+        - name: {{ template "nginx-php.name" . }}-secret
           secret:
             secretName: {{ template "nginx-php.fullname" . }}
         {{- end }}

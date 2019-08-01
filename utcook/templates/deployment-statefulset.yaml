@@ -48,7 +48,6 @@ spec:
         version: {{ template "utcook.version" . }}
         canary: "false"
     spec:
-		  imagePullSecrets:
 {{- include "utcook.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
