@@ -127,17 +127,19 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
-            - name: {{ template "mod-chart.fullname" . }}-conf
+            - name: {{ template "mod-chart.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
             {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "mod-chartc.fullname" . }}-secret
+            - name: {{ template "mod-chartc.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
+{{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
@@ -145,12 +147,12 @@ spec:
         {{- if .Values.config.enabled }}
         - name: {{ template "mod-chart.name" . }}-conf
           configMap:
-            name: {{ template "mod-chart.name" . }}
+            name: {{ template "mod-chart.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
         - name: {{ template "mod-chart.name" . }}-secret
           secret:
-            secretName: {{ template "mod-chart.name" . }}
+            secretName: {{ template "mod-chart.fullname" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}

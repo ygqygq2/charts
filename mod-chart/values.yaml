@@ -140,6 +140,7 @@ persistentVolume:   # 是否存储持久化
   #    mountPath: /data
   #    subPath: data
 
+## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:  # 是否使用nginx暴露域名或端口
   enabled: false
   annotations: {}

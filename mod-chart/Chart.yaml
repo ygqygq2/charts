@@ -17,4 +17,3 @@ maintainers:
   name: Chinge Yang
 sources:
 - https://github.com/bitnami/bitnami-docker-nginx
-version: 2.1.2
