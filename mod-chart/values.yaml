@@ -46,7 +46,7 @@ service:
   type: ClusterIP  # 一般不用修改
   ingressPort: 8080
   ports:
-    web:  # 多端口暴露时，复制一段
+    http:  # 多端口暴露时，复制一段
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
 
