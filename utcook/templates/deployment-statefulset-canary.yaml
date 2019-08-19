@@ -20,9 +20,9 @@ metadata:
 {{- if $.Values.labels }}
 {{ toYaml $.Values.labels | indent 4 }}
 {{- end }}
-{{- if $.Values.deployment.annotations }}
+{{- if $.Values.annotations }}
   annotations:
-{{ toYaml $.Values.deployment.annotations | indent 4 }}
+{{ toYaml $.Values.annotations | indent 4 }}
 {{- end }}
 spec:
   replicas: {{ $svalue.replicaCount }}
@@ -51,10 +51,10 @@ spec:
         version: {{ $svalue.image.tag }}
         canary: "true"
     spec:
-{{- include "utcook.imagePullSecrets" . | indent 6 }}
-      {{- if $.Values.deployment.initContainers }}
+{{- include "utcook.imagePullSecrets" $ | indent 6 }}
+      {{- if $.Values.initContainers }}
       initContainers:
-{{ toYaml $.Values.deployment.initContainers | indent 6 }}
+{{ toYaml $.Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml $.Values.nodeSelector | indent 8 }}
@@ -65,19 +65,14 @@ spec:
       containers:
         - name: {{ $.Chart.Name }}
           image: "{{ $svalue.image.repository }}:{{ $svalue.image.tag }}"
-          {{- if $.Values.global.imagePullSecrets }}
-          imagePullSecrets:
-            {{- range $.Values.global.imagePullSecrets }}
-            - name: {{ $root }}
-            {{- end }}
-          {{- else }}
-          imagePullPolicy: {{ $svalue.image.pullPolicy }}
+          imagePullPolicy: {{ $.Values.image.pullPolicy | quote }}
+          {{- if $.Values.securityContext }}
+          securityContext:
+{{ toYaml $.Values.securityContext | indent 12 }}
           {{- end }}
-          {{- if $.Values.deployment.postStart.command }}
+          {{- if $.Values.lifecycle }}
           lifecycle:
-            postStart:
-              exec:
-                command: {{ $.Values.postStart.command }}
+{{ toYaml $.Values.lifecycle | indent 12 }}
           {{- end }}
           {{- if $.Values.startCommand }}
           command:
@@ -119,19 +114,21 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if $.Values.config.enabled }}
-            - name: {{ template "utcook.fullname" $root }}-conf
+            - name: {{ template "utcook.name" $root }}-conf
               mountPath: {{ $.Values.config.mountPath }}
               subPath: {{ $.Values.config.subPath }}
             {{- end }}
             {{- if $.Values.secret.enabled }}
-            - name: {{ template "utcook.fullname" $root }}-secret
+            - name: {{ template "utcook.name" $root }}-secret
               mountPath: {{ $.Values.secret.mountPath }}
               subPath: {{ $.Values.secret.subPath }}
               readOnly: {{ $.Values.secret.readOnly }}
             {{- end }}
+{{- if $.Values.persistentVolume.mountPaths }}
 {{ toYaml $.Values.persistentVolume.mountPaths | indent 12 }}
-        {{- if $.Values.deployment.additionalContainers }}
-{{ toYaml $.Values.deployment.additionalContainers | indent 8 }}
+{{- end }}
+        {{- if $.Values.additionalContainers }}
+{{ toYaml $.Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if $.Values.config.enabled }}

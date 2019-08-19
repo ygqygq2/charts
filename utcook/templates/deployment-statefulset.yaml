@@ -63,6 +63,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ template "utcook.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.securityContext }}                                                
+          securityContext:                                                                 
+{{ toYaml .Values.securityContext | indent 12 }}                                           
+          {{- end }} 
           {{- if .Values.lifecycle }}
           lifecycle:
 {{ toYaml .Values.lifecycle | indent 12 }}
@@ -107,19 +111,19 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
-            - name: {{ template "utcook.fullname" . }}-conf
+            - name: {{ template "utcook.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
             {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "utcook.fullname" . }}-secret
+            - name: {{ template "utcook.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
 {{- if .Values.persistentVolume.mountPaths }} 
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
-{{- end }} 
+{{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}

@@ -10,6 +10,7 @@ This chart bootstraps utcook deployment on a [Kubernetes](http://kubernetes.io) 
 
 - Kubernetes 1.6+
 - PV provisioner support in the underlying infrastructure
+- Helm v2.13.0+
 
 ## Installing the Chart
 
