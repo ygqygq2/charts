@@ -35,6 +35,7 @@ replicaCount: 1
 
 ## 容器image及tag
 image:
+  registry: docker.io 
   repository: bitnami/nginx
   tag: latest
   pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
@@ -73,6 +74,8 @@ startCommand: []
 config:
   enabled: false
   mountPath: /conf
+  subPath: ""
+  readOnly: true
   data: {}
 
 ## To use an additional secret, set enable to true and add data
@@ -278,6 +281,30 @@ istio:
     #     serverCertificate: /etc/certs/servercert.pem
     #     privateKey: /etc/certs/privatekey.pem
 
+## Prometheus Exporter / Metrics
+##
+metrics:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: nginx/nginx-prometheus-exporter
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    pullSecrets: []
+    #   - myRegistrKeySecretName
+  ## Metrics exporter pod Annotation and Labels
+  podAnnotations:
+    # prometheus.io/scrape: "true"
+    # prometheus.io/port: "9113"
+    ## Metrics exporter resource requests and limits
+    ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+    ##
+  resources: {}
+
 ## Uncomment and modify this to run a command after starting the core container.
 ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
 lifecycle: {}
@@ -290,6 +317,11 @@ lifecycle: {}
   
 deployment:
   additionalVolumes: []
+
+## Container Security Context                                                              
+securityContext: {}                                                                        
+#   fsGroup: 1001                                                                          
+#   runAsUser: 1001    
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
@@ -304,8 +336,8 @@ initContainers: {}
 #      - name: extra-data
 #        mountPath: /extra-data
 
-additionalContainers: {}
 ## Additional containers to be added to the core pod.
+additionalContainers: {}
 #  - name: my-sidecar
 #    image: nginx:latest
 #  - name: lemonldap-ng-controller

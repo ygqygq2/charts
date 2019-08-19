@@ -51,10 +51,7 @@ spec:
         version: {{ $svalue.image.tag }}
         canary: "true"
     spec:
-      {{- if $.Values.image.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ $.Values.image.imagePullSecrets }}
-      {{- end }}
+{{- include "utcook.imagePullSecrets" . | indent 6 }}
       {{- if $.Values.deployment.initContainers }}
       initContainers:
 {{ toYaml $.Values.deployment.initContainers | indent 6 }}

@@ -51,7 +51,7 @@ spec:
 {{- include "utcook.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -117,18 +117,20 @@ spec:
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
+{{- if .Values.persistentVolume.mountPaths }} 
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }} 
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
-        - name: {{ template "utcook.fullname" . }}-conf
+        - name: {{ template "utcook.name" . }}-conf
           configMap:
             name: {{ template "utcook.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "utcook.fullname" . }}-secret
+        - name: {{ template "utcook.name" . }}-secret
           secret:
             secretName: {{ template "utcook.fullname" . }}
         {{- end }}
