@@ -56,8 +56,9 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
 | `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
-| `deployment`               | deployment annotations initContainers| `{}`                                  |
-| `extraContainers`          | sidecar containers                  | `{}`                                   |
+| `lifecycle`                | Pod lifecycle                       | `{}`                                   |
+| `deployment.additionalVolumes`| deployment annotations initContainers| `{}`                               |
+| `additionalContainers`     | sidecar containers                  | `{}`                                   |
 | `istio`                    | canary deployment and istio support.| see in values.yaml                     |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
