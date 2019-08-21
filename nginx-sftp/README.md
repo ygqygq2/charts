@@ -48,6 +48,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | nginx image, tag.                   | `bitnami/nginx` `1.14.2`               |
 | `ingress`                  | Ingress for the nginx-sftp.         | `false`                                |
+| `metrics.enabled`          | Prometheus metrics                  | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteMany]`                      |
@@ -57,9 +58,9 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
 | `healthCheck.enabled`      | Liveness and readiness probes       | `false`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
-| `deployment`               | deployment annotations initContainers| `{}`                                  |
-| `extraContainers`          | sidecar containers                  | `{}`                                   |
-| `metrics`                  | nginx metrics                       | see more in `values.yaml`              |
+| `lifecycle`                | Pod lifecycle                       | `{}`                                   |
+| `deployment.additionalVolumes`| Deployment additionalVolumes     | `[]`                                   |
+| `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 | `sftp`                     | sftp to upload files                | see more in `values.yaml`              |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.

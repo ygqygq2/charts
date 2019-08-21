@@ -3,7 +3,7 @@ appVersion: nginx-1.10.3_php-7.0
 description: Chart for the nginx server
 engine: gotpl
 name: nginx-php-sftp
-version: 1.0.0
+version: 1.0.1
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:

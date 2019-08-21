@@ -23,7 +23,7 @@ nginx-sftp can be accessed:
     {{- else if contains "LoadBalancer" .Values.service.type }}
 
      WARNING: You have likely exposed your nginx-sftp direct to the internet.
-              nginx-sftp does not implement any security for public facing clusters by default.
+              Nginx does not implement any security for public facing clusters by default.
               As a minimum level of security; switch to ClusterIP/NodePort and place an Nginx gateway infront of the cluster in order to lock down access to dangerous HTTP endpoints and verbs.
 
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.

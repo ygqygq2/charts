@@ -70,6 +70,8 @@ startCommand: []
 config:
   enabled: false
   mountPath: /conf
+  subPath: ""
+  readOnly: true
   data: {}
 
 ## To use an additional secret, set enable to true and add data

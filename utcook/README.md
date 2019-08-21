@@ -11,13 +11,15 @@ This chart bootstraps utcook deployment on a [Kubernetes](http://kubernetes.io) 
 - Kubernetes 1.6+
 - PV provisioner support in the underlying infrastructure
 - Helm v2.13.0+
+- Istio v1.0.0+
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install my-release utcook
+$ helm install --name my-release utcook  # helm v2
+$ helm install my-release utcook  # helm v3
 ```
 
 The command deploys utcook cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -27,7 +29,8 @@ The command deploys utcook cluster on the Kubernetes cluster in the default conf
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-$ helm delete my-release
+$ helm delete [--purge] my-release  # helm v2
+$ helm delete my-release  # helm v3
 ```
 
 ## Configuration

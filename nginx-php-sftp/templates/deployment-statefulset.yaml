@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "nginx-php-sftp.fullname" . }}
+  serviceName: {{ template "nginx-php-sftp.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -50,13 +50,10 @@ spec:
         app: {{ template "nginx-php-sftp.name" . }}
         release: {{ .Release.Name }}
     spec:
-      imagePullSecrets:
-      {{- range .Values.image.imagePullSecrets }}
-        - name: {{ . }}
-      {{- end }}
+{{- include "nginx-php-sftp.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
-{{ toYaml .Values.initContainers | indent 6 }}
+{{ toYaml .Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -65,11 +62,74 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       containers:
+        - name: nginx-php
+          image: {{ template "nginx-php-sftp.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.securityContext }}
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}			
+          {{- end }}					
+          {{- if .Values.lifecycle }}
+          lifecycle:
+{{ toYaml .Values.lifecycle | indent 12 }}
+          {{- end }}
+          {{- if .Values.startCommand }}
+          command:
+{{ toYaml .Values.startCommand |indent 12 }}
+          {{- end }}
+          env:
+{{ toYaml .Values.env | indent 12 }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+            {{- range $key, $value := .Values.service.ports }}
+            - name: {{ $key }}
+              containerPort: {{ $value.port }}
+              protocol: {{ $value.protocol }}
+            {{- end }}
+          {{- if .Values.healthCheck.enabled }}
+          livenessProbe:
+            {{- if eq .Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ .Values.healthCheck.httpPath }}
+              port: {{ .Values.healthCheck.port }}
+            {{- else }}
+            tcpSocket:
+              port: {{ .Values.healthCheck.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.healthCheck.livenessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.livenessPeriodSeconds }}
+          readinessProbe:
+            {{- if eq .Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ .Values.healthCheck.httpPath }}
+              port: {{ .Values.healthCheck.port }}
+            {{- else }}
+            tcpSocket:
+              port: {{ .Values.healthCheck.port }}
+            {{- end }}
+            initialDelaySeconds: {{ .Values.healthCheck.readinessInitialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
+          {{- end }}
+          volumeMounts:
+            {{- if .Values.vhost }}
+            - name: {{ template "nginx-php-sftp.name" . }}-vhost
+              mountPath: /opt/bitnami/nginx/conf/vhosts
+            {{- end }}
+            {{- if .Values.secret.enabled }}
+            - name: {{ template "nginx-php-sftp.name" . }}-secret
+              mountPath: {{ .Values.secret.mountPath }}
+              subPath: {{ .Values.secret.subPath }}
+              readOnly: {{ .Values.secret.readOnly }}
+            {{- end }}
+{{- if .Values.persistentVolume.mountPaths }}
+{{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }}
 {{- if .Values.metrics.enabled }}
         - name: metrics
-          image: {{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}
+          image: {{ template "nginx-php-sftp.metrics.image" . }}
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
-          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8080/status']
+          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8081/nginx_status']
           ports:
           - name: metrics
             containerPort: 9113
@@ -121,71 +181,12 @@ spec:
           - name: data-storage
             mountPath: /home/dev/upload/
 {{- end }}
-        - name: nginx-php
-          securityContext:
-            runAsUser: 999
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.lifecycle }}
-          lifecycle:
-{{ toYaml .Values.lifecycle | indent 12 }}
-          {{- end }}
-          {{- if .Values.startCommand }}
-          command:
-{{ toYaml .Values.startCommand |indent 12 }}
-          {{- end }}
-          env:
-{{ toYaml .Values.env | indent 12 }}
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-          ports:
-            {{- range $key, $value := .Values.service.ports }}
-            - name: {{ $key }}
-              containerPort: {{ $value.port }}
-              protocol: {{ $value.protocol }}
-            {{- end }}
-          {{- if .Values.healthCheck.enabled }}
-          livenessProbe:
-            {{- if eq .Values.healthCheck.type "http" }}
-            httpGet:
-              path: {{ .Values.healthCheck.httpPath }}
-              port: {{ .Values.healthCheck.port }}
-            {{- else }}
-            tcpSocket:
-              port: {{ .Values.healthCheck.port }}
-            {{- end }}
-            initialDelaySeconds: {{ .Values.healthCheck.livenessInitialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.livenessPeriodSeconds }}
-          readinessProbe:
-            {{- if eq .Values.healthCheck.type "http" }}
-            httpGet:
-              path: {{ .Values.healthCheck.httpPath }}
-              port: {{ .Values.healthCheck.port }}
-            {{- else }}
-            tcpSocket:
-              port: {{ .Values.healthCheck.port }}
-            {{- end }}
-            initialDelaySeconds: {{ .Values.healthCheck.readinessInitialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
-          {{- end }}
-          volumeMounts:
-            {{- if .Values.vhost }}
-            - name: {{ template "nginx-php-sftp.fullname" . }}-vhost
-              mountPath: /opt/bitnami/nginx/conf/vhosts
-            {{- end }}
-            {{- if .Values.secret.enabled }}
-            - name: {{ template "nginx-php-sftp.name" . }}-secret
-              mountPath: {{ .Values.secret.mountPath }}
-              subPath: {{ .Values.secret.subPath }}
-              readOnly: {{ .Values.secret.readOnly }}
-            {{- end }}
-{{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
         {{- if .Values.vhost }}
-        - name: {{ template "nginx-php-sftp.fullname" . }}-vhost
+        - name: {{ template "nginx-php-sftp.name" . }}-vhost
           configMap:
             name: {{ template "nginx-php-sftp.fullname" . }}-vhost
         {{- end }}
@@ -210,12 +211,12 @@ spec:
               path: bindmount.sh
         {{- end }}
         {{- if .Values.config.enabled }}
-        - name: {{ template "nginx-php-sftp.fullname" . }}-conf
+        - name: {{ template "nginx-php-sftp.name" . }}-conf
           configMap:
             name: {{ template "nginx-php-sftp.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "nginx-php-sftp.fullname" . }}-secret
+        - name: {{ template "nginx-php-sftp.name" . }}-secret
           secret:
             secretName: {{ template "nginx-php-sftp.fullname" . }}
         {{- end }}

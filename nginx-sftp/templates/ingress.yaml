@@ -33,6 +33,6 @@ spec:
           - path: {{ $ingressPath }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: {{ $.Values.service.ports.web.port }}
+              servicePort: {{ $.Values.service.ingressPort }}
   {{- end }}
 {{- end }}

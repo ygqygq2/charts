@@ -53,10 +53,6 @@ spec:
   - match:
 {{ toYaml .Values.istio.virtualService.match | indent 6 }}
   {{- end }}
-  {{- if .Values.istio.virtualService.redirect }}
-  - redirect :
-{{ toYaml .Values.istio.virtualService.redirect | indent 6 }}
-  {{- end }}
   {{- if .Values.istio.virtualService.rewrite }}
   - rewrite:
 {{ toYaml .Values.istio.virtualService.rewrite | indent 6 }}

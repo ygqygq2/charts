@@ -48,18 +48,19 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | `nginx-php-sftp` image, tag.            | `1and1internet/ubuntu-16-nginx-php-7.0` `latest`|
 | `ingress`                  | Ingress for the nginx-php-sftp.         | `false`                                |
+| `metrics.enabled`          | Prometheus metrics                  | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteMany]`                      |
+| `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteMany]`                      |
 | `persistentVolume.size`         | Persistent volume access modes | `500Mi`                                |
-| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                              |
 | `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
-| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
 | `healthCheck.enabled`      | Liveness and readiness probes       | `false`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
-| `deployment`               | deployment annotations initContainers| `{}`                                  |
-| `extraContainers`          | sidecar containers                  | `{}`                                   |
-| `metrics`                  | nginx metrics                       | see more in `values.yaml`              |
+| `lifecycle`                | Pod lifecycle                       | `{}`                                   |
+| `deployment.additionalVolumes`| Deployment additionalVolumes     | `[]`                                   |
+| `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 | `sftp`                     | sftp to upload files                | see more in `values.yaml`              |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
@@ -67,5 +68,5 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ## Persistence
 
 The two cantainers share the volume, then sftp can manage nginx's files.
-The [nginx-php-sftp image](https://github.com/ygqygq2/sftp) stores the data and configurations at the `/home/dev/upload` path of the container.
+The [sftp image](https://github.com/ygqygq2/sftp) stores the data and configurations at the `/home/dev/upload` path of the container.
 
