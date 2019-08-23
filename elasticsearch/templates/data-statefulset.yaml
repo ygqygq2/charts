@@ -146,6 +146,10 @@ spec:
         {{- end }}
         - name: "data"
           mountPath: "/bitnami/elasticsearch/data"
+          subPath: "data"
+        - name: "data"
+          mountPath: "/bitnami/elasticsearch/plugins"
+          subPath: "plugins"
       volumes:
       {{- if .Values.config }}
       - name: "config"
