@@ -103,6 +103,8 @@ spec:
         - >
           set -e;
           set -x;
+          chown elasticsearch:elasticsearch -R /usr/share/elasticsearch/config;
+          chown elasticsearch:elasticsearch -R /usr/share/elasticsearch/plugins;
           chown elasticsearch:elasticsearch /usr/share/elasticsearch/data;
           for datadir in $(find /usr/share/elasticsearch/data -mindepth 1 -maxdepth 1 -not -name ".snapshot"); do
             chown -R elasticsearch:elasticsearch $datadir;
@@ -120,12 +122,13 @@ spec:
 {{- if .Values.extraInitContainers }}
 {{ tpl .Values.extraInitContainers . | indent 6 }}
 {{- end }}
-{{- if .Values.cluster.plugins }}
-{{ include "plugin-installer" . | indent 6 }}
-{{- end }}
       containers:
       - name: elasticsearch
         env:
+        {{- if .Values.cluster.plugins }}
+        - name: ELASTICSEARCH_PLUGINS
+          value: {{ .Values.cluster.plugins | quote }}
+        {{- end }}
         - name: NODE_DATA
           value: "false"
 {{- if hasPrefix "5." .Values.appVersion }}
@@ -167,10 +170,6 @@ spec:
         - mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           name: config
           subPath: elasticsearch.yml
-{{- if .Values.cluster.plugins }}
-        - mountPath: /usr/share/elasticsearch/plugins/
-          name: plugindir
-{{- end }}
 {{- if hasPrefix "2." .Values.appVersion }}
         - mountPath: /usr/share/elasticsearch/config/logging.yml
           name: config
@@ -220,10 +219,6 @@ spec:
       - name: config
         configMap:
           name: {{ template "elasticsearch.fullname" . }}
-{{- if .Values.cluster.plugins }}
-      - name: plugindir
-        emptyDir: {}
-{{- end }}
 {{- if .Values.cluster.keystoreSecret }}
       - name: keystore
         secret:
