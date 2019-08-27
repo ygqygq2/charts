@@ -32,7 +32,7 @@ image:
 sysctlImage:
   enabled: false
   registry: docker.io
-  repository: bitnami/minideb
+  repository: alpine
   tag: latest
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

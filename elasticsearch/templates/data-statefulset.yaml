@@ -72,7 +72,7 @@ spec:
       - name: sysctl
         image: {{ template "elasticsearch.sysctl.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        command: ['sh', '-c', 'install_packages systemd && sysctl -w vm.max_map_count=262144 && sysctl -w fs.file-max=65536']
+        command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144 && sysctl -w fs.file-max=65536']
         securityContext:
           privileged: true
       {{- end }}
@@ -83,7 +83,7 @@ spec:
         command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.fsGroup }}", "/bitnami/elasticsearch/data"]
         securityContext:
           runAsUser: 0
-        resources: {{ toYaml .Values.volumePermissions.resources | nindent 10 }}
+        resources: {{ toYaml .Values.volumePermissions.resources | indent 10 }}
         volumeMounts:
         - name: data
           mountPath: "/bitnami/elasticsearch/data"
@@ -147,9 +147,6 @@ spec:
         - name: "data"
           mountPath: "/bitnami/elasticsearch/data"
           subPath: "data"
-        - name: "data"
-          mountPath: "/bitnami/elasticsearch/plugins"
-          subPath: "plugins"
       volumes:
       {{- if .Values.config }}
       - name: "config"
