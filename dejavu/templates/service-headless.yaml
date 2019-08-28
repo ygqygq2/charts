@@ -1,0 +1,22 @@
+{{- if .Values.statefulset.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "dejavu.fullname" . }}-headless
+  labels:
+    app: {{ template "dejavu.name" . }}
+    chart: {{ template "dejavu.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  clusterIP: None
+  ports:
+  {{- range $key, $value := .Values.service.ports }}
+    - name: {{ $key }}
+      targetPort: {{ $key }}
+{{ toYaml $value | indent 6 }}
+  {{- end }}
+  selector:
+    app: {{ template "dejavu.name" . }}
+    release: {{ .Release.Name }}
+{{- end -}}

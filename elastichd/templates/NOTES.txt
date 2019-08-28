@@ -10,7 +10,7 @@ elastichd can be accessed:
     {{- end -}}
     {{- end -}}
 
-  * Within your cluster, at the following DNS name at port 8080:
+  * Within your cluster, at the following DNS name at port 9800:
 
     {{ template "elastichd.fullname" . }}.{{ .Release.Namespace }}.svc
 
@@ -30,12 +30,12 @@ elastichd can be accessed:
            You can watch the status of by running 'kubectl get svc -w {{ template "elastichd.fullname" . }}'
 
     export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "elastichd.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    echo http://$SERVICE_IP:8080
+    echo http://$SERVICE_IP:9800
     {{- else if contains "ClusterIP"  .Values.service.type }}
 
     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "elastichd.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-    echo "Visit http://127.0.0.1:8080 to use elastichd"
-    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME 8080:8080
+    echo "Visit http://127.0.0.1:9800 to use elastichd"
+    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME 9800:9800
     {{- end }}
 
 

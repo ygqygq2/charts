@@ -1,17 +1,10 @@
-# elastichd - A elasticsearch visual management tool.
+# dejavu - The missing Web UI for Elasticsearch
 
-[ElasticHD](https://360EntSecGroup-Skylar/ElasticHD) is a ElasticSearch visual management tool. It does not require any software. It works in your web browser, allowing you to manage and monitor your ElasticSearch clusters from anywhere at any time. Built on responsive CSS design, ElasticHD adjusts itself to any screen size on any device.The following functions are supported：
-
-* ES Real time data search and query
-* ES Dashboard data visualization
-* ES Indices Management
-* Managing Type Mappings
-* SQL Converts to Elasticsearch DSL
-* Device Friendly
+[dejavu](https://github.com/appbaseio/dejavu) is the missing web UI for Elasticsearch.
 
 ## Introduction
 
-This chart bootstraps elastichd deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps dejavu deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
@@ -23,10 +16,10 @@ This chart bootstraps elastichd deployment on a [Kubernetes](http://kubernetes.i
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/elastichd
+$ helm install --name my-release mycharts/dejavu
 ```
 
-The command deploys elastichd cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+The command deploys dejavu cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 ### Uninstall
 
@@ -46,13 +39,13 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `global`                   | Global setting                      | see in values.yaml                     |
 | `deploymentStrategy`       | Deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | Replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 9800                 |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 1358                 |
 | `env`                      | Container env setting               | `[]`                                   |
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
-| `image`                    | `elastichd` image, tag.             | `containerize/elastichd` `latest`      |
-| `ingress`                  | Ingress for the elastichd.          | `false`                                |
+| `image`                    | `dejavu` image, tag.                | `appbaseio/dejavu` `3.4.0`             |
+| `ingress`                  | Ingress for the dejavu.             | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
@@ -67,4 +60,5 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
+
 

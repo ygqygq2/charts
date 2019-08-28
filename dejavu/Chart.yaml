@@ -1,0 +1,16 @@
+apiVersion: v1
+appVersion: 3.4.0
+description: Chart for the nginx server
+engine: gotpl
+name: dejavu
+version: 1.0.0
+home: https://github.com/appbaseio/dejavu
+icon: https://github.com/appbaseio/dejavu/blob/dev/app/src/images/dejavu-logo.svg
+keywords:
+- elasticsearch
+- web ui
+maintainers:
+- email: 29ygq@sina.com
+  name: Chinge Yang
+sources:
+- https://hub.docker.com/r/appbaseio/dejavu
