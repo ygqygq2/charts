@@ -38,35 +38,16 @@ spec:
   {{- end }}
   {{- end }}
   http:
-  {{- if .Values.istio.virtualService.timeout }}
-  - timeout: {{ .Values.istio.virtualService.timeout }}
-  {{- end }}
-  {{- if .Values.istio.virtualService.retries }}
-  - retries:
-{{ toYaml .Values.istio.virtualService.retries | indent 6 }}
-  {{- end }}
-  {{- if .Values.istio.virtualService.fault }}
-  - fault:
-{{ toYaml .Values.istio.virtualService.fault | indent 6 }}
-  {{- end }}
-  {{- if .Values.istio.virtualService.match }}
-  - match:
-{{ toYaml .Values.istio.virtualService.match | indent 6 }}
-  {{- end }}
-  {{- if .Values.istio.virtualService.rewrite }}
-  - rewrite:
-{{ toYaml .Values.istio.virtualService.rewrite | indent 6 }}
-  {{- end }}
-  {{- if .Values.istio.virtualService.mirror }}
-  - mirror:
-{{ toYaml .Values.istio.virtualService.mirror | indent 6 }}
-  {{- end }}
   - route:
     - destination:
         host: {{ template "utcook.servicename" . }}
         subset: default
       weight: {{ .Values.istio.default.weight }}
+{{ toYaml .Values.istio.default.route | indent 4 }}
     {{- range $skey, $svalue := .Values.istio.canary }}
+  {{- if $svalue.routeAlone }}
+  - route:
+  {{- end }}
     - destination:
         host: {{ template "utcook.servicename" $ }}
         subset: {{ $svalue.name }}
@@ -75,6 +56,7 @@ spec:
           number: {{ $.Values.service.ingressPort }}
         {{- end }}
       weight: {{ $svalue.weight }}
+{{ toYaml $svalue.route | indent 4 }}
     {{- end }}
 {{- end }}
 {{- end -}}

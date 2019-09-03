@@ -159,13 +159,24 @@ ingress:  # 是否使用nginx暴露域名或端口
   #    hosts:
   #      - chart-example.local
 
-## canary deployment
+## istio configure
 istio:
   enabled: false
+
+  ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/
+  ## canary默认一条路由规则
+  virtualService:
+    ## http/tcp
+    type: http
+
   ## default subset, 非canary
   default:
     weight: 100
-  ## canary subset
+    ## 是否单独一条route
+    routeAlone: false
+    route: {}
+
+  ## canary subset 
   canary:
     - name: v1
       replicaCount: 1
@@ -174,89 +185,71 @@ istio:
         repository: bitnami/nginx
         tag: latest
         pullPolicy: IfNotPresent
-  
-  ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRouteDestination
-    - route:
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v2
-      weight: 25
-    - destination:
-        host: reviews.prod.svc.cluster.local
-        subset: v1
-      weight: 75
-
-  ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/
-  virtualService:
-    ## http/tcp
-    type: http
-
-    ## corsPolicy
-    ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#CorsPolicy
-    corsPolicy: {}
-      # allowOrigin:
-      # - example.com
-      # allowMethods:
-      # - POST
-      # - GET
-      # allowCredentials: false
-      # allowHeaders:
-      # - X-Foo-Bar
-      # maxAge: "24h"
-
-    ## TCPRoute, when type is tcp
-    tcp: {}
-    #   route:
-    #   - destination:
-    #       host: mongo.backup.svc.cluster.local
-    #       port:
-    #         number: 27017
-
-    ## 全局，注意请求的重试和超时还可以针对每个请求分别设置
-    ## 超时设置，默认15s
-    timeout: ""
-    ## 重试次数
-    retries: {}
-    #   attempts: 3
-    #   perTryTimeout: 2s    
-
-    ## 故障注入
-    fault: {}
-    #   delay:
-    #     percentage:
-    #       value: 10
-    #     fixedDelay: 5s
-    #   abort:
-    #     percentage: 
-    #       value: 10
-    #     httpStatus: 400
+      ## 是否单独一条route
+      routeAlone: false
+      route: {}
+        ## corsPolicy
+        ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#CorsPolicy
+        # corsPolicy:
+          # allowOrigin:
+          # - example.com
+          # allowMethods:
+          # - POST
+          # - GET
+          # allowCredentials: false
+          # allowHeaders:
+          # - X-Foo-Bar
+          # maxAge: "24h"
     
-    ## HTTPMatchRequest
-    match: {}
-    #   - uri:
-    #       exact: /v1/getProductRatings
-    # 
-    #   - sourceLabels:
-    #    app: reviews
-    #   route:
-    #   - destination:
-    #       host: reviews.prod.svc.cluster.local
-    #       subset: v2
-
-    ## HTTPRedirect
-    redirect: {}
-    #   uri: /v1/bookRatings
-    #   authority: newratings.default.svc.cluster.local
-
-    ## HTTPRewrite
-    rewrite: {}
-    #   uri: /v1/bookRatings
-
-    ## mirror
-    mirror: {}
-    #   host: httpbin
-    #   subset: v2
-  
+        ## TCPRoute, when type is tcp
+        # tcp: 
+        #   route:
+        #   - destination:
+        #       host: mongo.backup.svc.cluster.local
+        #       port:
+        #         number: 27017
+    
+        ## 注意请求的重试和超时还可以针对每个请求分别设置
+        ## 超时设置，默认15s
+        # timeout: ""
+        ## 重试次数
+        # retries: 
+        #   attempts: 3
+        #   perTryTimeout: 2s    
+    
+        ## 故障注入
+        # fault: 
+        #   delay:
+        #     percentage:
+        #       value: 10
+        #     fixedDelay: 5s
+        #   abort:
+        #     percentage: 
+        #       value: 10
+        #     httpStatus: 400
+        
+        ## HTTPMatchRequest
+        # match: 
+        #   - uri:
+        #       exact: /v1/getProductRatings
+        # 
+        #   - sourceLabels:
+        #    app: reviews
+    
+        ## HTTPRedirect
+        # redirect: 
+        #   uri: /v1/bookRatings
+        #   authority: newratings.default.svc.cluster.local
+    
+        ## HTTPRewrite
+        ## 重写原语只能与HTTPRouteDesttion一起使用。
+        # rewrite: 
+        #   uri: /v1/bookRatings
+    
+        ## mirror
+        # mirror: 
+        #   host: httpbin
+        #   subset: v2
   
   serviceEntry:
     enabled: false

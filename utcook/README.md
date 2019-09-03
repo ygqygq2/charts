@@ -1,6 +1,6 @@
-# utcook - JAVA微服务模板
+# utcook - 支持istio的通用模板
 
-[utcook](https://)是什么
+[utcook](https://github.com/ygqygq2/charts/tree/master/utcook)是什么
 
 ## Introduction
 
@@ -65,8 +65,4 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `istio`                    | canary deployment and istio support.| see in values.yaml                     |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
-
-## Persistence
-
-The [utcook image](https://) stores the data and configurations at the `/data` path of the container.
 
