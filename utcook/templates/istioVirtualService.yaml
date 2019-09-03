@@ -43,7 +43,9 @@ spec:
         host: {{ template "utcook.servicename" . }}
         subset: default
       weight: {{ .Values.istio.default.weight }}
+{{- if .Values.istio.default.route }}
 {{ toYaml .Values.istio.default.route | indent 4 }}
+{{- end }}
     {{- range $skey, $svalue := .Values.istio.canary }}
   {{- if $svalue.routeAlone }}
   - route:
@@ -56,7 +58,9 @@ spec:
           number: {{ $.Values.service.ingressPort }}
         {{- end }}
       weight: {{ $svalue.weight }}
+{{- if $svalue.route }}
 {{ toYaml $svalue.route | indent 4 }}
+{{- end }}
     {{- end }}
 {{- end }}
 {{- end -}}
