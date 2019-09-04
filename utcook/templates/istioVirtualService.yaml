@@ -43,6 +43,9 @@ spec:
         host: {{ template "utcook.servicename" . }}
         subset: default
       weight: {{ .Values.istio.default.weight }}
+{{- if .Values.istio.default.destination }}
+{{ toYaml .Values.istio.default.destination | indent 6 }}
+{{- end }}
 {{- if .Values.istio.default.route }}
 {{ toYaml .Values.istio.default.route | indent 4 }}
 {{- end }}
@@ -58,6 +61,9 @@ spec:
           number: {{ $.Values.service.ingressPort }}
         {{- end }}
       weight: {{ $svalue.weight }}
+{{- if $svalue.destination }}
+{{ toYaml $svalue.destination | indent 6 }}
+{{- end }}
 {{- if $svalue.route }}
 {{ toYaml $svalue.route | indent 4 }}
 {{- end }}

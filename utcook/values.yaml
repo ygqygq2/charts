@@ -116,6 +116,7 @@ resources: {}
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
 labels: {}
 podAnnotations: {}
+  # sidecar.istio.io/inject: "true"
 nodeSelector: {}
 tolerations: []
 affinity: {}
@@ -171,35 +172,57 @@ istio:
 
   ## default subset, 非canary
   default:
-    weight: 100
-    ## 是否单独一条route
-    routeAlone: false
+    weight: 50
+    ## HTTPRouteDestination
+    destination: {}
+    ## HTTPRoute
     route: {}
 
   ## canary subset 
   canary:
     - name: v1
       replicaCount: 1
-      weight: 0
+      weight: 50
       image:
         repository: bitnami/nginx
         tag: latest
         pullPolicy: IfNotPresent
       ## 是否单独一条route
       routeAlone: false
-      route: {}
+      ## HTTPRouteDestination
+      destination: 
+        ## headers
+        # request:
+        #   add:
+        #     version: canary
+        # response:
+        #   add:
+        #     version: canary
+
+      ## HTTPRoute
+      route:
+        ## HTTPMatchRequest
+        # match: 
+        #   - headers:
+        #       end-user:
+        #         exact: jason
+        #   - uri:
+        #       exact: /v1/getProductRatings
+        # 
+        #   - sourceLabels:
+        #       canary: "true"
+
         ## corsPolicy
-        ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#CorsPolicy
         # corsPolicy:
-          # allowOrigin:
-          # - example.com
-          # allowMethods:
-          # - POST
-          # - GET
-          # allowCredentials: false
-          # allowHeaders:
-          # - X-Foo-Bar
-          # maxAge: "24h"
+        #   allowOrigin:
+        #   - example.com
+        #   allowMethods:
+        #   - POST
+        #   - GET
+        #   allowCredentials: false
+        #   allowHeaders:
+        #   - X-Foo-Bar
+        #   maxAge: "24h"
     
         ## TCPRoute, when type is tcp
         # tcp: 
@@ -228,14 +251,6 @@ istio:
         #       value: 10
         #     httpStatus: 400
         
-        ## HTTPMatchRequest
-        # match: 
-        #   - uri:
-        #       exact: /v1/getProductRatings
-        # 
-        #   - sourceLabels:
-        #    app: reviews
-    
         ## HTTPRedirect
         # redirect: 
         #   uri: /v1/bookRatings
