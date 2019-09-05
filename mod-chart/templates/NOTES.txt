@@ -5,12 +5,12 @@ mod-chart can be accessed:
     {{ if .Values.ingress.enabled }}
   * The application URL:
 
-    {{ range .Values.ingress.hosts }}
+    {{- range .Values.ingress.hosts }}
     http{{ if $.Values.ingress.tls }}s{{ end }}://{{ . }}{{ $.Values.ingress.path }}
     {{- end -}}
     {{- end -}}
 
-  * Within your cluster, at the following DNS name at port 8080:
+  * Within your cluster, at the following DNS name at port {{ .Values.service.ingressPort }}:
 
     {{ template "mod-chart.fullname" . }}.{{ .Release.Namespace }}.svc
 
@@ -34,8 +34,8 @@ mod-chart can be accessed:
     {{- else if contains "ClusterIP"  .Values.service.type }}
 
     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "mod-chart.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-    echo "Visit http://127.0.0.1:8080 to use mod-chart"
-    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME 8080:8080
+    echo "Visit http://127.0.0.1:{{ .Values.service.ingressPort }} to use mod-chart"
+    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME {{ .Values.service.ingressPort }}:{{ .Values.service.ingressPort }}
     {{- end }}
 
 
