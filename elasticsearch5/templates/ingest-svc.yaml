@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "elasticsearch.ingest.fullname" . }}
+  name: {{ template "elasticsearch5.ingest.fullname" . }}
   labels:
-    app: {{ template "elasticsearch.name" . }}
-    chart: {{ template "elasticsearch.chart" . }}
+    app: {{ template "elasticsearch5.name" . }}
+    chart: {{ template "elasticsearch5.chart" . }}
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
     role: "ingest"
@@ -26,7 +26,7 @@ spec:
     nodePort: {{ .Values.ingest.service.nodePort }}
     {{- end }}
   selector:
-    app: {{ template "elasticsearch.name" . }}
+    app: {{ template "elasticsearch5.name" . }}
     release: {{ .Release.Name | quote }}
     role: "ingest"
 {{- end }}

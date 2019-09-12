@@ -1,356 +1,327 @@
-## Global Docker image parameters
-## Please, note that this will override the image parameters, including dependencies, configured to use the global value
-## Current available global Docker image parameters: imageRegistry and imagePullSecrets
-##
-# global:
-#   imageRegistry: myRegistryName
-#   imagePullSecrets:
-#     - myRegistryKeySecretName
-#   storageClass: myStorageClass
+# Default values for elasticsearch.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+appVersion: "6.7.0"
+# 支持各种版本
+#appVersion: "5.6.16"
 
-## Bitnami Elasticsearch image version
-## ref: https://hub.docker.com/r/bitnami/elasticsearch/tags/
-##
-image:
-  registry: docker.io
-  repository: ygqygq2/elasticsearch
-  tag: 5.6.16-debian-9-r0
-  ## Specify a imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-  ##
-  pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
+## String to partially override fullname template (will maintain the release name)
+###
+nameOverride: ""
+#
+### String to fully override fullname template
+###
+fullnameOverride: ""
 
-## Image that performs the sysctl operation
+## Define serviceAccount names for components. Defaults to component's fully qualified name.
 ##
-sysctlImage:
+serviceAccounts:
+  client:
+    create: true
+    name:
+  master:
+    create: true
+    name:
+  data:
+    create: true
+    name:
+
+## Specify if a Pod Security Policy for node-exporter must be created
+## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+##
+podSecurityPolicy:
   enabled: false
-  registry: docker.io
-  repository: alpine
-  tag: latest
-  ## Specify a imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-  ##
-  pullPolicy: Always
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
-
-## Init containers parameters:
-## volumePermissions: Change the owner and group of the persistent volume mountpoint to runAsUser:fsGroup values from the securityContext section.
-##
-volumePermissions:
-  enabled: false
-  image:
-    registry: docker.io
-    repository: bitnami/minideb
-    tag: latest
-    pullPolicy: Always
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  annotations: {}
+    ## Specify pod annotations
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#apparmor
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#seccomp
+    ## Ref: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#sysctl
     ##
-    # pullSecrets:
-    #   - myRegistryKeySecretName
-  resources: {}
+    # seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+    # seccomp.security.alpha.kubernetes.io/defaultProfileName: 'docker/default'
+    # apparmor.security.beta.kubernetes.io/defaultProfileName: 'runtime/default'
 
-## String to partially override elasticsearch.fullname template (will maintain the release name)
-##
-# nameOverride:
+securityContext:
+  enabled: false
+  runAsUser: 1000
 
-## String to fully override elasticsearch.fullname template
+## Use an alternate scheduler, e.g. "stork".
+## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
 ##
-# fullnameOverride:
+schedulerName: ""
+# schedulerName: "default-scheduler"
 
-## Elasticsearch cluster name
-##
-name: elastic-es5
+image:
+  #repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  repository: "ygqygq2/elasticsearch"
+  tag: "6.7.0"
+  #tag: "5.6.16"
+  pullPolicy: "IfNotPresent"
+  # If specified, use these secrets to access the image
+  # pullSecrets:
+  #   - registry-secret
 
-## Comma, semi-colon or space separated list of plugins to install at initialization
-## ref: https://github.com/bitnami/bitnami-docker-elasticsearch#environment-variables
-##
-# plugins:
+testFramework:
+  image: "dduportal/bats"
+  tag: "0.4.0"
 
-## Customize elasticsearch configuration
-## ref: https://www.elastic.co/guide/en/elasticsearch/reference/current/settings.html
-##
-# config:
+initImage:
+  repository: "busybox"
+  tag: "latest"
+  pullPolicy: "Always"
 
-## Elasticsearch master-eligible node parameters
-##
+cluster:
+  name: "elasticsearch"
+  # If you want X-Pack installed, switch to an image that includes it, enable this option and toggle the features you want
+  # enabled in the environment variables outlined in the README
+  xpackEnable: false
+  # Some settings must be placed in a keystore, so they need to be mounted in from a secret.
+  # Use this setting to specify the name of the secret
+  # keystoreSecret: eskeystore
+  config: {}
+  # Custom parameters, as string, to be added to ES_JAVA_OPTS environment variable
+  additionalJavaOpts: ""
+  # Command to run at the end of deployment
+  bootstrapShellCommand: ""
+  env:
+    # IMPORTANT: https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#minimum_master_nodes
+    # To prevent data loss, it is vital to configure the discovery.zen.minimum_master_nodes setting so that each master-eligible
+    # node knows the minimum number of master-eligible nodes that must be visible in order to form a cluster.
+    MINIMUM_MASTER_NODES: "2"
+  ## Comma, semi-colon or space separated list of plugins to install at initialization
+  plugins: ""
+
+  loggingYml:
+    # you can override this using by setting a system property, for example -Des.logger.level=DEBUG
+    es.logger.level: INFO
+    rootLogger: ${es.logger.level}, console
+    logger:
+      # log action execution errors for easier debugging
+      action: DEBUG
+      # reduce the logging for aws, too much is logged under the default INFO
+      com.amazonaws: WARN
+    appender:
+      console:
+        type: console
+        layout:
+          type: consolePattern
+          conversionPattern: "[%d{ISO8601}][%-5p][%-25c] %m%n"
+
+  log4j2Properties: |
+    status = error
+    appender.console.type = Console
+    appender.console.name = console
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] %marker%m%n
+    rootLogger.level = info
+    rootLogger.appenderRef.console.ref = console
+    logger.searchguard.name = com.floragunn
+    logger.searchguard.level = info
+
+client:
+  name: client
+  replicas: 2
+  serviceType: ClusterIP
+  ## If coupled with serviceType = "NodePort", this will set a specific nodePort to the client HTTP port
+  # httpNodePort: 30920
+  loadBalancerIP: {}
+  loadBalancerSourceRanges: {}
+## (dict) If specified, apply these annotations to the client service
+#  serviceAnnotations:
+#    example: client-svc-foo
+  heapSize: "512m"
+  # additionalJavaOpts: "-XX:MaxRAM=512m"
+  antiAffinity: "soft"
+  nodeAffinity: {}
+  nodeSelector: {}
+  tolerations: []
+  # terminationGracePeriodSeconds: 60
+  initResources: {}
+    # limits:
+    #   cpu: "25m"
+    #   # memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "128Mi"
+  resources:
+    limits:
+      cpu: "1"
+      # memory: "1024Mi"
+    requests:
+      cpu: "25m"
+      memory: "512Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each client Pod
+  podAnnotations:
+  #   example: client-foo
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+    # maxUnavailable: 1
+  hooks:
+    ## (string) Script to execute prior the client pod stops.
+    preStop: |-
+
+    ## (string) Script to execute after the client pod starts.
+    postStart: |-
+  ingress:
+    enabled: false
+    # user: NAME
+    # password: PASSWORD
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
 master:
   name: master
-  replicas: 2
-  heapSize: 128m
-  antiAffinity: "soft"
-  ## Node Affinity
-  # nodeAffinity:
-  service:
-    ## master-eligible service type
-    type: ClusterIP
-    ## Elasticsearch transport port
-    port: 9300
-    ## Specify the nodePort value for the LoadBalancer and NodePort service types.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
-    ##
-    # nodePort:
-
-    ## Provide any additional annotations which may be required. This can be used to
-    ## set the LoadBalancer service type to internal only.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
-    ##
-    annotations: {}
-    # loadBalancerIP:
-
-  ## Provide annotations for the master pods.
-  podAnnotations: {}
-
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  ##
-  resources:
-    requests:
-      cpu: 25m
-      memory: "256Mi"
-  ## Elasticsearch master-eligible Liveness Probe
-  livenessProbe:
+  exposeHttp: false
+  replicas: 3
+  heapSize: "512m"
+  # additionalJavaOpts: "-XX:MaxRAM=512m"
+  persistence:
     enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-  ## Elasticsearch master-eligible Readiness Probe
+    accessMode: ReadWriteOnce
+    name: data
+    size: "4Gi"
+    # storageClass: "ssd"
   readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-
-## Elasticsearch discovery node parameters
-##
-discovery:
-  name: discovery
-
-## Pod Security Context
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-##
-securityContext:
-  enabled: true
-  fsGroup: 1001
-  runAsUser: 1001
-
-# Cluster domain
-clusterDomain: cluster.local
-
-## Elasticsearch coordinating-only node parameters
-##
-coordinating:
-  name: coordinating-only
-  replicas: 2
-  heapSize: 128m
+    httpGet:
+      path: /_cluster/health?local=true
+      port: 9200
+    initialDelaySeconds: 5
   antiAffinity: "soft"
-  ## node affinity
-  # nodeAffinity:
-  service:
-    ## coordinating-only service type
-    type: ClusterIP
-    ## Elasticsearch REST API port
-    port: 9200
-    ## Specify the nodePort value for the LoadBalancer and NodePort service types.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
-    ##
-    # nodePort:
-
-    ## Provide any additional annotations which may be required. This can be used to
-    ## set the LoadBalancer service type to internal only.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
-    ##
-    annotations: {}
-    # loadBalancerIP:
-
-  ## Provide annotations for the coordinating pods.
-  podAnnotations: {}
-
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  ##
+  nodeAffinity: {}
+  nodeSelector: {}
+  tolerations: []
+  # terminationGracePeriodSeconds: 60
+  initResources: {}
+    # limits:
+    #   cpu: "25m"
+    #   # memory: "128Mi"
+    # requests:
+    #   cpu: "25m"
+    #   memory: "128Mi"
   resources:
+    limits:
+      cpu: "1"
+      # memory: "1024Mi"
     requests:
-      cpu: 25m
-      memory: "256Mi"
-  ## Elasticsearch master-eligible Liveness Probe
-  livenessProbe:
+      cpu: "25m"
+      memory: "512Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each master Pod
+  podAnnotations:
+  #   example: master-foo
+  podManagementPolicy: OrderedReady
+  podDisruptionBudget:
     enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-  ## Elasticsearch master-eligible Readiness Probe
-  readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
+    minAvailable: 2  # Same as `cluster.env.MINIMUM_MASTER_NODES`
+    # maxUnavailable: 1
+  updateStrategy:
+    type: OnDelete
+  hooks:
+    ## (string) Script to execute prior the master pod stops.
+    preStop: |-
 
-## Elasticsearch data node parameters
-##
+    ## (string) Script to execute after the master pod starts.
+    postStart: |-
+
 data:
   name: data
+  exposeHttp: false
   replicas: 2
-  ## updateStrategy for ElasticSearch Data statefulset
-  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
-  updateStrategy:
-    type: RollingUpdate
-    # rollingUpdatePartition
-  heapSize: 1024m
-  antiAffinity: "soft"
-  ## node affinity
-  # nodeAffinity:
-  ## Provide annotations for the data pods.
-  podAnnotations: {}
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  ##
-  resources:
-    requests:
-      cpu: 25m
-      memory: "1152Mi"
-  ## Elasticsearch master-eligible Liveness Probe
-  livenessProbe:
-    enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-  ## Elasticsearch master-eligible Readiness Probe
-  readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-  ## Enable persistence using Persistent Volume Claims
-  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-  ##
+  heapSize: "1536m"
+  # additionalJavaOpts: "-XX:MaxRAM=1536m"
   persistence:
-    ## If true, use a Persistent Volume Claim, If false, use emptyDir
-    ##
-    enabled: true
-
-    ## Persistent Volume Claim annotations
-    ##
-    annotations: {}
-
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    # storageClass: "-"
-
-    ## Persistent Volume Access Mode
-    accessModes:
-    - ReadWriteOnce
-
-    ## Persistent Volume size
-    ##
-    size: 8Gi
-
-## Elasticsearch ingest node parameters
-##
-ingest:
-  enabled: false
-  name: ingest
-  replicas: 2
-  heapSize: 128m
-  antiAffinity: "soft"
-  ## node affinity
-  # nodeAffinity:
-  service:
-    ## ingest service type
-    type: ClusterIP
-    ## Elasticsearch transport port
-    port: 9300
-    ## Specify the nodePort value for the LoadBalancer and NodePort service types.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
-    ##
-    # nodePort:
-
-    ## Provide any additional annotations which may be required. This can be used to
-    ## set the LoadBalancer service type to internal only.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
-    ##
-    annotations: {}
-    # loadBalancerIP:
-
-  ## Provide annotations for the ingest pods.
-  podAnnotations: {}
-
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  ##
-  resources:
-    requests:
-      cpu: 25m
-      memory: "256Mi"
-  ## Elasticsearch master-eligible Liveness Probe
-  livenessProbe:
     enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-  ## Elasticsearch master-eligible Readiness Probe
+    accessMode: ReadWriteOnce
+    name: data
+    size: "30Gi"
+    # storageClass: "ssd"
   readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 90
-  #  periodSeconds: 10
-  #  timeoutSeconds: 5
-  #  successThreshold: 1
-  #  failureThreshold: 5
-
-metrics:
-  enabled: false
-  name: metrics
-  image:
-    registry: docker.io
-    repository: bitnami/elasticsearch-exporter
-    tag: 1.0.2-debian-9-r356
-    pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-    ##
-    # pullSecrets:
-    #   - myRegistryKeySecretName
-  ## Provide annotations for the metrics pods.
-  podAnnotations: {}
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9108"
-  service:
-    type: ClusterIP
-  resources:
+    httpGet:
+      path: /_cluster/health?local=true
+      port: 9200
+    initialDelaySeconds: 5
+  terminationGracePeriodSeconds: 3600
+  antiAffinity: "soft"
+  nodeAffinity: {}
+  nodeSelector: {}
+  tolerations: []
+  initResources: {}
+    # limits:
+    #   cpu: "25m"
+    #   # memory: "128Mi"
     # requests:
-    #   cpu: 25m
+    #   cpu: "25m"
+    #   memory: "128Mi"
+  resources:
+    limits:
+      cpu: "1"
+      # memory: "2048Mi"
+    requests:
+      cpu: "25m"
+      memory: "1536Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each data Pod
+  podAnnotations:
+  #   example: data-foo
+  podDisruptionBudget:
+    enabled: false
+    # minAvailable: 1
+    maxUnavailable: 1
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: OnDelete
+  hooks:
+    ## Drain the node before stopping it and re-integrate it into the cluster after start.
+    ## When enabled, it supersedes `data.hooks.preStop` and `data.hooks.postStart` defined below.
+    drain:
+      enabled: true
+
+    ## (string) Script to execute prior the data pod stops. Ignored if `data.hooks.drain.enabled` is true (default)
+    preStop: |-
+    #   #!/bin/bash
+    #   exec &> >(tee -a "/var/log/elasticsearch-hooks.log")
+    #   NODE_NAME=${HOSTNAME}
+    #   curl -s -XPUT -H 'Content-Type: application/json' '{{ template "elasticsearch.client.fullname" . }}:9200/_cluster/settings' -d "{
+    #     \"transient\" :{
+    #         \"cluster.routing.allocation.exclude._name\" : \"${NODE_NAME}\"
+    #     }
+    #   }"
+    #   echo "Node ${NODE_NAME} is exluded from the allocation"
+
+    ## (string) Script to execute after the data pod starts. Ignored if `data.hooks.drain.enabled` is true (default)
+    postStart: |-
+
+    #   #!/bin/bash
+    #   exec &> >(tee -a "/var/log/elasticsearch-hooks.log")
+    #   NODE_NAME=${HOSTNAME}
+    #   CLUSTER_SETTINGS=$(curl -s -XGET "http://{{ template "elasticsearch.client.fullname" . }}:9200/_cluster/settings")
+    #   if echo "${CLUSTER_SETTINGS}" | grep -E "${NODE_NAME}"; then
+    #     echo "Activate node ${NODE_NAME}"
+    #     curl -s -XPUT -H 'Content-Type: application/json' "http://{{ template "elasticsearch.client.fullname" . }}:9200/_cluster/settings" -d "{
+    #       \"transient\" :{
+    #           \"cluster.routing.allocation.exclude._name\" : null
+    #       }
+    #     }"
+    #   fi
+    #   echo "Node ${NODE_NAME} is ready to be used"
+
+## Sysctl init container to setup vm.max_map_count
+# see https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html
+# and https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#mlockall
+sysctlInitContainer:
+  enabled: true
+## Chown init container to change ownership of data and logs directories to elasticsearch user
+chownInitContainer:
+  enabled: true
+## Additional init containers
+extraInitContainers: |

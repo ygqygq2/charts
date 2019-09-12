@@ -3,10 +3,10 @@ kind: Service
 metadata:
   annotations:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-  name: {{ template "elasticsearch.discovery.fullname" . }}
+  name: {{ template "elasticsearch5.discovery.fullname" . }}
   labels:
-    app: {{ template "elasticsearch.name" . }}
-    chart: {{ template "elasticsearch.chart" . |}}
+    app: {{ template "elasticsearch5.name" . }}
+    chart: {{ template "elasticsearch5.chart" . |}}
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
 spec:
@@ -19,5 +19,5 @@ spec:
   sessionAffinity: None
   type: ClusterIP
   selector:
-    app: {{ template "elasticsearch.name" . }}
+    app: {{ template "elasticsearch5.name" . }}
     release: {{ .Release.Name | quote }}
