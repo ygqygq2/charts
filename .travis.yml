@@ -4,6 +4,9 @@ dist: trusty
 services:
   - docker
 
+before_script:
+  - chmod +x test/*.sh
+
 jobs:
   include:
     - stage: lint-scripts
