@@ -21,7 +21,7 @@ jobs:
         - CHART_TESTING_TAG=v2.3.3
         - TEST_IMAGE=gcr.io/kubernetes-charts-ci/test-image
         - TEST_IMAGE_TAG=v3.3.2
-        - CHARTS_REPO=https://ygqygq2.github.io/charts
+        - CHARTS_REPO=https://github.com/ygqygq2/charts
         - K8S_VERSION=v1.15.3
         - KIND_VERSION=v0.5.1
         - KUBEVAL_VERSION=0.13.0
