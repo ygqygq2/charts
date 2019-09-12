@@ -1,5 +1,7 @@
 # ygqygq2 Helm Charts
 
+[![Build Status](https://travis-ci.org/ygqygq2/charts.svg?branch=master)](https://travis-ci.org/ygqygq2/charts)
+
 This repository hosts the official **ygqygq2 Helm Charts** to deploy **ygqygq2** products to [Kubernetes](https://kubernetes.io/)
 
 ## Install Helm
