@@ -136,7 +136,7 @@ spec:
               subPath: {{ .Values.config.subPath }}
             {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "mod-chartc.name" . }}-secret
+            - name: {{ template "mod-chart.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}

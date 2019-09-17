@@ -1,4 +1,3 @@
-{{- if .Values.config.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,5 +11,23 @@ metadata:
 {{ toYaml .Values.labels | indent 4 }}
     {{- end }}
 data:
+  init.sh: |-
+    #!/bin/bash
+    
+    # lam config dir
+    lam_config_dir=/var/lib/ldap-account-manager/config
+    empty_dir=/tmp/config
+    owner=www-data
+    
+    [ ! -d $empty_dir ] && mkdir $empty_dir
+  
+    if [ -L $empty_dir/config.cfg ]; then
+      rm -f $empty_dir/config.cfg 
+      \cp -p $lam_config_dir/config.cfg.sample $empty_dir/config.cfg
+    fi
+    awk 'BEGIN { cmd="cp -rpi ${lam_config_dir}/* ${empty_dir}/"; print "n" |cmd; }'
+    
+    chown -R $owner $empty_dir/
+{{- if .Values.config.enabled -}}
 {{ toYaml .Values.config.data | indent 2 }}
 {{- end -}}

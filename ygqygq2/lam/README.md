@@ -35,30 +35,45 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
-| `statefulset.enabled`      | use statefulset to start            | `false`                                |
-| `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
-| `replicaCount`             | replicas number                     | `1`                                    |
+| `statefulset.enabled`      | Use statefulset to start            | `false`                                |
+| `global`                   | Global setting                      | see in values.yaml                     |
+| `deploymentStrategy`       | Deployment rollingUpdate setting    | `{}`                                   |
+| `replicaCount`             | Replicas number                     | `1`                                    |
 | `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 80                   |
-| `env`                      | container env setting               | `[]`                                   |
+| `env`                      | Container env setting               | `[]`                                   |
+| `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
-| `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.6`|
+| `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.8`|
 | `ingress`                  | Ingress for the lam.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
-| `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
+| `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
+| `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
 | `persistentVolume.size`         | Persistent volume access modes | `50Mi`                                |
-| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                                   |
+| `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                              |
 | `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
-| `persistentVolume.annotations`  | Persistent volume annotations       | `{}`                                   |
+| `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
 | `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
-| `deployment`               | deployment annotations initContainers| `{}`                                  |
-| `extraContainers`          | sidecar containers                  | `{}`                                   |
+| `lifecycle`                | Pod lifecycle                       | `{}`                                   |
+| `deployment.additionalVolumes`| Deployment additionalVolumes     | `[]`                                   |
+| `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
-## Persistence
+```
+$ helm install --name my-release \
+  --set statefulset.enabled=true \
+    lam
+```
 
-The [lam image](https://hub.docker.com/r/ldapaccountmanager/lam) no need stores the data, but configurations cache to volume in the container is better.
+The above command sets the `statefulset.enabled` to `true`.
+
+Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
+
+```
+$ helm install --name my-release -f values.yaml lam
+```
+
+>**Tip**: You can use the default [values.yaml](#values.yaml)
 

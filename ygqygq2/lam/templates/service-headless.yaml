@@ -1,14 +1,15 @@
+{{- if .Values.statefulset.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "lam.fullname" . }}
+  name: {{ template "lam.fullname" . }}-headless
   labels:
     app: {{ template "lam.name" . }}
     chart: {{ template "lam.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  type: {{ .Values.service.type }}
+  clusterIP: None
   ports:
     {{- range $key, $value := .Values.service.ports }}
     - name: {{ $key }}
@@ -18,3 +19,4 @@ spec:
   selector:
     app: {{ template "lam.name" . }}
     release: {{ .Release.Name }}
+{{- end -}}

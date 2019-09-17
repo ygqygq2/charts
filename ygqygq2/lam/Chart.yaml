@@ -1,10 +1,10 @@
 apiVersion: v1
-appVersion: "6.6"
+appVersion: "6.8"
 description: LDAP Account Manager (LAM)
 name: lam
-version: 1.0.0
+version: 1.0.1
 home: https://www.ldap-account-manager.org/lamcms/
-icon: 
+icon: https://avatars0.githubusercontent.com/u/17960417?s=200&v=4
 keywords:
 - lam
 - ldap

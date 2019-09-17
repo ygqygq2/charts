@@ -15,14 +15,14 @@ metadata:
 {{- if .Values.labels }}
 {{ toYaml .Values.labels | indent 4 }}
 {{- end }}
-{{- if .Values.deployment.annotations }}
+{{- if .Values.annotations }}
   annotations:
-{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "lam.fullname" . }}
+  serviceName: {{ template "lam.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -42,13 +42,22 @@ spec:
         app: {{ template "lam.name" . }}
         release: {{ .Release.Name }}
     spec:
-      imagePullSecrets:
-      {{- range .Values.image.imagePullSecrets }}
-        - name: {{ . }}
-      {{- end }}
-      {{- if .Values.initContainers }}
+{{- include "lam.imagePullSecrets" . | indent 6 }}
       initContainers:
-{{ toYaml .Values.initContainers | indent 6 }}
+      - name: copy-config
+        image: {{ template "lam.image" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command: ['sh', '/tmp/init.sh']
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: data-storage
+          mountPath: /tmp/config
+        - name: {{ template "lam.name" . }}-conf
+          mountPath: /tmp/init.sh
+          subPath: init.sh
+      {{- if .Values.initContainers }}
+{{ toYaml .Values.initContainers | indent 8 }}
       {{- end }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -58,8 +67,12 @@ spec:
 {{ toYaml .Values.tolerations | indent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ template "lam.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          {{- if .Values.securityContext }}
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}			
+          {{- end }}					
           {{- if .Values.lifecycle }}
           lifecycle:
 {{ toYaml .Values.lifecycle | indent 12 }}
@@ -103,16 +116,27 @@ spec:
             periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
           {{- end }}
           volumeMounts:
+            {{- if .Values.config.enabled }}
+            - name: {{ template "lam.name" . }}-conf
+              mountPath: {{ .Values.config.mountPath }}
+              subPath: {{ .Values.config.subPath }}
+            {{- end }}
+            {{- if .Values.secret.enabled }}
+            - name: {{ template "lam.name" . }}-secret
+              mountPath: {{ .Values.secret.mountPath }}
+              subPath: {{ .Values.secret.subPath }}
+              readOnly: {{ .Values.secret.readOnly }}
+            {{- end }}
+{{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
+{{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
-        {{- if .Values.config.enabled }}
         - name: {{ template "lam.name" . }}-conf
           configMap:
             name: {{ template "lam.name" . }}
-        {{- end }}
         {{- if .Values.secret.enabled }}
         - name: {{ template "lam.name" . }}-secret
           secret:
