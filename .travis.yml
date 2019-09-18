@@ -28,13 +28,13 @@ jobs:
         - HELM_VERSION=v2.14.2
         - CHART_TESTING_ARGS=""
       script:
-        - echo "Run chart-testing linting!"
-        - ./test/lint-charts.sh || travis_terminate 1
-        - >
-          if cat tmp/lint.log | grep "No chart changes detected" > /dev/null; then
-              echo "No chart changes detected, stopping TravisCI pipeline!"
-              travis_terminate 0
-          fi
+#        - echo "Run chart-testing linting!"
+#        - ./test/lint-charts.sh || travis_terminate 1
+#        - >
+#          if cat tmp/lint.log | grep "No chart changes detected" > /dev/null; then
+#              echo "No chart changes detected, stopping TravisCI pipeline!"
+#              travis_terminate 0
+#          fi
         - echo "Run charts-testing install test!"
         # https://docs.travis-ci.com/user/common-build-problems/#build-times-out-because-no-output-was-received
         - travis_wait 90 ./test/e2e-github.sh
