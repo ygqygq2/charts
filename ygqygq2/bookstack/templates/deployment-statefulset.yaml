@@ -6,10 +6,10 @@ apiVersion: apps/v1
 kind: Deployment
 {{- end }}
 metadata:
-  name: {{ template "mindoc.fullname" . }}
+  name: {{ template "bookstack.fullname" . }}
   labels:
-    app: {{ template "mindoc.name" . }}
-    chart: {{ template "mindoc.chart" . }}
+    app: {{ template "bookstack.name" . }}
+    chart: {{ template "bookstack.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.labels }}
@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "mindoc.fullname" . }}
+  serviceName: {{ template "bookstack.fullname" . }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -30,7 +30,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ template "mindoc.name" . }}
+      app: {{ template "bookstack.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
@@ -39,7 +39,7 @@ spec:
 {{ toYaml .Values.podAnnotations | indent 8}}
     {{- end }}
       labels:
-        app: {{ template "mindoc.name" . }}
+        app: {{ template "bookstack.name" . }}
         release: {{ .Release.Name }}
     spec:
       imagePullSecrets:
@@ -72,30 +72,30 @@ spec:
 {{- if .Values.env }}
 {{ toYaml .Values.env | indent 12 }}
 {{- end }}
-            - name: MINDOC_DB_HOST
+            - name: BOOKSTACK_DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "mindoc.fullname" . }}
+                  name: {{ template "bookstack.fullname" . }}
                   key: mysqlHost
-            - name: MINDOC_DB_DATABASE
+            - name: BOOKSTACK_DB_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "mindoc.fullname" . }}
+                  name: {{ template "bookstack.fullname" . }}
                   key: mysqlDatabase
-            - name: MINDOC_DB_PORT
+            - name: BOOKSTACK_DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "mindoc.fullname" . }}
+                  name: {{ template "bookstack.fullname" . }}
                   key: mysqlPort
-            - name: MINDOC_DB_USERNAME
+            - name: BOOKSTACK_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "mindoc.fullname" . }}
+                  name: {{ template "bookstack.fullname" . }}
                   key: mysqlUsername
-            - name: MINDOC_DB_PASSWORD
+            - name: BOOKSTACK_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "mindoc.fullname" . }}
+                  name: {{ template "bookstack.fullname" . }}
                   key: mysqlPassword
           resources:
 {{ toYaml .Values.resources | indent 12 }}
@@ -131,12 +131,12 @@ spec:
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
-            - name: {{ template "mindoc.name" . }}-conf
+            - name: {{ template "bookstack.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
             {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "mindoc.name" . }}-secret
+            - name: {{ template "bookstack.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
@@ -147,14 +147,14 @@ spec:
         {{- end }}
       volumes:
         {{- if .Values.config.enabled }}
-        - name: {{ template "mindoc.name" . }}-conf
+        - name: {{ template "bookstack.name" . }}-conf
           configMap:
-            name: {{ template "mindoc.name" . }}
+            name: {{ template "bookstack.name" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "mindoc.name" . }}-secret
+        - name: {{ template "bookstack.name" . }}-secret
           secret:
-            secretName: {{ template "mindoc.name" . }}
+            secretName: {{ template "bookstack.name" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}
@@ -163,7 +163,7 @@ spec:
           {{- if .Values.persistentVolume.enabled }}
         - name: data-storage
           persistentVolumeClaim:
-            claimName: {{ .Values.persistentVolume.existingClaim | default (include "mindoc.fullname" .) }}
+            claimName: {{ .Values.persistentVolume.existingClaim | default (include "bookstack.fullname" .) }}
           {{- else }}
         - name: data-storage
           emptyDir: {}
@@ -174,8 +174,8 @@ spec:
   - metadata:
       name: data-storage
       labels:
-        app: {{ template "mindoc.name" . }}
-        chart: {{ template "mindoc.chart" . }}
+        app: {{ template "bookstack.name" . }}
+        chart: {{ template "bookstack.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:

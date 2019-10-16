@@ -31,7 +31,7 @@ $ helm delete my-release
 
 ## Configuration
 
-The following table lists the configurable parameters of the FastDFS-Nginx chart and their default values.
+The following table lists the configurable parameters of the lam chart and their default values.
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
