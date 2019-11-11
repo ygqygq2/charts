@@ -37,7 +37,6 @@ spec:
     matchLabels:
       app: {{ template "utcook.name" $root }}
       release: {{ $.Release.Name }}
-      version: {{ $svalue.image.tag }}
       canary: "true"
   template:
     metadata:

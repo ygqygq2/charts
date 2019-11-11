@@ -38,17 +38,6 @@ spec:
   {{- end }}
   {{- end }}
   http:
-  - route:
-    - destination:
-        host: {{ template "utcook.servicename" . }}
-        subset: default
-      weight: {{ .Values.istio.default.weight }}
-{{- if .Values.istio.default.destination }}
-{{ toYaml .Values.istio.default.destination | indent 6 }}
-{{- end }}
-{{- if .Values.istio.default.route }}
-{{ toYaml .Values.istio.default.route | indent 4 }}
-{{- end }}
     {{- range $skey, $svalue := .Values.istio.canary }}
   {{- if $svalue.routeAlone }}
   - route:
@@ -68,5 +57,16 @@ spec:
 {{ toYaml $svalue.route | indent 4 }}
 {{- end }}
     {{- end }}
+  - route:
+    - destination:
+        host: {{ template "utcook.servicename" . }}
+        subset: default
+      weight: {{ .Values.istio.default.weight }}
+{{- if .Values.istio.default.destination }}
+{{ toYaml .Values.istio.default.destination | indent 6 }}
+{{- end }}
+{{- if .Values.istio.default.route }}
+{{ toYaml .Values.istio.default.route | indent 4 }}
+{{- end }}
 {{- end }}
 {{- end -}}
