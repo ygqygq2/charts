@@ -1,13 +1,16 @@
-{{- if .Values.endpoints }}
+{{- if .Values.serviceMonitor.endpoints }}
 apiVersion: v1
 kind: Endpoints
 metadata:
   labels:
+  labels:
     app: {{ template "ceph-exporter.name" . }}
-    component: ceph-exporter
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
     chart: {{ template "ceph-exporter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- if .Values.serviceMonitor.additionalServiceMonitorLabels }}
+{{ toYaml .Values.serviceMonitor.additionalServiceMonitorLabels | indent 4 }}
+    {{- end }}
   name: {{ template "ceph-exporter.fullname" . }}
   namespace: "{{ .Release.Namespace }}"
 subsets:
