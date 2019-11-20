@@ -1,19 +1,16 @@
 apiVersion: v1
-appVersion: 1.14.2
-description: Chart for the nginx server
+appVersion: 2.2.0
+description: Nosqlclient (Formerly Mongoclient), MongoDB Management Tool
 engine: gotpl
 name: mongoclient
 version: 1.0.1
-home: http://www.nginx.org
-icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+home: https://www.nosqlclient.com
+icon: https://raw.githubusercontent.com/nosqlclient/nosqlclient/master/public/logo/full_1.png
 keywords:
-- nginx
-- http
-- web
-- www
-- reverse proxy
+- mongodb
+- client
 maintainers:
 - email: 29ygq@sina.com
   name: Chinge Yang
 sources:
-- https://github.com/bitnami/bitnami-docker-nginx
+- https://github.com/nosqlclient/nosqlclient/
