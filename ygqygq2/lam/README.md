@@ -44,7 +44,7 @@ The following table lists the configurable parameters of the lam chart and their
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
-| `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.8`|
+| `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.9`|
 | `ingress`                  | Ingress for the lam.         | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
