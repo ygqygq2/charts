@@ -30,10 +30,10 @@ deploymentStrategy: {}
   #   maxUnavailable: 25%
   # type: RollingUpdate
 
-# 副本个数
+## 副本个数
 replicaCount: 1
 
-# 容器image及tag
+## 容器image及tag
 image:
   registry: docker.io
   repository: bitnami/nginx
@@ -46,7 +46,8 @@ service:
   type: ClusterIP  # 一般不用修改
   ingressPort: 8080
   ports:
-    http:  # 多端口暴露时，复制一段
+    ## 多端口暴露时，复制一段
+    http:
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
 
@@ -70,7 +71,16 @@ startCommand: []
 config:
   enabled: false
   mountPath: /conf
+  subPath: ""
+  readOnly: true
   data: {}
+
+existConfig:
+  enabled: false
+  name: ""
+  mountPath: /exist/conf
+  subPath: ""
+  readOnly: true
 
 ## To use an additional secret, set enable to true and add data
 secret:
@@ -79,6 +89,13 @@ secret:
   subPath: ""
   readOnly: true
   data: {} 
+
+existSecret:
+  enabled: true
+  name: ""
+  mountPath: /exist/secret-volume
+  subPath: ""
+  readOnly: true
 
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/

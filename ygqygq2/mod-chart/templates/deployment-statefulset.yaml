@@ -134,12 +134,25 @@ spec:
             - name: {{ template "mod-chart.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
+              readOnly: {{ .Values.config.readOnly }}
+            {{- end }}
+            {{- if .Values.existConfig.enabled }}
+            - name: {{ template "mod-chart.name" . }}-exist-conf
+              mountPath: {{ .Values.existConfig.mountPath }}
+              subPath: {{ .Values.existConfig.subPath }}
+              readOnly: {{ .Values.existConfig.readOnly }}
             {{- end }}
             {{- if .Values.secret.enabled }}
             - name: {{ template "mod-chart.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
+            {{- end }}
+            {{- if .Values.existSecret.enabled }}
+            - name: {{ template "mod-chart.name" . }}-exist-secret
+              mountPath: {{ .Values.existSecret.mountPath }}
+              subPath: {{ .Values.existSecret.subPath }}
+              readOnly: {{ .Values.existSecret.readOnly }}
             {{- end }}
 {{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
@@ -153,10 +166,20 @@ spec:
           configMap:
             name: {{ template "mod-chart.fullname" . }}
         {{- end }}
+        {{- if .Values.existConfig.enabled }}
+        - name: {{ template "mod-chart.name" . }}-exist-conf
+          configMap:
+            name: {{ .Values.existConfig.name }}
+        {{- end }}
         {{- if .Values.secret.enabled }}
         - name: {{ template "mod-chart.name" . }}-secret
           secret:
-            secretName: {{ template "mod-chart.fullname" . }}
+            secretName: {{ template "utcook.fullname" . }}
+        {{- end }}
+        {{- if .Values.existSecret.enabled }}
+        - name: {{ template "mod-chart.name" . }}-exist-secret
+          secret:
+            secretName: {{ .Values.existSecret.name }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}

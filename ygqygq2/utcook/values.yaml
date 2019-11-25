@@ -37,6 +37,8 @@ replicaCount: 1
 image:
   registry: docker.io 
   repository: bitnami/nginx
+  #registry: "reg.linuxba.com"
+  #repository: pub/user-service 
   tag: latest
   pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []   # 如果需要docker仓库验证
@@ -78,6 +80,13 @@ config:
   readOnly: true
   data: {}
 
+existConfig:
+  enabled: false
+  name: ""
+  mountPath: /exist/conf
+  subPath: ""
+  readOnly: true
+
 ## To use an additional secret, set enable to true and add data
 secret:
   enabled: false
@@ -85,6 +94,13 @@ secret:
   subPath: ""
   readOnly: true
   data: {} 
+
+existSecret:
+  enabled: true
+  name: ""
+  mountPath: /exist/secret-volume
+  subPath: ""
+  readOnly: true
 
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/

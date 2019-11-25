@@ -116,12 +116,25 @@ spec:
             - name: {{ template "utcook.name" $root }}-conf
               mountPath: {{ $.Values.config.mountPath }}
               subPath: {{ $.Values.config.subPath }}
+              readOnly: {{ $.Values.config.readOnly }}
+            {{- end }}
+            {{- if $.Values.existConfig.enabled }}
+            - name: {{ template "utcook.name" $root }}-exist-conf
+              mountPath: {{ $.Values.existConfig.mountPath }}
+              subPath: {{ $.Values.existConfig.subPath }}
+              readOnly: {{ $.Values.existConfig.readOnly }}
             {{- end }}
             {{- if $.Values.secret.enabled }}
             - name: {{ template "utcook.name" $root }}-secret
               mountPath: {{ $.Values.secret.mountPath }}
               subPath: {{ $.Values.secret.subPath }}
               readOnly: {{ $.Values.secret.readOnly }}
+            {{- end }}
+            {{- if $.Values.existSecret.enabled }}
+            - name: {{ template "utcook.name" $root }}-exist-secret
+              mountPath: {{ $.Values.existSecret.mountPath }}
+              subPath: {{ $.Values.existSecret.subPath }}
+              readOnly: {{ $.Values.existSecret.readOnly }}
             {{- end }}
 {{- if $.Values.persistentVolume.mountPaths }}
 {{ toYaml $.Values.persistentVolume.mountPaths | indent 12 }}
@@ -135,10 +148,20 @@ spec:
           configMap:
             name: {{ template "utcook.fullname" $root }}
         {{- end }}
+        {{- if $.Values.existConfig.enabled }}
+        - name: {{ template "utcook.name" $root }}-exist-conf
+          configMap:
+            name: {{ $.Values.existConfig.name }}
+        {{- end }}
         {{- if $.Values.secret.enabled }}
         - name: {{ template "utcook.fullname" $root }}-secret
           secret:
             secretName: {{ template "utcook.fullname" $root }}
+        {{- end }}
+        {{- if $.Values.existSecret.enabled }}
+        - name: {{ template "utcook.name" $root }}-exist-secret
+          secret:
+            secretName: {{ $.Values.existSecret.name }}
         {{- end }}
         {{- if $.Values.deployment.additionalVolumes }}
 {{ toYaml $.Values.deployment.additionalVolumes | indent 8 }}
