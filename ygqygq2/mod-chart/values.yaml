@@ -91,7 +91,7 @@ secret:
   data: {} 
 
 existSecret:
-  enabled: true
+  enabled: false
   name: ""
   mountPath: /exist/secret-volume
   subPath: ""
