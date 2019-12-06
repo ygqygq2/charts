@@ -1,0 +1,16 @@
+{{- if .Values.config.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "self-service-password.fullname" . }}
+  labels:
+    app: {{ template "self-service-password.name" . }}
+    chart: {{ template "self-service-password.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+    {{- end }}
+data:
+{{ toYaml .Values.config.data | indent 2 }}
+{{- end -}}
