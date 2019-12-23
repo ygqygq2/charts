@@ -30,7 +30,7 @@ mod-chart can be accessed:
            You can watch the status of by running 'kubectl get svc -w {{ template "mod-chart.fullname" . }}'
 
     export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "mod-chart.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    echo http://$SERVICE_IP:8080
+    echo http://$SERVICE_IP:{{ .Values.service.ingressPort }}
     {{- else if contains "ClusterIP"  .Values.service.type }}
 
     export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "mod-chart.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")

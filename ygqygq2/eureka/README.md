@@ -36,10 +36,10 @@ The following table lists the configurable parameters of the eureka chart and th
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
 | `statefulset.enabled`      | Use statefulset to start            | `false`                                |
-| `global`                   | Global setting                      | see in values.yaml                     |
+| `global`                   | Global setting                      | see in `values.yaml`                   |
 | `deploymentStrategy`       | Deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | Replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8761                 |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` `8761`               |
 | `env`                      | Container env setting               | see in `values.yaml`                   |
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
