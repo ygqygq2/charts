@@ -178,7 +178,7 @@ ingress:  # 是否使用nginx暴露域名或端口
 ## sftp 
 ##
 sftp:
-  enabled: true
+  enabled: false
 
   resources: {}
 

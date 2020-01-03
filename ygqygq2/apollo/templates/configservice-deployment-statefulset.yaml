@@ -6,10 +6,10 @@ apiVersion: apps/v1
 kind: Deployment
 {{- end }}
 metadata:
-  name: {{ template "nginx-sftp.fullname" . }}
+  name: {{ template "apollo.fullname" . }}
   labels:
-    app: {{ template "nginx-sftp.name" . }}
-    chart: {{ template "nginx-sftp.chart" . }}
+    app: {{ template "apollo.name" . }}
+    chart: {{ template "apollo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if .Values.labels }}
@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "nginx-sftp.fullname" . }}-headless
+  serviceName: {{ template "apollo.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -30,27 +30,22 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ template "nginx-sftp.name" . }}
+      app: {{ template "apollo.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
-{{- if or .Values.podAnnotations .Values.metrics.enabled .Values.sftp.enabled }}
       annotations:
-  {{- if .Values.podAnnotations }}
+{{- if .Values.podAnnotations }}
 {{ toYaml .Values.podAnnotations | indent 8 }}
-  {{- end }}
-  {{- if .Values.metrics.podAnnotations }}
+{{- end }}
+{{- if .Values.metrics.podAnnotations }}
 {{ toYaml .Values.metrics.podAnnotations | indent 8 }}
-  {{- end }}
-  {{- if .Values.sftp.podAnnotations }}
-{{ toYaml .Values.sftp.podAnnotations | indent 8 }}
-  {{- end }}
 {{- end }}
       labels:
-        app: {{ template "nginx-sftp.name" . }}
+        app: {{ template "apollo.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- include "nginx-sftp.imagePullSecrets" . | indent 6 }}
+{{- include "apollo.imagePullSecrets" . | indent 6 }}
       {{- if .Values.initContainers }}
       initContainers:
 {{ toYaml .Values.initContainers | indent 8 }}
@@ -62,8 +57,31 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       containers:
-        - name: nginx
-          image: {{ template "nginx-sftp.image" . }}
+{{- if .Values.metrics.enabled }}
+        - name: metrics
+          image: {{ template "metrics.image" . }}
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
+          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8080/status']
+          ports:
+          - name: metrics
+            containerPort: 9113
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          resources:
+{{ toYaml .Values.metrics.resources | indent 12 }}
+{{- end }}
+        - name: {{ .Chart.Name }}
+          image: {{ template "apollo.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           {{- if .Values.securityContext }}
           securityContext:
@@ -112,140 +130,77 @@ spec:
             periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
           {{- end }}
           volumeMounts:
-            {{- if .Values.vhost }}
-            - name: {{ template "nginx-sftp.name" . }}-vhost
-              mountPath: /opt/bitnami/nginx/conf/vhosts
-            {{- end }}
             {{- if .Values.config.enabled }}
-            - name: {{ template "nginx-sftp.name" . }}-config
+            - name: {{ template "apollo.name" . }}-conf
               mountPath: {{ .Values.config.mountPath }}
               subPath: {{ .Values.config.subPath }}
               readOnly: {{ .Values.config.readOnly }}
             {{- end }}
+            {{- if .Values.existConfig.enabled }}
+            - name: {{ template "apollo.name" . }}-exist-conf
+              mountPath: {{ .Values.existConfig.mountPath }}
+              subPath: {{ .Values.existConfig.subPath }}
+              readOnly: {{ .Values.existConfig.readOnly }}
+            {{- end }}
             {{- if .Values.secret.enabled }}
-            - name: {{ template "nginx-sftp.name" . }}-secret
+            - name: {{ template "apollo.name" . }}-secret
               mountPath: {{ .Values.secret.mountPath }}
               subPath: {{ .Values.secret.subPath }}
               readOnly: {{ .Values.secret.readOnly }}
             {{- end }}
+            {{- if .Values.existSecret.enabled }}
+            - name: {{ template "apollo.name" . }}-exist-secret
+              mountPath: {{ .Values.existSecret.mountPath }}
+              subPath: {{ .Values.existSecret.subPath }}
+              readOnly: {{ .Values.existSecret.readOnly }}
+            {{- end }}
 {{- if .Values.persistentVolume.mountPaths }}
 {{ toYaml .Values.persistentVolume.mountPaths | indent 12 }}
-{{- end }}
-{{- if .Values.metrics.enabled }}
-        - name: metrics
-          image: {{ template "nginx-sftp.metrics.image" . }}
-          imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
-          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8081/nginx_status']
-          ports:
-          - name: metrics
-            containerPort: 9113
-          livenessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /metrics
-              port: metrics
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          resources:
-{{ toYaml .Values.metrics.resources | indent 12 }}
-{{- end }}
-{{- if .Values.sftp.enabled }}
-        - name: sftp
-          image: {{ .Values.sftp.image.repository }}:{{ .Values.sftp.image.tag }}
-          imagePullPolicy: {{ .Values.sftp.image.pullPolicy | quote }}
-          ports:
-          - name: ssh
-            containerPort: 22
-          livenessProbe:
-            tcpSocket:
-              port: ssh
-            initialDelaySeconds: 10
-            timeoutSeconds: 5
-          readinessProbe:
-            tcpSocket:
-              port: ssh
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          resources:
-{{ toYaml .Values.sftp.resources | indent 12 }}
-          volumeMounts:
-          - name: config-sshd
-            mountPath: /etc/ssh/sshd_config
-            subPath: sshd_config
-            readOnly: false
-          - name: sftp-user
-            mountPath: /etc/sftp/
-            readOnly: true
-          - name: sftp-script
-            mountPath: /etc/sftp.d/
-            readOnly: false
-          - name: data-storage
-            mountPath: /home/dev/upload/
 {{- end }}
         {{- if .Values.additionalContainers }}
 {{ toYaml .Values.additionalContainers | indent 8 }}
         {{- end }}
       volumes:
-        {{- if .Values.vhost }}
-        - name: {{ template "nginx-sftp.name" . }}-vhost
-          configMap:
-            name: {{ template "nginx-sftp.fullname" . }}-vhost
-        {{- end }}
-        {{- if .Values.sftp.enabled }}
-        - name: config-sshd
-          configMap:
-            name: {{ template "nginx-sftp.fullname" . }}-sftp
-            items:
-            - key: sshd_config
-              path: sshd_config
-        - name: sftp-user
-          configMap:
-            name: {{ template "nginx-sftp.fullname" . }}-sftp
-            items:
-            - key: users.conf
-              path: users.conf
-        - name: sftp-script
-          configMap:
-            name: {{ template "nginx-sftp.fullname" . }}-sftp
-            items:
-            - key: bindmount.sh
-              path: bindmount.sh
-        {{- end }}
         {{- if .Values.config.enabled }}
-        - name: {{ template "nginx-sftp.name" . }}-conf
+        - name: {{ template "apollo.name" . }}-conf
           configMap:
-            name: {{ template "nginx-sftp.fullname" . }}
+            name: {{ template "apollo.fullname" . }}
+        {{- end }}
+        {{- if .Values.existConfig.enabled }}
+        - name: {{ template "apollo.name" . }}-exist-conf
+          configMap:
+            name: {{ .Values.existConfig.name }}
         {{- end }}
         {{- if .Values.secret.enabled }}
-        - name: {{ template "nginx-sftp.name" . }}-secret
+        - name: {{ template "apollo.name" . }}-secret
           secret:
-            secretName: {{ template "nginx-sftp.fullname" . }}
+            secretName: {{ template "utcook.fullname" . }}
+        {{- end }}
+        {{- if .Values.existSecret.enabled }}
+        - name: {{ template "apollo.name" . }}-exist-secret
+          secret:
+            secretName: {{ .Values.existSecret.name }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}
         {{- end }}
 {{- if not .Values.statefulset.enabled }}
-        {{- if .Values.persistentVolume.enabled }}
+          {{- if .Values.persistentVolume.enabled }}
         - name: data-storage
           persistentVolumeClaim:
-            claimName: {{ .Values.persistentVolume.existingClaim | default (include "nginx-sftp.fullname" .) }}
-        {{- else }}
+            claimName: {{ .Values.persistentVolume.existingClaim | default (include "apollo.fullname" .) }}
+          {{- else }}
         - name: data-storage
           emptyDir: {}
-        {{- end }}
+          {{- end }}
 {{- else }}
   {{- if .Values.persistentVolume.enabled }}
   volumeClaimTemplates:
   - metadata:
       name: data-storage
       labels:
-        app: {{ template "nginx-sftp.name" . }}
-        chart: {{ template "nginx-sftp.chart" . }}
+        app: {{ template "apollo.name" . }}
+        chart: {{ template "apollo.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:

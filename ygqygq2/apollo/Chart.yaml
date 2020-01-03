@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: 1.14.2
 description: Chart for the nginx server
 engine: gotpl
-name: nginx-sftp
+name: apollo
 version: 1.0.2
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
@@ -11,7 +11,6 @@ keywords:
 - http
 - web
 - www
-- sftp
 - reverse proxy
 maintainers:
 - email: 29ygq@sina.com
