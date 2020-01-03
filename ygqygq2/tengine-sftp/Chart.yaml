@@ -1,0 +1,22 @@
+apiVersion: v1
+appVersion: 2.3.2
+description: Chart for the tengine server.
+engine: gotpl
+name: tengine-sftp
+version: 1.0.0
+home: http://tengine.taobao.org
+icon: http://tengine.taobao.org/img/logo.png
+keywords:
+- nginx
+- tengine
+- http
+- web
+- www
+- sftp
+- reverse proxy
+maintainers:
+- email: 29ygq@sina.com
+  name: Chinge Yang
+sources:
+- https://github.com/alibaba/tengine
+- https://github.com/ygqygq2/tengine-docker

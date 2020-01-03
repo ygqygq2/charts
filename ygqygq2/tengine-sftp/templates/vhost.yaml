@@ -1,0 +1,17 @@
+{{- if .Values.vhost -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "tengine-sftp.fullname" . }}-vhost
+  labels:
+    app: {{ template "tengine-sftp.name" . }}
+    chart: {{ template "tengine-sftp.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    {{- if .Values.labels }}
+{{ toYaml .Values.labels | indent 4 }}
+    {{- end }}
+data:
+  vhost.conf: |-
+{{ .Values.vhost | indent 4 }}
+{{- end -}}

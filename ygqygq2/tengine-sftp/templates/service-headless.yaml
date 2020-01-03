@@ -1,0 +1,22 @@
+{{- if .Values.statefulset.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "tengine-sftp.fullname" . }}-headless
+  labels:
+    app: {{ template "tengine-sftp.name" . }}
+    chart: {{ template "tengine-sftp.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  clusterIP: None
+  ports:
+  {{- range $key, $value := .Values.service.ports }}
+    - name: {{ $key }}
+      targetPort: {{ $key }}
+{{ toYaml $value | indent 6 }}
+  {{- end }}
+  selector:
+    app: {{ template "tengine-sftp.name" . }}
+    release: {{ .Release.Name }}
+{{- end -}}
