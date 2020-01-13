@@ -46,6 +46,7 @@ The following table lists the configurable parameters of the mod-chart chart and
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | `mod-chart` image, tag.             | `bitnami/nginx` `latest`               |
 | `ingress`                  | Ingress for the mod-chart.          | `false`                                |
+| `autoscaling`              | Autoscaling using HorizontalPodAutoscaler| see in `values.yaml`              |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
