@@ -138,6 +138,26 @@ tolerations: []
 affinity: {}
 annotations: {}
 
+## Enable autoscaling using HorizontalPodAutoscaler
+## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##

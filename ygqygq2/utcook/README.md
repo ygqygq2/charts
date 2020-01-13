@@ -50,6 +50,7 @@ The following table lists the configurable parameters of the utcook chart and th
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
 | `image`                    | `utcook` image, tag.                | `bitnami/nginx` `latest`               |
 | `ingress`                  | Ingress for the utcook.             | `false`                                |
+| `autoscaling`              | Autoscaling using HorizontalPodAutoscaler| see in `values.yaml`              |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
