@@ -43,7 +43,7 @@ The following table lists the configurable parameters of the utcook chart and th
 | `global`                   | global setting                      | see in values.yaml                     |
 | `deploymentStrategy`       | deployment rollingUpdate setting    | `{}`                                   |
 | `replicaCount`             | replicas number                     | `1`                                    |
-| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080, 5005           |
+| `service`                  | Service type, protocol, port        | `ClusterIP` `TCP` 8080                 |
 | `env`                      | container env setting               | `[]`                                   |
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
