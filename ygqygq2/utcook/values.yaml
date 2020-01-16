@@ -48,13 +48,21 @@ image:
 ## ref: https://istio.io/docs/setup/kubernetes/prepare/requirements/
 service:
   name: ""
-  type: ClusterIP  # 一般不用修改
+  ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
+  type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
+  # loadBalancerIP:
+  ## Enable client source IP preservation
+  ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  externalTrafficPolicy: Cluster  # 支持Cluster/Local
   ingressPort: 8080
   ports:
     ## 多端口暴露时，复制一段
     http:
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
+      ## Use nodePorts to requets some specific ports when usin NodePort
+      # nodePort:  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
 
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
