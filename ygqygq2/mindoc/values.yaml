@@ -27,7 +27,7 @@ replicaCount: 1
 # 容器image及tag
 image:
   repository: ygqygq2/mindoc
-  tag: latest
+  tag: v2.0
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: []
 
