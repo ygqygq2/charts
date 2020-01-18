@@ -149,12 +149,12 @@ spec:
         {{- if .Values.config.enabled }}
         - name: {{ template "yapi.name" . }}-conf
           configMap:
-            name: {{ template "yapi.name" . }}
+            name: {{ template "yapi.fullname" . }}
         {{- end }}
         {{- if .Values.secret.enabled }}
         - name: {{ template "yapi.name" . }}-secret
           secret:
-            secretName: {{ template "yapi.name" . }}
+            secretName: {{ template "yapi.fullname" . }}
         {{- end }}
         {{- if .Values.deployment.additionalVolumes }}
 {{ toYaml .Values.deployment.additionalVolumes | indent 8 }}
