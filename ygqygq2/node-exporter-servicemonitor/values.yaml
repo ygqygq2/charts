@@ -1,0 +1,18 @@
+# where the mysql installed namespace
+namespaceSelector: monitoring
+# endports
+endpoints: []
+# on what port are the metrics exposed by redis
+metricsPortName: metrics
+metricsPort: 9100
+# Are we talking http or https?
+scheme: http
+## Custom Labels to be added to ServiceMonitor
+# 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
+additionalServiceMonitorLabels: 
+  release: prometheus-operator
+##Custom Labels to be added to Prometheus Rules CRD
+additionalRulesLabels: 
+  release: prometheus-operator
+# default rules are in templates/node-exporter-servicemonitor.rules.yaml
+# prometheusRules: {}

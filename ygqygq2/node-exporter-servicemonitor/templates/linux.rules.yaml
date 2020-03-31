@@ -1,0 +1,15 @@
+{{ define "linux.rules.yaml.tpl" }}
+groups:
+- name: linux.rules
+  rules:
+  - record: disk_usage_percent
+    expr: (node_filesystem_avail_bytes{fstype !~ "selinuxfs|nfs|rpc_pipefs|rootfs|tmpfs",mountpoint !~ "/boot|/net|/selinux"} / node_filesystem_size_bytes{fstype !~ "selinuxfs|nfs|rpc_pipefs|rootfs|tmpfs",mountpoint !~ "/boot|/net|/selinux"})*100
+  - alert: MySQLGaleraNotReady
+    expr: mysql_global_status_wsrep_ready != 1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: '\{\{$labels.job}} on \{\{$labels.instance}} is not ready.'
+      summary: Galera cluster node not ready
+{{ end }}
