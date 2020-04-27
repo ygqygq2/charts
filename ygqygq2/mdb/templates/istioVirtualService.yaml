@@ -1,0 +1,72 @@
+{{- if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ template "mdb.servicename" . }}
+  labels:
+    app: {{ template "mdb.name" . }}
+    chart: {{ template "mdb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{- if (eq "tcp" .Values.istio.virtualService.type) }}
+  hosts:
+  - {{ template "mdb.servicename" . }}
+  tcp:
+  - match:
+    - port: {{ $.Values.service.ingressPort }}
+    route:
+{{ toYaml .Values.istio.virtualService.tcp | indent 6 }}
+{{- else }}
+  {{- if .Values.istio.gateway.enabled }}
+  gateways:
+  - {{ template "mdb.fullname" . }}
+  {{- end }}
+  hosts:
+  - mesh
+  - {{ template "mdb.servicename" . }}
+  {{- if .Values.istio.gateway.enabled }}
+  {{- $hostsUniq := list }}
+    {{- range $key, $value := .Values.istio.gateway.servers }}
+      {{- range $value.hosts }}
+        {{- $hostsUniq = append $hostsUniq . }}
+      {{- end }}
+    {{- end }}
+  {{- $hostsUniq = $hostsUniq | uniq }}
+  {{- range $hostsUniq }}
+  - {{ . }}
+  {{- end }}
+  {{- end }}
+  http:
+    {{- range $skey, $svalue := .Values.istio.canary }}
+  {{- if $svalue.routeAlone }}
+  - route:
+  {{- end }}
+    - destination:
+        host: {{ template "mdb.servicename" $ }}
+        subset: {{ $svalue.name }}
+        {{- if $.Values.istio.gateway.enabled }}
+        port:
+          number: {{ $.Values.service.ingressPort }}
+        {{- end }}
+      weight: {{ $svalue.weight }}
+{{- if $svalue.destination }}
+{{ toYaml $svalue.destination | indent 6 }}
+{{- end }}
+{{- if $svalue.route }}
+{{ toYaml $svalue.route | indent 4 }}
+{{- end }}
+    {{- end }}
+  - route:
+    - destination:
+        host: {{ template "mdb.servicename" . }}
+        subset: default
+      weight: {{ .Values.istio.default.weight }}
+{{- if .Values.istio.default.destination }}
+{{ toYaml .Values.istio.default.destination | indent 6 }}
+{{- end }}
+{{- if .Values.istio.default.route }}
+{{ toYaml .Values.istio.default.route | indent 4 }}
+{{- end }}
+{{- end }}
+{{- end -}}

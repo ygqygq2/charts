@@ -1,8 +1,16 @@
+## String to partially override fullname template (will maintain the release name)
+##
+nameOverride: ""
+
+## String to fully override fullname template
+##
+fullnameOverride: ""
+
 # where the mysql installed namespace
 namespaceSelector: monitoring
 # endports
 endpoints: []
-# on what port are the metrics exposed by redis
+# on what port are the metrics exposed by node exporter
 metricsPortName: metrics
 metricsPort: 9100
 # Are we talking http or https?
@@ -14,5 +22,9 @@ additionalServiceMonitorLabels:
 ##Custom Labels to be added to Prometheus Rules CRD
 additionalRulesLabels: 
   release: prometheus-operator
-# default rules are in templates/node-exporter-servicemonitor.rules.yaml
-# prometheusRules: {}
+
+prometheusRule:
+  enabled: false
+  ## https://github.com/prometheus/node_exporter/blob/master/example-rules.yml
+  ## https://github.com/helm/charts/tree/master/stable/prometheus-operator/templates/prometheus/rules-1.14
+  rules: []

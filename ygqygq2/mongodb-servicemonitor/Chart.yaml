@@ -1,0 +1,17 @@
+apiVersion: v1
+description: A Helm chart servicemonitor for mongodb exporter
+name: mongodb-servicemonitor
+version: 1.0.0
+appVersion: "0.10.0"
+maintainers:
+  - name: Chinge Yang
+    email: 29ygq@sina.com
+home: https://hub.docker.com/r/ssheehy/mongodb-exporter
+icon: 
+keywords:
+- mongodb
+- exporter
+- servicemonitor
+sources:
+- https://github.com/percona/mongodb_exporter
+- https://github.com/helm/charts/tree/master/stable/prometheus-mongodb-exporter

@@ -40,7 +40,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `metricsPortName`          | metrics port name                   | `metrics`                              |
 | `metricsPort  `            | node exporter metrics port          | `9104`                                 |
 | `scheme`                   | metrics web scheme                  | `http`                                 |
-| `prometheusRules`          | prometheusRules                     | `{}`                                   |
+| `prometheusRule`           | prometheusRule                      | see in `values.yaml`                   |                              
 | `additionalServiceMonitorLabels`| one of prometheus operator label| `release: prometheus-operator`        |
 | `additionalRulesLabels`    | one of prometheus operator label    | `release: prometheus-operator`         |
 

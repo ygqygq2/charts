@@ -2,7 +2,15 @@ apiVersion: v1
 description: A Helm chart servicemonitor for node exporter
 name: node-exporter-servicemonitor
 version: 1.0.0
-appVersion: v0.17.0
+appVersion: v1.0.0-rc.0
 maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
+home: https://hub.docker.com/r/prom/node-exporter/
+icon: 
+keywords:
+- node
+- exporter
+- servicemonitor
+sources:
+- http://github.com/prometheus/node_exporter

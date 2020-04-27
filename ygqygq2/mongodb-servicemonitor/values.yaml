@@ -12,7 +12,7 @@ namespaceSelector: monitoring
 endpoints: []
 # on what port are the metrics exposed by etcd
 metricsPortName: metrics
-metricsPort: 9104
+metricsPort: 9216
 # Are we talking http or https?
 scheme: http
 ## Custom Labels to be added to ServiceMonitor
@@ -25,5 +25,4 @@ additionalRulesLabels:
 
 prometheusRule:
   enabled: false
-  ## https://github.com/prometheus/mysqld_exporter/blob/master/example.rules
   rules: []

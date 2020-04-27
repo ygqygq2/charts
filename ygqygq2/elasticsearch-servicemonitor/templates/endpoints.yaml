@@ -1,0 +1,24 @@
+{{- if .Values.endpoints }}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ template "elasticsearch-servicemonitor.fullname" . }}
+  labels:
+    app: {{ template "elasticsearch-servicemonitor.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    prometheus: {{ .Release.Name }}
+    {{- if .Values.additionalServiceMonitorLabels }}
+{{ toYaml .Values.additionalServiceMonitorLabels | indent 4 }}
+    {{- end }}    
+subsets:
+  - addresses:
+      {{- range .Values.endpoints }}
+      - ip: {{ . }}
+      {{- end }}
+    ports:
+      - name: {{ .Values.metricsPortName }}
+        port: {{ int .Values.metricsPort }}
+        protocol: TCP
+{{- end }}

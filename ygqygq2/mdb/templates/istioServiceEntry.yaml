@@ -1,0 +1,13 @@
+{{- if and .Values.istio.enabled .Values.istio.serviceEntry.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ template "mdb.fullname" . }}
+  labels:
+    app: {{ template "mdb.name" . }}
+    chart: {{ template "mdb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{ toYaml .Values.istio.serviceEntry.spec | indent 2 }}
+{{- end -}}

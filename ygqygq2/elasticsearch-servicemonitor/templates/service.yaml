@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "elasticsearch-servicemonitor.fullname" . }}
+  labels:
+    app: {{ template "elasticsearch-servicemonitor.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  namespace: {{ .Values.namespaceSelector }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.metricsPort }}
+      targetPort: {{ .Values.metricsPort }}
+      protocol: TCP
+      name: "{{ .Values.metricsPortName }}"

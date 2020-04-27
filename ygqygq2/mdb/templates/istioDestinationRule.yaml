@@ -1,0 +1,31 @@
+{{- if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ template "mdb.servicename" . }}
+  labels:
+    app: {{ template "mdb.name" . }}
+    chart: {{ template "mdb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  # trafficPolicy:
+  #   tls:
+  #     mode: ISTIO_MUTUAL
+  host: {{ template "mdb.servicename" . }}
+  subsets:
+  - name: default
+    labels:
+      canary: "false"
+      app: {{ template "mdb.name" . }}
+      release: {{ .Release.Name }}
+      version: {{ template "mdb.version" . }}
+  {{- range $skey, $svalue := .Values.istio.canary }}
+  - name: {{ $svalue.name }}
+    labels:
+      canary: "true"
+      app: {{ template "mdb.name" $ }}
+      release: {{ $.Release.Name }}
+      version: {{ $svalue.image.tag }}
+  {{- end }}
+{{- end -}}

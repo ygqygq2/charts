@@ -1,0 +1,53 @@
+## String to partially override fullname template (will maintain the release name)
+##
+nameOverride: ""
+
+## String to fully override fullname template
+##
+fullnameOverride: ""
+
+# where the mysql installed namespace
+namespaceSelector: monitoring
+# endports
+endpoints: []
+# on what port are the metrics exposed by etcd
+metricsPortName: metrics
+metricsPort: 9206   # new port 9114
+# Are we talking http or https?
+scheme: http
+## Custom Labels to be added to ServiceMonitor
+# 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
+additionalServiceMonitorLabels: 
+  release: prometheus-operator
+##Custom Labels to be added to Prometheus Rules CRD
+additionalRulesLabels: 
+  release: prometheus-operator
+
+prometheusRule:
+  enabled: false
+  ## https://github.com/helm/charts/blob/master/stable/elasticsearch-exporter/values.yaml 部分rules
+  rules: []
+    # - record: elasticsearch_filesystem_data_used_percent
+    #   expr: |
+    #     100 * (elasticsearch_filesystem_data_size_bytes{service="{{ template "elasticsearch-exporter.fullname" . }}"} - elasticsearch_filesystem_data_free_bytes{service="{{ template "elasticsearch-exporter.fullname" . }}"})
+    #     / elasticsearch_filesystem_data_size_bytes{service="{{ template "elasticsearch-exporter.fullname" . }}"}
+    # - record: elasticsearch_filesystem_data_free_percent
+    #   expr: 100 - elasticsearch_filesystem_data_used_percent{service="{{ template "elasticsearch-exporter.fullname" . }}"}
+    # - alert: ElasticsearchTooFewNodesRunning
+    #   expr: elasticsearch_cluster_health_number_of_nodes{service="{{ template "elasticsearch-exporter.fullname" . }}"} < 3
+    #   for: 5m
+    #   labels:
+    #     severity: critical
+    #   annotations:
+    #     description: There are only {{ "{{ $value }}" }} < 3 ElasticSearch nodes running
+    #     summary: ElasticSearch running on less than 3 nodes
+    # - alert: ElasticsearchHeapTooHigh
+    #   expr: |
+    #     elasticsearch_jvm_memory_used_bytes{service="{{ template "elasticsearch-exporter.fullname" . }}", area="heap"} / elasticsearch_jvm_memory_max_bytes{service="{{ template "elasticsearch-exporter.fullname" . }}", area="heap"}
+    #     > 0.9
+    #   for: 15m
+    #   labels:
+    #     severity: critical
+    #   annotations:
+    #     description: The heap usage is over 90% for 15m
+    #     summary: ElasticSearch node {{ "{{ $labels.node }}" }} heap usage is high

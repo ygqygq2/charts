@@ -1,0 +1,27 @@
+#apiVersion: {{ template "prometheus-operator.apiVersion" . }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: {{ template "rabbitmq-servicemonitor.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    prometheus: {{ .Release.Name }}
+    {{- if .Values.additionalServiceMonitorLabels }}
+{{ toYaml .Values.additionalServiceMonitorLabels | indent 4 }}
+    {{- end }}    
+  name: {{ template "rabbitmq-servicemonitor.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "rabbitmq-servicemonitor.name" . }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      release: {{ .Release.Name }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.namespaceSelector }}
+  endpoints:
+  - port: "{{ .Values.metricsPortName }}"
+    interval: 15s
+    #bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
