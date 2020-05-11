@@ -1,0 +1,24 @@
+{{- if .Values.prometheusRule.enabled }}
+#apiVersion: {{ template "prometheus-operator.apiVersion" . }}
+apiVersion: monitoring.coreos.com/v1                                                                                                       
+kind: PrometheusRule
+metadata:
+  labels:
+    app: "prometheus"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    prometheus: {{ .Release.Name }}
+    release: {{ .Release.Name }}
+    {{- if .Values.additionalRulesLabels }}
+{{ toYaml .Values.additionalRulesLabels | indent 4 }}
+    {{- else if .Values.additionalRulesConfigMapLabels }}       # Deprecated for .Values.additionalRulesLabels
+{{ toYaml .Values.additionalRulesConfigMapLabels | indent 4 }}  # Deprecated for .Values.additionalRulesLabels
+    {{- end }} 
+  name: {{ template "haproxy-servicemonitor.fullname" . }}
+spec:
+{{- with .Values.prometheusRule.rules }}
+  groups:
+    - name: {{ template "haproxy-servicemonitor.fullname" $ }}
+      rules: {{ tpl (toYaml .) $ | nindent 8 }}
+{{- end }}
+{{ end }}

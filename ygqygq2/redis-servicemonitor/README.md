@@ -1,6 +1,6 @@
-# elasticsearch-servicemonitor - Prometheus Operator with elasticsearch exporter servicemonitor
+# redis-servicemonitor - Prometheus Operator with redis exporter servicemonitor
 
-[elasticsearch-servicemonitor](https://)是Prometheus Operator监控elasticsearch exporter的charts
+[redis-servicemonitor](https://)是Prometheus Operator监控redis exporter的charts
 
 ## Introduction
 
@@ -16,7 +16,7 @@ This chart bootstraps prometheus servicemonitor on a [Kubernetes](http://kuberne
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install my-release ./elasticsearch-servicemonitor
+$ helm install my-release ./redis-servicemonitor
 ```
 
 The command deploys ceph-exporter cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -38,7 +38,7 @@ The following table lists the configurable parameters of the chart and their def
 | `namespaceSelector`        | service monitor deploy namespace    | `monitoring`                           |
 | `endpoints`                | node exporter addresses             | `[]`                                   |
 | `metricsPortName`          | metrics port name                   | `metrics`                              |
-| `metricsPort  `            | exporter metrics port               | `9206`                                 |
+| `metricsPort  `            | redis exporter metrics port         | `9121`                                 |
 | `scheme`                   | metrics web scheme                  | `http`                                 |
 | `prometheusRule`           | prometheusRule                      | see in `values.yaml`                   |                              
 | `additionalServiceMonitorLabels`| one of prometheus operator label| `release: prometheus-operator`        |

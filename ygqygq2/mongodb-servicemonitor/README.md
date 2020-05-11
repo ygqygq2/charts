@@ -31,14 +31,14 @@ $ helm uninstall my-release
 
 ## Configuration
 
-The following table lists the configurable parameters of the FastDFS-Nginx chart and their default values.
+The following table lists the configurable parameters of the chart and their default values.
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
 | `namespaceSelector`        | service monitor deploy namespace    | `monitoring`                           |
 | `endpoints`                | node exporter addresses             | `[]`                                   |
 | `metricsPortName`          | metrics port name                   | `metrics`                              |
-| `metricsPort  `            | redis exporter metrics port         | `9216`                                 |
+| `metricsPort  `            | exporter metrics port               | `9216`                                 |
 | `scheme`                   | metrics web scheme                  | `http`                                 |
 | `prometheusRule`           | prometheusRule                      | see in `values.yaml`                   |                              
 | `additionalServiceMonitorLabels`| one of prometheus operator label| `release: prometheus-operator`        |
