@@ -80,7 +80,7 @@ spec:
 {{ toYaml $.Values.startCommand |indent 12 }}
           {{- end }}
           env:
-          {{- if .Values.javaOpts }}
+          {{- if $.Values.javaOpts }}
             - name: JAVA_TOOL_OPTIONS      
               value: {{ $.Values.javaOpts }}
           {{- end }}  

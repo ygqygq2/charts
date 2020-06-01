@@ -16,7 +16,7 @@ spec:
   - match:
     - port: {{ $.Values.service.ingressPort }}
     route:
-{{ toYaml .Values.istio.virtualService.tcp | indent 6 }}
+{{ toYaml .Values.istio.virtualService.tcp.route | indent 4 }}
 {{- else }}
   {{- if .Values.istio.gateway.enabled }}
   gateways:
@@ -38,10 +38,8 @@ spec:
   {{- end }}
   {{- end }}
   http:
-    {{- range $skey, $svalue := .Values.istio.canary }}
-  {{- if $svalue.routeAlone }}
   - route:
-  {{- end }}
+  {{- range $skey, $svalue := .Values.istio.canary }}
     - destination:
         host: {{ template "mdb.servicename" $ }}
         subset: {{ $svalue.name }}
@@ -56,8 +54,10 @@ spec:
 {{- if $svalue.route }}
 {{ toYaml $svalue.route | indent 4 }}
 {{- end }}
-    {{- end }}
+  {{- if $svalue.routeAlone }}
   - route:
+  {{- end }}
+  {{- end }}
     - destination:
         host: {{ template "mdb.servicename" . }}
         subset: default

@@ -249,6 +249,14 @@ istio:
     ## http/tcp
     type: http
 
+    ## TCPRoute, when type is tcp                                                                                                                                                                              
+    tcp: 
+      route:
+      - destination:
+          host: mongo.backup.svc.cluster.local
+          port:
+            number: 27017
+
   ## default subset, 非canary
   default:
     weight: 50
@@ -302,14 +310,6 @@ istio:
         #   allowHeaders:
         #   - X-Foo-Bar
         #   maxAge: "24h"
-    
-        ## TCPRoute, when type is tcp
-        # tcp: 
-        #   route:
-        #   - destination:
-        #       host: mongo.backup.svc.cluster.local
-        #       port:
-        #         number: 27017
     
         ## 注意请求的重试和超时还可以针对每个请求分别设置
         ## 超时设置，默认15s
