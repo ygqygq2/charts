@@ -80,13 +80,13 @@ spec:
           resources:
 {{ toYaml .Values.metrics.resources | indent 12 }}
 {{- end }}
-        - name: {{ .Chart.Name }}
+        - name: {{ template "mod-chart.fullname" . }}
           image: {{ template "mod-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           {{- if .Values.securityContext }}
           securityContext:
-{{ toYaml .Values.securityContext | indent 12 }}			
-          {{- end }}					
+{{ toYaml .Values.securityContext | indent 12 }}
+          {{- end }}
           {{- if .Values.lifecycle }}
           lifecycle:
 {{ toYaml .Values.lifecycle | indent 12 }}
@@ -96,7 +96,56 @@ spec:
 {{ toYaml .Values.startCommand |indent 12 }}
           {{- end }}
           env:
-{{ toYaml .Values.env | indent 12 }}
+            - name: CPU_REQUEST
+              valueFrom:
+                resourceFieldRef:
+                  containerName: {{ template "mod-chart.fullname" . }}
+                  resource: requests.cpu
+            - name: CPU_LIMIT
+              valueFrom:
+                resourceFieldRef:
+                  containerName: {{ template "mod-chart.fullname" . }}
+                  resource: limits.cpu
+            - name: MEM_REQUEST
+              valueFrom:
+                resourceFieldRef:
+                  containerName: {{ template "mod-chart.fullname" . }}
+                  resource: requests.memory
+            - name: MEM_LIMIT
+              valueFrom:
+                resourceFieldRef:
+                  containerName: {{ template "mod-chart.fullname" . }}
+                  resource: limits.memory
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: SERVICE_NAME
+              value: {{ template "mod-chart.fullname" . }}
+            {{- if .Values.env.configMapKV }}
+            {{- range $value := .Values.env.configMapKV }}
+            - name : {{ $value }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "mod-chart.fullname" $ }}
+                  key: {{ $value }}
+            {{- end }}
+            {{- end }}
+{{- if .Values.env.standardKV }}
+{{ toYaml .Values.env.standardKV | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           ports:
@@ -174,7 +223,7 @@ spec:
         {{- if .Values.secret.enabled }}
         - name: {{ template "mod-chart.name" . }}-secret
           secret:
-            secretName: {{ template "utcook.fullname" . }}
+            secretName: {{ template "mod-chart.fullname" . }}
         {{- end }}
         {{- if .Values.existSecret.enabled }}
         - name: {{ template "mod-chart.name" . }}-exist-secret

@@ -7,19 +7,21 @@
 ## Current available global Docker image parameters: imageRegistry and imagePullSecrets
 ##
 global:
+  # 全局镜像仓库名称
   imageRegistry: ""
+  # 镜像key,开启以后可以在下面自定义docker pull secret
   imagePullSecrets: []
-#     - myRegistryKeySecretName
+  #  - myRegistryKeySecretName
 
 statefulset:
   enabled: false
 
 ## String to partially override fullname template (will maintain the release name)
-##
+## 包名字覆盖
 nameOverride: ""
 
 ## String to fully override fullname template
-##
+## 全名覆盖
 fullnameOverride: ""
 
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
@@ -33,6 +35,16 @@ deploymentStrategy: {}
 ## 副本个数
 replicaCount: 1
 
+## docker镜像认证加密文件
+dockerPullSecrets:
+  enabled: false
+  # name:  这里的name引用的是image.pullSecrets 或者global.imagePullSecrets下面的值
+
+  # dockerconfigJson的配置文件示例：
+  # {"auths":{"仓库地址":{"username":"用户名","password":"密码","email":"none","auth":"用户名:密码的base64加密码"}}}
+  # 注意下面需要放配置文件的base64加密的json
+  dockerconfigjson: ""
+
 ## 容器image及tag
 image:
   registry: docker.io
@@ -41,6 +53,7 @@ image:
   pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []
   #  - private-registry-key
+
 
 ## Kubernetes svc configuration
 ##
@@ -64,7 +77,11 @@ service:
 
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
-env: []
+env:
+  # configmap 里面的key values
+  configMapKV: []
+  # 标准的key values
+  standardKV: []
 #  - name: DEMO_GREETING
 #    value: "Hello from the environment"
 #  - name: DEMO_FAREWELL
@@ -99,7 +116,7 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
 existSecret:
   enabled: false
@@ -108,10 +125,10 @@ existSecret:
   subPath: ""
   readOnly: true
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
-  enabled: true
+  enabled: false
   type: tcp  # http/tcp
   port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
@@ -119,7 +136,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -243,7 +260,7 @@ deployment:
 ## Container Security Context
 securityContext: {}
 #   fsGroup: 1001
-#   runAsUser: 1001				
+#   runAsUser: 1001
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
