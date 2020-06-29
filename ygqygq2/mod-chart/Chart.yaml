@@ -12,7 +12,7 @@ keywords:
 - www
 - reverse proxy
 maintainers:
-- email: liuqx@glodon.com
-  name: liuqx
-#sources:
-#- https://github.com/bitnami/bitnami-docker-nginx
+- email: 29ygq@sina.com
+  name: Chinge Yang
+sources:
+- https://github.com/bitnami/bitnami-docker-nginx
