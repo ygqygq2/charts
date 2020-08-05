@@ -50,6 +50,10 @@ spec:
         version: {{ $svalue.image.tag }}
         canary: "true"
     spec:
+      hostNetwork: {{ $.Values.hostNetwork }}
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ $.Values.dnsPolicy | quote }}
+      {{- end }}
 {{- include "mdb.imagePullSecrets" $ | indent 6 }}
       {{- if $.Values.initContainers }}
       initContainers:

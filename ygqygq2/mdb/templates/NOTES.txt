@@ -1,6 +1,6 @@
 The mdb has been installed.
 
-Utcook can be accessed:
+App can be accessed:
 
     {{ if .Values.ingress.enabled }}
   * The application URL:

@@ -166,6 +166,7 @@ tolerations: []
 affinity: {}
 annotations: {}
 hostNetwork: false
+dnsPolicy: ""  # ClusterFirst/ClusterFirstWithHostNet ...
 hostAliases: []
 # - ip: "192.168.1.100"
 #   hostnames:
