@@ -51,7 +51,7 @@ spec:
         canary: "true"
     spec:
       hostNetwork: {{ $.Values.hostNetwork }}
-      {{- if .Values.dnsPolicy }}
+      {{- if $.Values.dnsPolicy }}
       dnsPolicy: {{ $.Values.dnsPolicy | quote }}
       {{- end }}
 {{- include "mdb.imagePullSecrets" $ | indent 6 }}
