@@ -1,4 +1,4 @@
-# mdb - 支持istio的通用模板
+# mdb - 给Nepxion Discovery提供多deployment/statefulset的灰度发布模板
 
 [mdb](https://)是什么
 
@@ -11,7 +11,6 @@ This chart bootstraps mdb deployment on a [Kubernetes](http://kubernetes.io) clu
 - Kubernetes 1.6+
 - PV provisioner support in the underlying infrastructure
 - Helm v2.13.0+
-- Istio v1.0.0+
 
 ## Installing the Chart
 
@@ -63,7 +62,7 @@ The following table lists the configurable parameters of the mdb chart and their
 | `lifecycle`                | Pod lifecycle                       | `{}`                                   |
 | `deployment.additionalVolumes`| deployment annotations initContainers| `{}`                               |
 | `additionalContainers`     | sidecar containers                  | `{}`                                   |
-| `istio`                    | canary deployment and istio support.| see in values.yaml                     |
+| `canary`                   | canary deployment and canary support.| see in values.yaml                    |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 

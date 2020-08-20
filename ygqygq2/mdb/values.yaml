@@ -241,148 +241,17 @@ ingress:  # 是否使用nginx暴露域名或端口
   #      - chart-example.local
 
 ## istio configure
-istio:
+canary:
   enabled: false
 
-  ## ref: https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/
-  ## canary默认一条路由规则
-  virtualService:
-    ## http/tcp
-    type: http
-
-    ## TCPRoute, when type is tcp                                                                                                                                                                              
-    tcp: 
-      route:
-      - destination:
-          host: mongo.backup.svc.cluster.local
-          port:
-            number: 27017
-
-  ## default subset, 非canary
-  default:
-    weight: 50
-    ## HTTPRouteDestination
-    destination: {}
-    ## HTTPRoute
-    route: {}
-
   ## canary subset 
-  canary:
-    - name: v1
-      replicaCount: 1
-      weight: 50
-      image:
-        repository: bitnami/nginx
-        tag: latest
-        pullPolicy: IfNotPresent
-      ## 是否单独一条route
-      routeAlone: false
-      ## HTTPRouteDestination
-      destination: 
-        ## headers
-        # request:
-        #   add:
-        #     version: canary
-        # response:
-        #   add:
-        #     version: canary
-
-      ## HTTPRoute
-      route:
-        ## HTTPMatchRequest
-        # match: 
-        #   - headers:
-        #       end-user:
-        #         exact: jason
-        #   - uri:
-        #       exact: /v1/getProductRatings
-        # 
-        #   - sourceLabels:
-        #       canary: "true"
-
-        ## corsPolicy
-        # corsPolicy:
-        #   allowOrigin:
-        #   - example.com
-        #   allowMethods:
-        #   - POST
-        #   - GET
-        #   allowCredentials: false
-        #   allowHeaders:
-        #   - X-Foo-Bar
-        #   maxAge: "24h"
-    
-        ## 注意请求的重试和超时还可以针对每个请求分别设置
-        ## 超时设置，默认15s
-        # timeout: ""
-        ## 重试次数
-        # retries: 
-        #   attempts: 3
-        #   perTryTimeout: 2s    
-    
-        ## 故障注入
-        # fault: 
-        #   delay:
-        #     percentage:
-        #       value: 10
-        #     fixedDelay: 5s
-        #   abort:
-        #     percentage: 
-        #       value: 10
-        #     httpStatus: 400
-        
-        ## HTTPRedirect
-        # redirect: 
-        #   uri: /v1/bookRatings
-        #   authority: newratings.default.svc.cluster.local
-    
-        ## HTTPRewrite
-        ## 重写原语只能与HTTPRouteDesttion一起使用。
-        # rewrite: 
-        #   uri: /v1/bookRatings
-    
-        ## mirror
-        # mirror: 
-        #   host: httpbin
-        #   subset: v2
-  
-  serviceEntry:
-    enabled: false
-    spec: {}
-    #   hosts:
-    #   - *.foo.com
-    #   location: MESH_EXTERNAL
-    #   ports:
-    #   - number: 80
-    #     name: http
-    #     protocol: HTTP
-    #   - number: 443
-    #     name: https
-    #     protocol: HTTPS
-    #   resolution: DNS
-
-  gateway:
-    enabled: false
-    servers:
-    - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      ## 多域名时，vs涉及去重
-      hosts:
-      - uk.bookinfo.com
-    #   tls:
-    #     httpsRedirect: true # 用 301 重定向指令响应 http 协议的请求。
-    # - port:
-    #     number: 443
-    #     name: https
-    #     protocol: HTTPS
-    #   hosts:
-    #   - en.bookinfo.com
-    #   tls:
-    #     mode: SIMPLE # 在这一端口开放 https 服务。
-    #     serverCertificate: /etc/certs/servercert.pem
-    #     privateKey: /etc/certs/privatekey.pem
+  subset: 
+  - name: v1
+    replicaCount: 1
+    image:
+      repository: bitnami/nginx
+      tag: latest
+      pullPolicy: IfNotPresent
 
 ## Prometheus Exporter / Metrics
 ##
