@@ -11,6 +11,8 @@ global:
   imagePullSecrets: []
 #     - myRegistryKeySecretName
 
+## 默认以deployment启动
+##
 statefulset:
   enabled: false
 
@@ -48,7 +50,7 @@ service:
   name: ""
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
   type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
-  # loadBalancerIP:
+  loadBalancerIP: ""
   ## Enable client source IP preservation
   ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   ##
@@ -86,6 +88,7 @@ config:
   readOnly: true
   data: {}
 
+## 使用已存在的configmap映射到相应目录或文件路径
 existConfig:
   enabled: false
   name: ""
@@ -101,6 +104,7 @@ secret:
   readOnly: true
   data: {} 
 
+## 使用已存在的secret映射到相应目录或文件路径
 existSecret:
   enabled: false
   name: ""
@@ -142,6 +146,12 @@ nodeSelector: {}
 tolerations: []
 affinity: {}
 annotations: {}
+hostNetwork: false
+dnsPolicy: ""  # ClusterFirst/ClusterFirstWithHostNet ...
+hostAliases: []
+# - ip: "192.168.1.100"
+#   hostnames:
+#   - "example.local"
 
 ## Enable autoscaling using HorizontalPodAutoscaler
 ## ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
@@ -188,7 +198,16 @@ persistentVolume:   # 是否存储持久化
   #    mountPath: /data
   #    subPath: data
 
-## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+## 额外的挂载设置
+extraVolumeMounts: []
+# - mountPath: /logs
+#   name: logs
+extraVolumes: []
+# - hostPath:
+#     path: /home/logs
+#   name: logs
+
+
 ingress:  # 是否使用nginx暴露域名或端口
   enabled: false
   annotations: {}
@@ -235,21 +254,17 @@ lifecycle: {}
   # postStart:
   #   exec:
   #     command: ["/bin/bash","/post-start.sh"]
-
-## Deployment additional volumes.
-deployment:
-  additionalVolumes: []
-
-## Container Security Context
-securityContext: {}
-#   fsGroup: 1001
-#   runAsUser: 1001				
+  
+## Container Security Context                                                              
+securityContext: {}                                                                        
+#   fsGroup: 1001                                                                          
+#   runAsUser: 1001    
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 ## Add init containers. e.g. to be used to give specific permissions for data
 ## Add your own init container or uncomment and modify the given example.
-initContainers: {}
+initContainers: []
 #  - name: fmp-volume-permission
 #    image: busybox
 #    imagePullPolicy: IfNotPresent
@@ -259,7 +274,7 @@ initContainers: {}
 #        mountPath: /extra-data
 
 ## Additional containers to be added to the core pod.
-additionalContainers: {}
+additionalContainers: []
 #  - name: my-sidecar
 #    image: nginx:latest
 #  - name: lemonldap-ng-controller

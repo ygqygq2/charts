@@ -1,4 +1,4 @@
-# Default values for mdb.
+# Default values for perfino.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -37,39 +37,35 @@ replicaCount: 1
 
 ## 容器image及tag
 image:
-  ## 上文global.imageRegistry非空时会覆盖此值
   registry: docker.io
-  repository: bitnami/nginx
+  repository: ygqygq2/perfino
   tag: latest
-  pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
-  pullSecrets: []   # 如果需要docker仓库验证
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullSecrets: []
   #  - private-registry-key
 
-## 
-## Istio named service ports
-## ref: https://istio.io/docs/setup/kubernetes/prepare/requirements/
+## Kubernetes svc configuration
+##
 service:
   name: ""
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
   type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
-  externalIPs: []
-  # LoadBalancer类型时可使用
   loadBalancerIP: ""
   ## Enable client source IP preservation
   ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   ##
   externalTrafficPolicy: Cluster  # 支持Cluster/Local
-  ingressPort: 8080
+  ingressPort: 8020
   ports:
     ## 多端口暴露时，复制一段
     http:
-      port: 8080  # Service port number for client-a port.
+      port: 8020  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
       ## Use nodePorts to requets some specific ports when usin NodePort
       # nodePort:  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
-
-## JAVA_TOOL_OPTIONS
-javaOpts: ""
+    socket:
+      port: 8847
+      protocol: TCP
 
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
@@ -81,10 +77,11 @@ env: []
 
 ## command set
 startCommand: []
-#  - "java"
-#  - "-Duser.timezone=GMT+08"
+#  - "java -Xdebug -Xnoagent -Djava.compiler=NONE"
+#  - "-Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
 #  - "-Djava.security.egd=file:/dev/urandom"
-#  - "-jar /app.jar"
+#  - "-jar /test.jar"
+#  - "-Duser.timezone=GMT+08"
 
 ## Enable configmap and add data in configmap
 config:
@@ -121,23 +118,14 @@ existSecret:
 ## liveness and readiness 
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
+  enabled: true
   type: tcp  # http/tcp
   port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
-  livenessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
-  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
-  readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1                                                                                                           
-  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+  livenessInitialDelaySeconds: 30  # 初始延迟秒数
+  livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
+  readinessInitialDelaySeconds: 30  # 初始延迟秒数
+  readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
  
 resources: {}
   # 容器资源设置
@@ -157,10 +145,7 @@ resources: {}
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
 labels: {}
 podAnnotations: {}
-  # sidecar.istio.io/inject: "true"
 nodeSelector: {}
-#   env: dev
-#   node-role.kubernetes.io/worker: worker
 tolerations: []
 affinity: {}
 annotations: {}
@@ -208,13 +193,13 @@ persistentVolume:   # 是否存储持久化
   #   helm.sh/resource-policy: keep
   size: 1Gi  # 大小
   existingClaim: {}  # 使用已存在的pvc
-  mountPaths: []
+  mountPaths:
   #  - name: data-storage
   #    mountPath: /config
   #    subPath: config
-  #  - name: data-storage
-  #    mountPath: /data
-  #    subPath: data
+    - name: data-storage
+      mountPath: /opt/perfino/data
+      subPath: data
 
 ## 额外的挂载设置
 extraVolumeMounts: []
@@ -238,19 +223,6 @@ ingress:  # 是否使用nginx暴露域名或端口
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-## istio configure
-canary:
-  enabled: false
-
-  ## canary subset 
-  subset: 
-  - name: v1
-    replicaCount: 1
-    image:
-      repository: bitnami/nginx
-      tag: latest
-      pullPolicy: IfNotPresent
 
 ## Prometheus Exporter / Metrics
 ##

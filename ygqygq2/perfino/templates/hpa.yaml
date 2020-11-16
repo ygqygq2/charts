@@ -1,0 +1,25 @@
+{{- if and .Values.autoscaling.enabled}}
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "perfino.fullname" . }}
+  labels:
+    app: {{ template "perfino.name" . }}
+    chart: {{ template "perfino.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}    
+spec:
+  scaleTargetRef:
+    {{- if .Values.statefulset.enabled }}
+    apiVersion: apps/v1
+    kind: StatefulSet
+    {{- else }}
+    apiVersion: apps/v1
+    kind: Deployment
+    {{- end }}
+    name: {{ include "perfino.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  metrics:
+    {{- toYaml .Values.autoscaling.metrics | nindent 4 }}
+{{- end }}
