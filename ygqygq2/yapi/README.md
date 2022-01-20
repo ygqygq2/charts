@@ -8,7 +8,7 @@ This chart bootstraps yapi deployment on a [Kubernetes](http://kubernetes.io) cl
 
 ## Prerequisites
 
-- Kubernetes 1.6+
+- Kubernetes 1.12+
 - PV provisioner support in the underlying infrastructure
 
 ## Installing the Chart
@@ -47,7 +47,7 @@ The following table lists the configurable parameters of the yapi chart and thei
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
-| `image`                    | `yapi` image, tag.                  | `ygqygq2/yapi` `v1.7.2`                |
+| `image`                    | `yapi` image, tag.                  | `ygqygq2/yapi` `v1.8.0`                |
 | `ingress`                  | Ingress for the yapi.               | `false`                                |
 | `mongodb`                  | Yapi database to store data.        | see in `values.yaml`                   |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |

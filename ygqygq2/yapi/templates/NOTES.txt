@@ -38,5 +38,10 @@ Yapi can be accessed:
     kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME 3000:3000
     {{- end }}
 
+  * If not init admin account, run these commands in the pod shell:
+    kubectl exec -it -n {{ .Release.Namespace }} $POD_NAME -- /bin/bash  # enter the pod
+    
+    cd ${HOME} && rm -f init.lock && cd ${VENDORS} && npm run install-server  # init admin account
+
     # The default user is: admin@admin.com
     # The default password is: ymfe.org

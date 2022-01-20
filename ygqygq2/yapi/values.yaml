@@ -1,17 +1,49 @@
+## @section Global parameters
+## Global Docker image parameters
+## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+
+## @param global.imageRegistry Global Docker image registry
+## @param global.imagePullSecrets Global Docker registry secret names as an array
+##
+global:
+  imageRegistry: ""
+  ## E.g.
+  ## imagePullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  imagePullSecrets: []
+
+## @section Common parameters
+
+## @param nameOverride String to partially override nginx.fullname template (will maintain the release name)
+##
+nameOverride: ""
+## @param fullnameOverride String to fully override nginx.fullname template
+##
+fullnameOverride: ""
+## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
+##
+kubeVersion: ""
+## @param clusterDomain Kubernetes Cluster Domain
+##
+clusterDomain: cluster.local
+## @param extraDeploy Extra objects to deploy (value evaluated as a template)
+##
+extraDeploy: []
+## @param commonLabels Add labels to all the deployed resources
+##
+commonLabels: {}
+## @param commonAnnotations Add annotations to all the deployed resources
+##
+commonAnnotations: {}
+
 # Default values for yapi.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 statefulset:
   enabled: false
-
-## String to partially override fullname template (will maintain the release name)
-##
-nameOverride: ""
-
-## String to fully override fullname template
-##
-fullnameOverride: ""
 
 ## By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25% .
 ## You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
@@ -27,7 +59,7 @@ replicaCount: 1
 # 容器image及tag
 image:
   repository: ygqygq2/yapi
-  tag: v1.7.2
+  tag: v1.8.0
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: []
 
@@ -41,12 +73,13 @@ service:
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
 env:
-  - name: HOME
-    value: "/yapi"
-  - name: VENDORS
-    value: "/yapi/vendors"
+## 为了支持版本升级，另起持久化安装目录
+#  - name: HOME
+#    value: "/yapi"
+#  - name: VENDORS
+#    value: "/yapi/vendors"
 #  - name: VERSION
-#    value: 1.7.2
+#    value: 1.8.0
 #  - name: DB_SERVER
 #    value: ""
 
@@ -161,6 +194,7 @@ ingress:  # 是否使用nginx暴露域名或端口
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   path: /
+  pathType: ImplementationSpecific
   hosts:
     - chart-example.local
   tls: []
@@ -178,74 +212,21 @@ mongodb:
     mongodbUsername: "yapi"
     mongodbPassword: "yapi"
 
-  usePassword: true
-  mongodbRootPassword: yapi
-  mongodbUsername: yapi
-  mongodbPassword: yapi
-  mongodbDatabase: yapi
-
-  replicaSet:
-    ## Whether to create a MongoDB replica set for high availability or not
-    enabled: false
-    useHostnames: true
-  
-    ## Name of the replica set
-    ##
-    name: rs0
-  
-    ## Key used for replica set authentication
-    ##
-    # key: key
-  
-    ## Number of replicas per each node type
-    ##
-    replicas:
-      secondary: 1
-      arbiter: 1
-
+  auth:
+    enabled: true
+    rootUser: root
+    rootPassword: "yapi"
+    usernames: ["yapi"]
+    passwords: ["yapi"]
+    databases: ["yapi"]
   persistence:
-    enabled: false
-    ## A manually managed Persistent Volume and Claim
-    ## Requires persistence.enabled: true
-    ## If defined, PVC must be created manually before volume will be bound
-    ##
-    # existingClaim:
-  
-    ## The path the volume will be mounted at, useful when using different
-    ## MongoDB images.
-    ##
-    mountPath: /bitnami/mongodb
-  
-    ## The subdirectory of the volume to mount to, useful in dev environments
-    ## and one PV for multiple services.
-    ##
-    subPath: ""
-  
-    ## mongodb data Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    storageClass: "-"
+    enabled: false  # 注意 false 时不保留数据
+    medium: ""
+    existingClaim: ""
+    storageClass: ""
     accessModes:
       - ReadWriteOnce
     size: 8Gi
-    annotations: {}
-
-  # Expose mongodb via ingress. This is possible if using nginx-ingress
-  # https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/
-  ingress:
-    enabled: false
-    annotations: {}
-    labels: {}
-    paths:
-      - /
-    hosts: []
-    tls:
-      - secretName: secret-tls
-        hosts: []
 
 ## Uncomment and modify this to run a command after starting the core container.
 ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/

@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "yapi.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
-apiVersion: extensions/v1beta1
+apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
@@ -31,8 +31,13 @@ spec:
       http:
         paths:
           - path: {{ $ingressPath }}
+            {{- if eq "true" (include "common.ingress.supportsPathType" $) }}
+            pathType: {{ $.Values.ingress.pathType }}
+            {{- end }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $.Values.service.ports.web.port }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $.Values.service.ports.web.port }}
   {{- end }}
 {{- end }}
