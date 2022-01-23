@@ -1,0 +1,24 @@
+{{ $root := . }}
+{{- range $skey, $svalue := $.Values.fastdfs.storage }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fastdfs-nginx.fullname" $root }}-storage-{{ $svalue.name }}
+  labels:
+    app: {{ template "fastdfs-nginx.name" $root }}
+    chart: {{ template "fastdfs-nginx.chart" $root }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+spec:
+  ports:
+{{- range $key, $port := $.Values.storagePorts }}
+    - name: {{ $key }}
+      port: {{ $port.containerPort }}
+      targetPort: {{ $port.name }}
+      protocol: {{ $port.protocol }}
+{{- end }}
+  selector:
+    app: {{ template "fastdfs-nginx.name" $root }}-storage-{{ $svalue.name }}
+    release: {{ $.Release.Name }}
+---
+{{- end }}

@@ -1,9 +1,15 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: 0.0.3
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
 description: Chart for the alertmanager2es
 engine: gotpl
 name: alertmanager2es
-version: 1.0.0
+version: 2.0.0
 home: https://github.com/ygqygq2/alertmanager2es
 icon: 
 keywords:

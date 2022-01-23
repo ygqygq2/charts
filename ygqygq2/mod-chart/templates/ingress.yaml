@@ -1,10 +1,10 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "mod-chart.fullname" . -}}
 {{- $ingressPath := .Values.ingress.path -}}
-apiVersion: extensions/v1beta1
+apiVersion: {{ include "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ template "mod-chart.fullname" . }}
   labels:
     app: {{ template "mod-chart.name" . }}
     chart: {{ template "mod-chart.chart" . }}
@@ -15,7 +15,10 @@ metadata:
 {{ toYaml . | indent 4 }}
 {{- end }}
 spec:
-{{- if .Values.ingress.tls }}
+  {{- if and .Values.ingress.ingressClassName (eq "true" (include "common.ingress.supportsIngressClassname" .)) }}
+  ingressClassName: {{ .Values.ingress.ingressClassName | quote }}
+  {{- end }}
+  {{- if .Values.ingress.tls }}
   tls:
   {{- range .Values.ingress.tls }}
     - hosts:
@@ -24,15 +27,20 @@ spec:
       {{- end }}
       secretName: {{ .secretName }}
   {{- end }}
-{{- end }}
+  {{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
     - host: {{ . }}
       http:
         paths:
           - path: {{ $ingressPath }}
+            {{- if eq "true" (include "common.ingress.supportsPathType" $) }}
+            pathType: {{ $.Values.ingress.pathType }}
+            {{- end }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $.Values.service.ingressPort }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $.Values.service.ingressPort }}
   {{- end }}
 {{- end }}

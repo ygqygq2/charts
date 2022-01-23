@@ -1,0 +1,21 @@
+{{ $root := . }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "fastdfs-nginx.fullname" $root }}-tracker
+  labels:
+    app: {{ template "fastdfs-nginx.name" $root }}
+    chart: {{ template "fastdfs-nginx.chart" $root }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+spec:
+  ports:
+{{- range $key, $port := $.Values.trackerPorts }}
+    - name: {{ $key }}
+      port: {{ $port.containerPort }}
+      targetPort: {{ $port.name }}
+      protocol: {{ $port.protocol }}
+{{- end }}
+  selector:
+    app: {{ template "fastdfs-nginx.name" $root }}-tracker
+    release: {{ $.Release.Name }}

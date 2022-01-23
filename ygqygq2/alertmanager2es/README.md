@@ -1,4 +1,4 @@
-# alertmanager2es - helm chart 模板
+# alertmanager2es 
 
 [alertmanager2es](https://github.com/ygqygq2/alertmanager2es) receives HTTP webhook notifications from AlertManager and inserts them into an Elasticsearch index for searching and analysis. It runs as a daemon.
 
@@ -16,7 +16,7 @@ This chart bootstraps alertmanager2es deployment on a [Kubernetes](http://kubern
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release alertmanager2es
+$ helm install my-release alertmanager2es
 ```
 
 The command deploys alertmanager2es cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -26,7 +26,7 @@ The command deploys alertmanager2es cluster on the Kubernetes cluster in the def
 To uninstall/delete the `my-release` deployment:
 
 ```bash
-$ helm delete my-release
+$ helm uninstall my-release
 ```
 
 ## Configuration
@@ -57,13 +57,12 @@ The following table lists the configurable parameters of the alertmanager2es cha
 | `healthCheck.enabled`      | Liveness and readiness probes       | `true`, detail see in `values.yaml`    |
 | `resources`                | CPU/Memory resource requests/limits | `{}`                                   |
 | `lifecycle`                | Pod lifecycle                       | `{}`                                   |
-| `deployment.additionalVolumes`| Deployment additionalVolumes     | `[]`                                   |
 | `additionalContainers`     | Sidecar containers                  | `{}`                                   |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```
-$ helm install --name my-release \
+$ helm install my-release \
   --set replicaCount=2 \
     alertmanager2es
 ```
@@ -73,7 +72,7 @@ The above command sets the `replicaCount` to `2`.
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```
-$ helm install --name my-release -f values.yaml alertmanager2es
+$ helm install my-release -f values.yaml alertmanager2es
 ```
 
 >**Tip**: You can use the default [values.yaml](#values.yaml)

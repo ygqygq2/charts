@@ -193,6 +193,7 @@ ingress:  # 是否使用nginx暴露域名或端口
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  ingressClassName: ""
   path: /
   pathType: ImplementationSpecific
   hosts:

@@ -1,9 +1,15 @@
-apiVersion: v1
-appVersion: 1.14.2
+apiVersion: v2
+appVersion: 1.0.0
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
 description: Chart for the nginx server
 engine: gotpl
 name: mod-chart
-version: 1.0.2
+version: 2.0.0
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:

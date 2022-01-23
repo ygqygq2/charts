@@ -1,9 +1,15 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: 3.4.0
-description: Chart for the nginx server
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
+description: dejavu is the missing web UI for Elasticsearch.
 engine: gotpl
 name: dejavu
-version: 1.0.0
+version: 2.0.0
 home: https://github.com/appbaseio/dejavu
 icon: https://github.com/appbaseio/dejavu/blob/dev/app/src/images/dejavu-logo.svg
 keywords:

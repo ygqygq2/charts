@@ -37,7 +37,7 @@ data:
             allow 127.0.0.1;
             deny all;
         }
-        {{- range $skey, $svalue := $.Values.fastdfs.storage -}}
+        {{- range $skey, $svalue := $.Values.fastdfs.storage }}
         location ~/{{ $svalue.name }}/ {
             proxy_pass http://fdfs_group1;
             proxy_set_header Host $host;

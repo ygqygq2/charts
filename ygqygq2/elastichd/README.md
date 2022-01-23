@@ -23,7 +23,7 @@ This chart bootstraps elastichd deployment on a [Kubernetes](http://kubernetes.i
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/elastichd
+$ helm install my-release mycharts/elastichd
 ```
 
 The command deploys elastichd cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.

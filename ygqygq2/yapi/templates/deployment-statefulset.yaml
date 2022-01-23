@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "yapi.fullname" . }}
+  serviceName: {{ template "yapi.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -34,10 +34,10 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
-    {{- if .Values.podAnnotations }}
       annotations:
-{{ toYaml .Values.podAnnotations | indent 8}}
-    {{- end }}
+{{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
       labels:
         app: {{ template "yapi.name" . }}
         release: {{ .Release.Name }}

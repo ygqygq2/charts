@@ -1,6 +1,6 @@
 {{- $root := . -}}
-{{- range $skey, $svalue := .Values.fastdfs.storage -}}
-apiVersion: apps/v1
+{{- range $skey, $svalue := .Values.fastdfs.storage }}
+apiVersion: "{{ include "common.capabilities.statefulset.apiVersion" $root }}"
 kind: StatefulSet
 metadata:
   labels:
@@ -72,7 +72,6 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
       volumes:
-      - name: data-storage
     {{- with $.Values.nodeSelector }}
       nodeSelector:
       {{ toYaml $root | indent 8 }}

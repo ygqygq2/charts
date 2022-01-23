@@ -16,7 +16,7 @@ This chart bootstraps dejavu deployment on a [Kubernetes](http://kubernetes.io) 
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mycharts/dejavu
+$ helm install my-release mycharts/dejavu
 ```
 
 The command deploys dejavu cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.

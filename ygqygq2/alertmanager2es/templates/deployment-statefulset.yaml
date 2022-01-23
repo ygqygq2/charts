@@ -1,8 +1,8 @@
 {{- if .Values.statefulset.enabled }}
-apiVersion: apps/v1
+apiVersion: {{ include "common.capabilities.statefulset.apiVersion" . }}
 kind: StatefulSet
 {{- else }}
-apiVersion: apps/v1
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 {{- end }}
 metadata:
@@ -180,9 +180,6 @@ spec:
         - name: {{ template "alertmanager2es.name" . }}-exist-secret
           secret:
             secretName: {{ .Values.existSecret.name }}
-        {{- end }}
-        {{- if .Values.deployment.additionalVolumes }}
-{{ toYaml .Values.deployment.additionalVolumes | indent 8 }}
         {{- end }}
 {{- if not .Values.statefulset.enabled }}
           {{- if .Values.persistentVolume.enabled }}

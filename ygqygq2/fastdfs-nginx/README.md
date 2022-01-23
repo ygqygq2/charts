@@ -16,7 +16,7 @@ This chart bootstraps tracker and storage stateful-application on a [Kubernetes]
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release local/fastdfs-nginx
+$ helm install my-release local/fastdfs-nginx
 ```
 
 The command deploys FastDFS-Nginx cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.

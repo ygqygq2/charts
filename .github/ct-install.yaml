@@ -1,0 +1,8 @@
+chart-dirs:
+  - ygqygq2
+chart-repos:
+  - ygqygq2=https://ygqygq2.github.io/charts
+debug: true
+excluded-charts:
+  - common
+remote: origin
