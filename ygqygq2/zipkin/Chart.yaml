@@ -1,8 +1,18 @@
-apiVersion: v1
-appVersion: "2"
+apiVersion: v2
+appVersion: "2.23"
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
+- name: elasticsearch
+  version: 17.x.x
+  repository: https://charts.bitnami.com/bitnami
+  condition: elasticsearch.enabled
 description: Zipkin is a distributed tracing system. 
 name: zipkin
-version: 1.0.1
+version: 2.0.0
 home: https://zipkin.io/
 icon: https://zipkin.io/public/img/zipkin-logo-200x119.jpg
 keywords:

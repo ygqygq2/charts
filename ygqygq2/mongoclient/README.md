@@ -16,7 +16,7 @@ This chart bootstraps mongoclient deployment on a [Kubernetes](http://kubernetes
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release mongoclient
+$ helm install my-release mongoclient
 ```
 
 The command deploys mongoclient cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
@@ -62,7 +62,7 @@ The following table lists the configurable parameters of the mongoclient chart a
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```
-$ helm install --name my-release \
+$ helm install my-release \
   --set replicaCount=2 \
     mongoclient
 ```
@@ -72,7 +72,7 @@ The above command sets the `replicaCount` to `2`.
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```
-$ helm install --name my-release -f values.yaml mongoclient
+$ helm install my-release -f values.yaml mongoclient
 ```
 
 >**Tip**: You can use the default [values.yaml](#values.yaml)

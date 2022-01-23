@@ -1,9 +1,15 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: 2.3.2
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
 description: Chart for the tengine server.
 engine: gotpl
 name: tengine-sftp
-version: 1.0.0
+version: 2.0.0
 home: http://tengine.taobao.org
 icon: http://tengine.taobao.org/img/logo.png
 keywords:

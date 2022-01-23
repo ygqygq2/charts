@@ -43,10 +43,11 @@ The following table lists the configurable parameters of the zipkin chart and th
 | `startCommand`             | start command                       | `[]`                                   |
 | `config`                   | configmap to use                    | `[]`                                   |
 | `secret`                   | secret to use                       | `[]`                                   |
-| `image`                    | `zipkin` image, tag.                | `openzipkin/zipkin` `2`                |
-| `dependencies`             | zipkin-dependencies                 | `openzipkin/zipkin-dependencies` `2`   |
+| `image`                    | `zipkin` image, tag.                | `openzipkin/zipkin` `2.23`             |
+| `dependencies`             | zipkin-dependencies                 | `openzipkin/zipkin-dependencies` `2.6.4|
 | `dependencies.schedule`    | zipkin-dependencies cronjob         | `"*/10 * * * *"`                       |
-| `ingress`                  | Ingress for the zipkin.         | `false`                                    |
+| `ingress`                  | Ingress for the zipkin.             | `false`                                |
+| `elasticsearch`            | Database for zipkin.                | `false`, detail see in `values.yaml`   |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim     | `nil`                             |
 | `persistentVolume.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                 |

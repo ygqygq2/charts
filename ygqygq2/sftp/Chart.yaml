@@ -1,8 +1,14 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "1.0"
-description: A Helm chart for Kubernetes
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
+description: A Helm chart for sftp
 name: sftp
-version: 1.0.0
+version: 2.0.0
 home: https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
 icon: https://raw.githubusercontent.com/ygqygq2/sftp/master/openssh.png
 keywords:
@@ -10,3 +16,5 @@ keywords:
 maintainers:
 - email: 29ygq@sina.com
   name: Chinge Yang
+sources:
+- https://github.com/ygqygq2/sftp/
