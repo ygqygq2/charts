@@ -44,12 +44,12 @@ The following table lists the configurable parameters of the lam chart and their
 | `startCommand`             | Start command                       | `[]`                                   |
 | `config`                   | Additional configmap to use         | see in `values.yaml`                   |
 | `secret`                   | Additional secret to use            | see in `values.yaml`                   |
-| `image`                    | `lam` image, tag.            | `ldapaccountmanager/lam` `6.9`|
-| `ingress`                  | Ingress for the lam.         | `false`                                |
+| `image`                    | `lam` image, tag.                   | `ldapaccountmanager/lam` `6.9`         |
+| `ingress`                  | Ingress for the lam.                | `false`                                |
 | `persistentVolume.enabled` | Create a volume to store data       | `false`                                |
 | `persistentVolume.storageClass` | Type of persistent volume claim| `nil`                                  |
 | `persistentVolume.accessModes`  | Persistent volume access modes | `[ReadWriteOnce]`                      |
-| `persistentVolume.size`         | Persistent volume access modes | `50Mi`                                |
+| `persistentVolume.size`         | Persistent volume access modes | `50Mi`                                 |
 | `persistentVolume.existingClaim`| Persistent volume existingClaim name| `{}`                              |
 | `persistentVolume.mountPaths`   | Persistent directory path      | see in `values.yaml`                   |
 | `persistentVolume.annotations`  | Persistent volume annotations  | `{}`                                   |
@@ -62,7 +62,7 @@ The following table lists the configurable parameters of the lam chart and their
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```
-$ helm install --name my-release \
+$ helm install my-release \
   --set statefulset.enabled=true \
     lam
 ```
@@ -72,7 +72,7 @@ The above command sets the `statefulset.enabled` to `true`.
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```
-$ helm install --name my-release -f values.yaml lam
+$ helm install my-release -f values.yaml lam
 ```
 
 >**Tip**: You can use the default [values.yaml](#values.yaml)

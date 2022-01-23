@@ -1,5 +1,5 @@
 {{- if .Values.dependencies.enabled }}
-apiVersion: batch/v1beta1
+apiVersion: {{ include "common.capabilities.cronjob.apiVersion" . }}
 kind: CronJob
 metadata:
   name: {{ template "zipkin.fullname" . }}-dependencies
@@ -37,7 +37,7 @@ spec:
             - name: STORAGE_TYPE
               value: elasticsearch
             - name : ES_HOSTS
-              value: {{ template "zipkin.fullname" . }}-elasticsearch-client:9200
+              value: {{ template "zipkin.elasticsearch.fullname" . }}:9200
             name: {{ .Chart.Name }}-dependencies
             imagePullPolicy: {{ .Values.dependencies.image.pullPolicy }}
             image: {{ .Values.dependencies.image.repository }}:{{ .Values.dependencies.image.tag }}

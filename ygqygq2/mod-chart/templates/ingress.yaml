@@ -37,10 +37,6 @@ spec:
             {{- if eq "true" (include "common.ingress.supportsPathType" $) }}
             pathType: {{ $.Values.ingress.pathType }}
             {{- end }}
-            backend:
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $.Values.service.ingressPort }}
+            backend: {{- include "common.ingress.backend" (dict "serviceName" (include "common.names.fullname" $) "servicePort" $.Values.service.ingressPort "context" $) | nindent 14 }}
   {{- end }}
 {{- end }}

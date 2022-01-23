@@ -1,19 +1,22 @@
-apiVersion: v1
-appVersion: 1.14.2
-description: Chart for the nginx server
+apiVersion: v2
+appVersion: 3.2.1
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
+description: Chart for perfino
 engine: gotpl
 name: perfino
-version: 1.0.2
-home: http://www.nginx.org
-icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+version: 2.0.0
+home: https://www.ej-technologies.com/products/perfino/overview.html
+icon: https://www.ej-technologies.com/assets/content/icon-app-perfino@2x-f4697966c89b65a5a8f611ce850c18ae.png
 keywords:
-- nginx
-- http
-- web
-- www
-- reverse proxy
+- jvm
+- monitoring
 maintainers:
 - email: 29ygq@sina.com
   name: Chinge Yang
 sources:
-- https://github.com/bitnami/bitnami-docker-nginx
+
