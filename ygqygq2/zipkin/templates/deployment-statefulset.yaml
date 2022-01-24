@@ -1,8 +1,8 @@
 {{- if .Values.statefulset.enabled }}
-apiVersion: apps/v1
+apiVersion: {{ include "common.capabilities.statefulset.apiVersion" . }}
 kind: StatefulSet
 {{- else }}
-apiVersion: apps/v1
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 {{- end }}
 metadata:
@@ -22,7 +22,7 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
-  serviceName: {{ template "zipkin.fullname" . }}
+  serviceName: {{ template "zipkin.fullname" . }}-headless
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy:
@@ -76,7 +76,7 @@ spec:
             - name: STORAGE_TYPE
               value: elasticsearch
             - name : ES_HOSTS
-              value: {{ template "zipkin.fullname" . }}-elasticsearch-client:9200
+              value: {{ template "zipkin.elasticsearch.fullname" . }}:9200
             {{- else }}
             {{- range $key, $value := .Values.elasticsearch.external }}
             - name: {{ $key }}

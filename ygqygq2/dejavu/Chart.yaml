@@ -11,7 +11,7 @@ engine: gotpl
 name: dejavu
 version: 2.0.0
 home: https://github.com/appbaseio/dejavu
-icon: https://github.com/appbaseio/dejavu/blob/dev/app/src/images/dejavu-logo.svg
+icon: https://raw.githubusercontent.com/appbaseio/dejavu/bb83b68b7d726dfb3bc58380892d63b9cc585131/packages/dejavu-main/site/src/images/dejavu-logo.svg
 keywords:
 - elasticsearch
 - web ui

@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
 kind: Deployment
 metadata:
   name: {{ template "gohttpserver.fullname" . }}

@@ -38,7 +38,7 @@ The following table lists the configurable parameters of the FastDFS-Nginx chart
 | `fastdfs.storage`          | storage replicas number and pvc size| See `values.yaml`                      |
 | `fastdfs.tracker`          | tracker replicas number, pvc size and nginx config file.| See `values.yaml`  |
 | `service.type`             | Service type.                       | `ClusterIP`                            |
-| `image`                    | `fastdfs-nginx` image, tag.         | `ygqygq2/fastdfs-nginx` `latest`       |
+| `image`                    | `fastdfs-nginx` image, tag.         | `ygqygq2/fastdfs-nginx` `V6.07`        |
 | `trackerPorts`             | tracker and nginx ports.            | See `values.yaml`                      | 
 | `storagePorts`             | storage and nginx ports.            | See `values.yaml`                      |
 | `ingress`                  | Ingress for the fastdfs tracker nginx.| `false`                              |

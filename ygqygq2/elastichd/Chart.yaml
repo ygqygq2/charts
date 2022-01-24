@@ -11,7 +11,7 @@ engine: gotpl
 name: elastichd
 version: 2.0.0
 home: https://github.com/360EntSecGroup-Skylar/ElasticHD
-icon: https://raw.githubusercontent.com/ygqygq2/charts/master/elastichd/elastichd.png
+icon: https://raw.githubusercontent.com/ygqygq2/charts/master/ygqygq2/elastichd/elastichd.png
 keywords:
 - dashboard
 - elasticSearch
