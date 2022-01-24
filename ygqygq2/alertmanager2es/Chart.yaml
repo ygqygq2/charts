@@ -11,7 +11,7 @@ engine: gotpl
 name: alertmanager2es
 version: 2.0.0
 home: https://github.com/ygqygq2/alertmanager2es
-icon: 
+icon:
 keywords:
 - alertmanager
 - elasticsearch

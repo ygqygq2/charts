@@ -7,7 +7,7 @@ maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
 home: https://github.com/prometheus/haproxy_exporter
-icon: 
+icon:
 keywords:
 - haproxy
 - exporter

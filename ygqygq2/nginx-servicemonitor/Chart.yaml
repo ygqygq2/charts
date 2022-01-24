@@ -7,7 +7,7 @@ maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
 home: https://github.com/nginxinc/nginx-prometheus-exporter
-icon: 
+icon:
 keywords:
 - nginx
 - exporter

@@ -7,7 +7,7 @@ maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
 home: https://hub.docker.com/r/justwatch/elasticsearch_exporter
-icon: 
+icon:
 keywords:
 - elasticsearch
 - exporter

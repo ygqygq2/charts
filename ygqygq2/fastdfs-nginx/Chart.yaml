@@ -10,7 +10,7 @@ description: FastDFS-Nginx chart for Kubernetes
 name: fastdfs-nginx
 version: 2.0.0
 home: https://github.com/happyfish100/fastdfs
-icon: 
+icon:
 keywords:
 - fastdfs
 maintainers:
