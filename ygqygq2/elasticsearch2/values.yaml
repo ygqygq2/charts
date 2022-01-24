@@ -20,7 +20,7 @@ replicaCount: 3
 image:
   repository: elasticsearch
   tag: 2.4.6
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: {}   # 如果需要docker仓库验证
 
 service:
@@ -64,9 +64,9 @@ secret:
   enabled: false
   mountPath: /etc/secret-volume
   readOnly: true
-  data: 
+  data:
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -77,7 +77,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -113,11 +113,11 @@ persistentVolume:   # 是否存储持久化
   ##
   storageClass: {}  # 可选，ceph-rbd（默认）和cephfs（可多pod共享存储）
   accessMode: ReadWriteOnce
-  annotations: 
+  annotations:
     helm.sh/resource-policy: keep
   size: 4Gi  # 大小
   existingClaim: {}  # 使用已存在的pvc
-  mountPaths: 
+  mountPaths:
     - name: data-storage
       mountPath: /usr/share/elasticsearch/data
       subPath: data
@@ -157,9 +157,9 @@ deployment:
   #        mountPath: /extra-data
   ## Uncomment and modify this to run a command after starting the nexus container.
   postStart: {}
-    #command: '["/bin/bash", "-c", "sleep 60 && exit 1"]'
-  additionalContainers: 
-  additionalVolumes: 
+    # command: '["/bin/bash", "-c", "sleep 60 && exit 1"]'
+  additionalContainers:
+  additionalVolumes:
 
 extraContainers: {}
   ## Additional containers to be added to the controller pod.

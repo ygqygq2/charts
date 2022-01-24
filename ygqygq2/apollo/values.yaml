@@ -27,10 +27,10 @@ adminservice:
     #   maxSurge: 25%
     #   maxUnavailable: 25%
     # type: RollingUpdate
-  
+
   ## 副本个数
   replicaCount: 1
-  
+
   ## 容器image及tag
   image:
     registry: docker.io
@@ -39,7 +39,7 @@ adminservice:
     pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
     pullSecrets: []
     #  - private-registry-key
-  
+
   service:
     type: ClusterIP  # 一般不用修改
     ingressPort: 8080
@@ -48,7 +48,7 @@ adminservice:
       http:
         port: 8080  # Service port number for client-a port.
         protocol: TCP  # Service port protocol for client-a port.
-  
+
   ## env set
   ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
   env: []
@@ -56,7 +56,7 @@ adminservice:
   #    value: "Hello from the environment"
   #  - name: DEMO_FAREWELL
   #    value: "Such a sweet sorrow"
-  
+
   ## command set
   startCommand: []
   #  - "java -Xdebug -Xnoagent -Djava.compiler=NONE"
@@ -64,7 +64,7 @@ adminservice:
   #  - "-Djava.security.egd=file:/dev/urandom"
   #  - "-jar /test.jar"
   #  - "-Duser.timezone=GMT+08"
-  
+
   ## Enable configmap and add data in configmap
   config:
     enabled: false
@@ -72,30 +72,30 @@ adminservice:
     subPath: ""
     readOnly: true
     data: {}
-  
+
   existConfig:
     enabled: false
     name: ""
     mountPath: /exist/conf
     subPath: ""
     readOnly: true
-  
+
   ## To use an additional secret, set enable to true and add data
   secret:
     enabled: false
     mountPath: /etc/secret-volume
     subPath: ""
     readOnly: true
-    data: {} 
-  
+    data: {}
+
   existSecret:
     enabled: false
     name: ""
     mountPath: /exist/secret-volume
     subPath: ""
     readOnly: true
-  
-  ## liveness and readiness 
+
+  ## liveness and readiness
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   healthCheck:
     enabled: true
@@ -106,7 +106,7 @@ adminservice:
     livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
     readinessInitialDelaySeconds: 10  # 初始延迟秒数
     readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
-   
+
   resources: {}
     # 容器资源设置
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -119,7 +119,7 @@ adminservice:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
-  
+
   ## Node labels and tolerations for pod assignment
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
@@ -129,7 +129,7 @@ adminservice:
   tolerations: []
   affinity: {}
   annotations: {}
-  
+
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -154,7 +154,7 @@ adminservice:
     #  - name: data-storage
     #    mountPath: /data
     #    subPath: data
-  
+
   ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
   ingress:  # 是否使用nginx暴露域名或端口
     enabled: false
@@ -168,7 +168,7 @@ adminservice:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
-  
+
   ## Prometheus Exporter / Metrics
   ##
   metrics:
@@ -192,7 +192,7 @@ adminservice:
       ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
       ##
     resources: {}
-  
+
   ## Uncomment and modify this to run a command after starting the core container.
   ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   lifecycle: {}
@@ -202,16 +202,16 @@ adminservice:
     # postStart:
     #   exec:
     #     command: ["/bin/bash","/post-start.sh"]
-  
+
   ## Deployment additional volumes.
   deployment:
     additionalVolumes: []
-  
+
   ## Container Security Context
   securityContext: {}
   #   fsGroup: 1001
-  #   runAsUser: 1001				
-  
+  #   runAsUser: 1001
+
   ## init containers
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ## Add init containers. e.g. to be used to give specific permissions for data
@@ -224,7 +224,7 @@ adminservice:
   #    volumeMounts:
   #      - name: extra-data
   #        mountPath: /extra-data
-  
+
   ## Additional containers to be added to the core pod.
   additionalContainers: {}
   #  - name: my-sidecar
@@ -262,10 +262,10 @@ configservice:
     #   maxSurge: 25%
     #   maxUnavailable: 25%
     # type: RollingUpdate
-  
+
   ## 副本个数
   replicaCount: 1
-  
+
   ## 容器image及tag
   image:
     registry: docker.io
@@ -274,7 +274,7 @@ configservice:
     pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
     pullSecrets: []
     #  - private-registry-key
-  
+
   service:
     type: ClusterIP  # 一般不用修改
     ingressPort: 8080
@@ -283,7 +283,7 @@ configservice:
       http:
         port: 8080  # Service port number for client-a port.
         protocol: TCP  # Service port protocol for client-a port.
-  
+
   ## env set
   ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
   env: []
@@ -291,7 +291,7 @@ configservice:
   #    value: "Hello from the environment"
   #  - name: DEMO_FAREWELL
   #    value: "Such a sweet sorrow"
-  
+
   ## command set
   startCommand: []
   #  - "java -Xdebug -Xnoagent -Djava.compiler=NONE"
@@ -299,7 +299,7 @@ configservice:
   #  - "-Djava.security.egd=file:/dev/urandom"
   #  - "-jar /test.jar"
   #  - "-Duser.timezone=GMT+08"
-  
+
   ## Enable configmap and add data in configmap
   config:
     enabled: false
@@ -307,14 +307,14 @@ configservice:
     subPath: ""
     readOnly: true
     data: {}
-  
+
   existConfig:
     enabled: false
     name: ""
     mountPath: /exist/conf
     subPath: ""
     readOnly: true
-  
+
   ## To use an additional secret, set enable to true and add data
   secret:
     enabled: false
@@ -322,14 +322,14 @@ configservice:
     subPath: ""
     readOnly: true
     data: {} 
-  
+
   existSecret:
     enabled: false
     name: ""
     mountPath: /exist/secret-volume
     subPath: ""
     readOnly: true
-  
+
   ## liveness and readiness 
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   healthCheck:
@@ -341,7 +341,7 @@ configservice:
     livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
     readinessInitialDelaySeconds: 10  # 初始延迟秒数
     readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
-   
+
   resources: {}
     # 容器资源设置
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -354,7 +354,7 @@ configservice:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
-  
+
   ## Node labels and tolerations for pod assignment
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
@@ -364,7 +364,7 @@ configservice:
   tolerations: []
   affinity: {}
   annotations: {}
-  
+
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
@@ -389,7 +389,7 @@ configservice:
     #  - name: data-storage
     #    mountPath: /data
     #    subPath: data
-  
+
   ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
   ingress:  # 是否使用nginx暴露域名或端口
     enabled: false
@@ -403,7 +403,7 @@ configservice:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
-  
+
   ## Prometheus Exporter / Metrics
   ##
   metrics:
@@ -427,7 +427,7 @@ configservice:
       ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
       ##
     resources: {}
-  
+
   ## Uncomment and modify this to run a command after starting the core container.
   ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   lifecycle: {}
@@ -437,16 +437,16 @@ configservice:
     # postStart:
     #   exec:
     #     command: ["/bin/bash","/post-start.sh"]
-  
+
   ## Deployment additional volumes.
   deployment:
     additionalVolumes: []
-  
+
   ## Container Security Context
   securityContext: {}
   #   fsGroup: 1001
   #   runAsUser: 1001
-  
+
   ## init containers
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ## Add init containers. e.g. to be used to give specific permissions for data
@@ -459,7 +459,7 @@ configservice:
   #    volumeMounts:
   #      - name: extra-data
   #        mountPath: /extra-data
-  
+
   ## Additional containers to be added to the core pod.
   additionalContainers: {}
   #  - name: my-sidecar
@@ -497,7 +497,7 @@ portal:
   
   ## 副本个数
   replicaCount: 1
-  
+
   ## 容器image及tag
   image:
     registry: docker.io
@@ -506,7 +506,7 @@ portal:
     pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
     pullSecrets: []
     #  - private-registry-key
-  
+
   service:
     type: ClusterIP  # 一般不用修改
     ingressPort: 8080
@@ -515,7 +515,7 @@ portal:
       http:
         port: 8080  # Service port number for client-a port.
         protocol: TCP  # Service port protocol for client-a port.
-  
+
   ## env set
   ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
   env: []
@@ -523,7 +523,7 @@ portal:
   #    value: "Hello from the environment"
   #  - name: DEMO_FAREWELL
   #    value: "Such a sweet sorrow"
-  
+
   ## command set
   startCommand: []
   #  - "java -Xdebug -Xnoagent -Djava.compiler=NONE"
@@ -531,7 +531,7 @@ portal:
   #  - "-Djava.security.egd=file:/dev/urandom"
   #  - "-jar /test.jar"
   #  - "-Duser.timezone=GMT+08"
-  
+
   ## Enable configmap and add data in configmap
   config:
     enabled: false
@@ -539,14 +539,14 @@ portal:
     subPath: ""
     readOnly: true
     data: {}
-  
+
   existConfig:
     enabled: false
     name: ""
     mountPath: /exist/conf
     subPath: ""
     readOnly: true
-  
+
   ## To use an additional secret, set enable to true and add data
   secret:
     enabled: false
@@ -554,15 +554,15 @@ portal:
     subPath: ""
     readOnly: true
     data: {} 
-  
+
   existSecret:
     enabled: false
     name: ""
     mountPath: /exist/secret-volume
     subPath: ""
     readOnly: true
-  
-  ## liveness and readiness 
+
+  ## liveness and readiness
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   healthCheck:
     enabled: true
@@ -573,7 +573,7 @@ portal:
     livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
     readinessInitialDelaySeconds: 10  # 初始延迟秒数
     readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
-   
+
   resources: {}
     # 容器资源设置
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -586,7 +586,7 @@ portal:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
-  
+
   ## Node labels and tolerations for pod assignment
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
@@ -621,7 +621,7 @@ portal:
     #  - name: data-storage
     #    mountPath: /data
     #    subPath: data
-  
+
   ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
   ingress:  # 是否使用nginx暴露域名或端口
     enabled: false
@@ -635,7 +635,7 @@ portal:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
-  
+
   ## Prometheus Exporter / Metrics
   ##
   metrics:
@@ -659,7 +659,7 @@ portal:
       ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
       ##
     resources: {}
-  
+
   ## Uncomment and modify this to run a command after starting the core container.
   ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
   lifecycle: {}
@@ -669,16 +669,16 @@ portal:
     # postStart:
     #   exec:
     #     command: ["/bin/bash","/post-start.sh"]
-  
+
   ## Deployment additional volumes.
   deployment:
     additionalVolumes: []
-  
+
   ## Container Security Context
   securityContext: {}
   #   fsGroup: 1001
   #   runAsUser: 1001
-  
+
   ## init containers
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
   ## Add init containers. e.g. to be used to give specific permissions for data
@@ -691,7 +691,7 @@ portal:
   #    volumeMounts:
   #      - name: extra-data
   #        mountPath: /extra-data
-  
+
   ## Additional containers to be added to the core pod.
   additionalContainers: {}
   #  - name: my-sidecar

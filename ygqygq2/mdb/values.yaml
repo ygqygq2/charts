@@ -45,7 +45,7 @@ image:
   pullSecrets: []   # 如果需要docker仓库验证
   #  - private-registry-key
 
-## 
+##
 ## Istio named service ports
 ## ref: https://istio.io/docs/setup/kubernetes/prepare/requirements/
 service:
@@ -108,7 +108,7 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
 ## 使用已存在的secret映射到相应目录或文件路径
 existSecret:
@@ -118,7 +118,7 @@ existSecret:
   subPath: ""
   readOnly: true
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   type: tcp  # http/tcp
@@ -135,10 +135,10 @@ healthCheck:
     enabled: false
   #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
   #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1                                                                                                           
+  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
   #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
   #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -243,8 +243,8 @@ ingress:  # 是否使用nginx暴露域名或端口
 canary:
   enabled: false
 
-  ## canary subset 
-  subset: 
+  ## canary subset
+  subset:
   - name: v1
     replicaCount: 1
     image:
@@ -285,11 +285,11 @@ lifecycle: {}
   # postStart:
   #   exec:
   #     command: ["/bin/bash","/post-start.sh"]
-  
+
 ## Container Security Context
 securityContext: {}
 #   fsGroup: 1001
-#   runAsUser: 1001    
+#   runAsUser: 1001
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/

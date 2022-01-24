@@ -64,7 +64,7 @@ replicaCount: 1
 image:
   repository: openzipkin/zipkin
   tag: 2.23
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: []
 
 service:
@@ -97,7 +97,7 @@ dependencies:
   image:
     repository: openzipkin/zipkin-dependencies
     tag: 2.6.4
-    pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+    pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
     imagePullSecrets: []
   schedule: "*/10 * * * *"
 
@@ -124,7 +124,7 @@ secret:
   readOnly: true
   data: {}
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -135,7 +135,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 20  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -216,7 +216,7 @@ elasticsearch:
     ## * `CASSANDRA_ENSURE_SCHEMA`: Ensuring cassandra has the latest schema. If enabled tries to execute scripts in the classpath prefixed with `cassandra-schema-cql3`. Defaults to true
     ## * `CASSANDRA_USERNAME` and `CASSANDRA_PASSWORD`: Cassandra authentication. Will throw an exception on startup if authentication fails. No default
     ## * `CASSANDRA_USE_SSL`: Requires `javax.net.ssl.trustStore` and `javax.net.ssl.trustStorePassword`, defaults to false.
-    ## 
+    ##
     ## Zipkin's MySQL component is tested against MySQL 5.7 and applies when STORAGE_TYPE is set to mysql:
     ## * `MYSQL_DB`: The database to use. Defaults to "zipkin".
     ## * `MYSQL_USER` and `MYSQL_PASS`: MySQL authentication, which defaults to empty string.

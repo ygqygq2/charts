@@ -67,7 +67,7 @@ image:
   tag: 6.9
   pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []
-  #  - private-registry-key  
+  #  - private-registry-key
 
 service:
   type: ClusterIP  # 一般不用修改
@@ -154,7 +154,7 @@ persistentVolume:   # 是否存储持久化
   #   helm.sh/resource-policy: keep
   size: 50Mi  # 大小
   existingClaim: {}  # 使用已存在的pvc
-  mountPaths: 
+  mountPaths:
     - name: data-storage
       mountPath: /var/lib/ldap-account-manager/config
 

@@ -99,7 +99,7 @@ env:
   - name: ADMODE
     value: "false"
   - name: SECRETEKEY
-    value: "sspSecret"  
+    value: "sspSecret"
   # - name: DEBUG_MODE
   #   value: "false"
 
@@ -117,11 +117,11 @@ config:
   mountPath: /www/ssp/conf
   subPath: ""
   readOnly: true
-  data: 
+  data:
     config.inc.local.php: |-
       <?php
       // Override config.inc.php parameters below
-       
+
       ?>
 
 existConfig:
@@ -137,7 +137,7 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
 existSecret:
   enabled: false
@@ -146,7 +146,7 @@ existSecret:
   subPath: ""
   readOnly: true
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -157,7 +157,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -263,7 +263,7 @@ deployment:
 ## Container Security Context
 securityContext: {}
 #   fsGroup: 1001
-#   runAsUser: 1001				
+#   runAsUser: 1001
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/

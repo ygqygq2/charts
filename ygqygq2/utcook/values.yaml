@@ -35,10 +35,10 @@ replicaCount: 1
 
 ## 容器image及tag
 image:
-  registry: docker.io 
+  registry: docker.io
   repository: bitnami/nginx
-  #registry: "reg.linuxba.com"
-  #repository: pub/user-service 
+  # registry: "reg.linuxba.com"
+  # repository: pub/user-service
   tag: latest
   pullPolicy: Always  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []   # 如果需要docker仓库验证
@@ -101,7 +101,7 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
 existSecret:
   enabled: false
@@ -110,7 +110,7 @@ existSecret:
   subPath: ""
   readOnly: true
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -121,7 +121,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -222,7 +222,7 @@ istio:
     ## HTTPRoute
     route: {}
 
-  ## canary subset 
+  ## canary subset
   canary:
     - name: v1
       replicaCount: 1
@@ -234,7 +234,7 @@ istio:
       ## 是否单独一条route
       routeAlone: false
       ## HTTPRouteDestination
-      destination: 
+      destination:
         ## headers
         # request:
         #   add:
@@ -246,13 +246,13 @@ istio:
       ## HTTPRoute
       route:
         ## HTTPMatchRequest
-        # match: 
+        # match:
         #   - headers:
         #       end-user:
         #         exact: jason
         #   - uri:
         #       exact: /v1/getProductRatings
-        # 
+        #
         #   - sourceLabels:
         #       canary: "true"
 
@@ -267,49 +267,49 @@ istio:
         #   allowHeaders:
         #   - X-Foo-Bar
         #   maxAge: "24h"
-    
+
         ## TCPRoute, when type is tcp
-        # tcp: 
+        # tcp:
         #   route:
         #   - destination:
         #       host: mongo.backup.svc.cluster.local
         #       port:
         #         number: 27017
-    
+
         ## 注意请求的重试和超时还可以针对每个请求分别设置
         ## 超时设置，默认15s
         # timeout: ""
         ## 重试次数
-        # retries: 
+        # retries:
         #   attempts: 3
-        #   perTryTimeout: 2s    
-    
+        #   perTryTimeout: 2s
+
         ## 故障注入
-        # fault: 
+        # fault:
         #   delay:
         #     percentage:
         #       value: 10
         #     fixedDelay: 5s
         #   abort:
-        #     percentage: 
+        #     percentage:
         #       value: 10
         #     httpStatus: 400
-        
+
         ## HTTPRedirect
-        # redirect: 
+        # redirect:
         #   uri: /v1/bookRatings
         #   authority: newratings.default.svc.cluster.local
-    
+
         ## HTTPRewrite
         ## 重写原语只能与HTTPRouteDesttion一起使用。
-        # rewrite: 
+        # rewrite:
         #   uri: /v1/bookRatings
-    
+
         ## mirror
-        # mirror: 
+        # mirror:
         #   host: httpbin
         #   subset: v2
-  
+
   serviceEntry:
     enabled: false
     spec: {}
@@ -381,7 +381,7 @@ lifecycle: {}
   # postStart:
   #   exec:
   #     command: ["/bin/bash","/post-start.sh"]
-  
+
 deployment:
   additionalVolumes: []
 
