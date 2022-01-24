@@ -109,5 +109,3 @@ persistentVolume:
   annotations: {}
   size: 500Mi
   existingClaim: []
-    # - cephfs-pv-claim1
-    # - cephfs-pv-claim2
