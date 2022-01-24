@@ -249,9 +249,9 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
