@@ -224,7 +224,7 @@ deployment:
 ## Container Security Context
 securityContext: {}
 #   fsGroup: 1001
-#   runAsUser: 1001				
+#   runAsUser: 1001
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/

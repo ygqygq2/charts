@@ -77,7 +77,7 @@ service:
     # # Uncomment if you set SCRIBE_ENABLED=true
     # scribe:
     #   port: 9410
-    #   protocol: TCP 
+    #   protocol: TCP
 
 ## env set
 ## ref: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/

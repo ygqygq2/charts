@@ -118,7 +118,7 @@ config:
   enabled: false
   mountPath: /conf
   subPath: ""
-  readOnly: true	
+  readOnly: true
   data: {}
 
 ## To use an additional secret, set enable to true and add data
@@ -327,7 +327,7 @@ deployment:
 
 ## Container Security Context
 securityContext:
-  runAsUser: 1001				
+  runAsUser: 1001
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
