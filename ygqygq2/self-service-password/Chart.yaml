@@ -11,7 +11,7 @@ engine: gotpl
 name: self-service-password
 version: 2.0.0
 home: https://ltb-project.org/documentation/self-service-password
-icon: https://ltb-project.org/_media/wiki/logo.png
+icon: https://www.ltb-project.org/images/ltb-logo.png
 keywords:
 - ldap
 - password

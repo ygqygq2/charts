@@ -14,7 +14,7 @@ description: Zipkin is a distributed tracing system.
 name: zipkin
 version: 2.0.0
 home: https://zipkin.io/
-icon: https://zipkin.io/public/img/zipkin-logo-200x119.jpg
+icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
 keywords:
 - zipkin
 - tracing
