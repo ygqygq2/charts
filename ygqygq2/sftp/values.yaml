@@ -53,13 +53,13 @@ scriptFile:
         user=$(echo $line|awk -F: '{print $1}')
         user_id=$(echo $line|awk '{print $1}')
         group_id=$(echo $line|awk '{print $1}')
-        mkdir -p /home/$user/upload 
+        mkdir -p /home/$user/upload
         chown -R $user:users /home/$user/upload
     done < /etc/sftp/users.conf
     }
 
     createdir
-    
+
     #bindmount /data/admin-tools /home/admin/tools
     #bindmount /data/docs /home/peter/docs --read-only
 

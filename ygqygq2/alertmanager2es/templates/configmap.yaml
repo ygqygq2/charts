@@ -1,4 +1,5 @@
 {{- if .Values.config.enabled -}}
+{{- if .Values.ldap.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
