@@ -17,10 +17,10 @@ metricsPort: 9206   # new port 9114
 scheme: http
 ## Custom Labels to be added to ServiceMonitor
 # 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
-additionalServiceMonitorLabels: 
+additionalServiceMonitorLabels:
   release: prometheus-operator
-##Custom Labels to be added to Prometheus Rules CRD
-additionalRulesLabels: 
+# Custom Labels to be added to Prometheus Rules CRD
+additionalRulesLabels:
   release: prometheus-operator
 
 prometheusRule:

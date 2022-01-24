@@ -77,18 +77,18 @@ headless:
 trackerPorts:
   tracker:
     containerPort: 22122  # Port number for fastdfs container tracker port.
-    protocol: TCP  # Protocol 
+    protocol: TCP  # Protocol
   trackernginx:
     containerPort: 80  # Port number for fastdfs container nginx port.
-    protocol: TCP  # Protocol 
+    protocol: TCP  # Protocol
 
 storagePorts:
   storage:
     containerPort: 23000  # Port number for fastdfs container storage port.
-    protocol: TCP  # Protocol 
+    protocol: TCP  # Protocol
   storagenginx:
     containerPort: 8080  # Port number for fastdfs container nginx port.
-    protocol: TCP  # Protocol 
+    protocol: TCP  # Protocol
 
 ingress:
   enabled: false
@@ -108,7 +108,7 @@ ingress:
 ## Configure resource requests and limits
 ### ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ###
-resources: 
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -118,12 +118,12 @@ resources:
   #  memory: 128Mi
   tracker:
     requests:
-     cpu: 100m
-     memory: 128Mi
+      cpu: 100m
+      memory: 128Mi
   storage:
     requests:
-     cpu: 100m
-     memory: 128Mi
+      cpu: 100m
+      memory: 128Mi
 
 ## Node labels and tolerations for pod assignment
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -135,7 +135,7 @@ affinity: {}
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
-persistentVolume: 
+persistentVolume:
   enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning

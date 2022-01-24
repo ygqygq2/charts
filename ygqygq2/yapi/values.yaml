@@ -60,7 +60,7 @@ replicaCount: 1
 image:
   repository: ygqygq2/yapi
   tag: v1.8.0
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: []
 
 service:
@@ -96,7 +96,7 @@ config:
   enabled: false
   mountPath: /yapi/a.txt
   subPath: a.txt
-  data: 
+  data:
     a.txt: |-
       test
 
@@ -106,7 +106,7 @@ secret:
   mountPath: /yapi/config.json
   subPath: config.json
   readOnly: true
-  data: 
+  data:
     config.json: |-
       {
         "port": "3000",
@@ -131,7 +131,7 @@ secret:
         }
       }
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -142,7 +142,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 60  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -199,7 +199,7 @@ ingress:  # 是否使用nginx暴露域名或端口
   hosts:
     - chart-example.local
   tls: []
-  #  - secretName: 
+  #  - secretName:
   #    hosts:
   #      - chart-example.local
 
@@ -238,7 +238,7 @@ lifecycle: {}
   # postStart:
   #   exec:
   #     command: ["/bin/bash","/post-start.sh"]
-  
+
 deployment:
   additionalVolumes: []
 

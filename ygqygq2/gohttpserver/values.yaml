@@ -21,18 +21,18 @@ image:
   repository: codeskyblue/gohttpserver
   tag: latest
   pullPolicy: IfNotPresent
-  pullSecrets: [] 
+  pullSecrets: []
 
 service:
   type: ClusterIP
   protocol: TCP
   port: 8000
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
-  type: tcp # http/tcp
+  type: tcp  # http/tcp
   httpPath: '/'  # http时必须设置
   livenessInitialDelaySeconds: 10  # 初始延迟秒数
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
@@ -61,7 +61,7 @@ affinity: {}
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
-persistentVolume: 
+persistentVolume:
   enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning

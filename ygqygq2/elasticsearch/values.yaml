@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 appVersion: "6.7.0"
 # 支持各种版本
-#appVersion: "5.6.16"
+# appVersion: "5.6.16"
 
 ## String to partially override fullname template (will maintain the release name)
 ###
@@ -52,10 +52,10 @@ schedulerName: ""
 # schedulerName: "default-scheduler"
 
 image:
-  #repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  # repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
   repository: "ygqygq2/elasticsearch"
   tag: "6.7.0"
-  #tag: "5.6.16"
+  # tag: "5.6.16"
   pullPolicy: "IfNotPresent"
   # If specified, use these secrets to access the image
   # pullSecrets:

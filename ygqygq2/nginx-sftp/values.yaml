@@ -65,7 +65,7 @@ image:
   registry: docker.io
   repository: bitnami/nginx
   tag: 1.14.2
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []
   #  - private-registry-key
 
@@ -98,7 +98,7 @@ startCommand: []
 
 ## nginx server configure
 vhost: ""
-#vhost: |-
+# vhost: |-
 #   # example PHP-FPM vhost
 #   server {
 #     listen 0.0.0.0:8080;
@@ -127,9 +127,9 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: false
@@ -140,7 +140,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -181,7 +181,7 @@ persistentVolume:   # 是否存储持久化
   #  helm.sh/resource-policy: keep
   size: 500Mi  # 大小
   existingClaim: {}  # 使用已存在的pvc
-  mountPaths: 
+  mountPaths:
     - mountPath: /opt/bitnami/nginx/html/example
       name: data-storage
   #    subPath: html
@@ -204,7 +204,7 @@ ingress:  # 是否使用nginx暴露域名或端口
   #    hosts:
   #      - chart-example.local
 
-## sftp 
+## sftp
 ##
 sftp:
   enabled: true
@@ -217,21 +217,21 @@ sftp:
       Protocol 2
       HostKey /etc/ssh/ssh_host_ed25519_key
       HostKey /etc/ssh/ssh_host_rsa_key
-      
+
       # Faster connection
       # See: https://github.com/atmoz/sftp/issues/11
       UseDNS no
-      
+
       # Limited access
       PermitRootLogin no
       X11Forwarding no
       AllowTcpForwarding no
-      
+
       # Force sftp and chroot jail
       Subsystem sftp internal-sftp
       ForceCommand internal-sftp
       ChrootDirectory %h
-      
+
       # Enable this for more logs
       LogLevel ERROR
 

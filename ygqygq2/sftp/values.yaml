@@ -18,19 +18,19 @@ sshConfFile:
     Protocol 2
     HostKey /etc/ssh/ssh_host_ed25519_key
     HostKey /etc/ssh/ssh_host_rsa_key
-    
+
     UseDNS no
-    
+
     # Limited access
     PermitRootLogin no
     X11Forwarding no
     AllowTcpForwarding no
-    
+
     # Force sftp and chroot jail
     Subsystem sftp internal-sftp
     ForceCommand internal-sftp
     ChrootDirectory %h
-    
+
     # Enable this for more logs
     LogLevel ERROR
 
@@ -38,14 +38,14 @@ scriptFile:
   bindmount.sh: |
     #!/bin/bash
     # File mounted as: /etc/sftp.d/bindmount.sh
-    
+
     function bindmount() {
         if [ -d "$1" ]; then
             mkdir -p "$2"
         fi
         mount --bind $3 "$1" "$2"
     }
-    
+
     function createdir() {
     # Remember permissions, you may have to fix them:
     while read line; do
@@ -67,7 +67,7 @@ image:
   repository: ygqygq2/sftp
   tag: latest
   pullPolicy: IfNotPresent
-  imagePullSecrets: [] 
+  imagePullSecrets: []
 
 service:
   type: ClusterIP
@@ -96,7 +96,7 @@ affinity: {}
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
-persistentVolume: 
+persistentVolume:
   enabled: false
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -111,4 +111,3 @@ persistentVolume:
   existingClaim: []
     # - cephfs-pv-claim1
     # - cephfs-pv-claim2
-

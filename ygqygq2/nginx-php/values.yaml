@@ -107,9 +107,9 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -120,7 +120,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 10  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -161,7 +161,7 @@ persistentVolume:   # 是否存储持久化
   #  helm.sh/resource-policy: keep
   size: 500Mi  # 大小
   existingClaim: {}  # 使用已存在的pvc
-  mountPaths: 
+  mountPaths:
     - name: data-storage
       mountPath: /var/www
 

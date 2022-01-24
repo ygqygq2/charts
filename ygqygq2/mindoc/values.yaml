@@ -64,7 +64,7 @@ replicaCount: 1
 image:
   repository: ygqygq2/mindoc
   tag: v2.0
-  pullPolicy: IfNotPresent # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   imagePullSecrets: []
 
 service:
@@ -94,7 +94,7 @@ config:
   enabled: false
   mountPath: /mindoc/conf/app.conf
   subPath: app.conf
-  data: 
+  data:
     app.conf: |-
       appname = mindoc
       #默认监听的网卡,为空则监听所有
@@ -104,45 +104,45 @@ config:
       sessionon = true
       sessionname = mindoc_id
       copyrequestbody = true
-      
+
       #系统完整URL(http://doc.iminho.me),如果该项不设置，会从请求头中获取地址。
       baseurl="${MINDOC_BASE_URL}"
-      
+
       #########代码高亮样式################
       #样式演示地址：https://highlightjs.org/static/demo/
       highlight_style="${MINDOC_HIGHLIGHT_STYLE||github}"
-      
+
       ########配置文件自动加载##################
       #大于0时系统会自动检测配置文件是否变动，变动后自动加载并生效,单位是秒。监听端口和数据库配置无效
       config_auto_delay="${MINDOC_CONFIG_AUTO_DELAY||20}"
-      
+
       ########Session储存方式##############
-      
+
       #默认Session生成Key的秘钥
       beegoserversessionkey=NY1B$28pms12JM&c
       sessionprovider="${MINDOC_SESSION_PROVIDER||file}"
       sessionproviderconfig="${MINDOC_SESSION_PROVIDER_CONFIG||./runtime/session}"
       #默认的过期时间
       sessiongcmaxlifetime="${MINDOC_SESSION_MAX_LIFETIME||3600}"
-      
+
       #以文件方式储存
       #sessionprovider=file
       #sessionproviderconfig=./runtime/session
-      
+
       #以redis方式储存
       #sessionprovider=redis
       #sessionproviderconfig=127.0.0.1:6379
-      
+
       #以memcache方式储存
       #sessionprovider=memcache
       #sessionproviderconfig=127.0.0.1:11211
-      
+
       #以内存方式托管Session
       #sessionprovider=memory
-      
+
       #时区设置
       timezone = Asia/Shanghai
-      
+
       ####################MySQL 数据库配置###########################
       #支持MySQL和sqlite3两种数据库，如果是sqlite3 则 db_database 标识数据库的物理目录
       db_adapter="${MINDOC_DB_ADAPTER||sqlite3}"
@@ -151,26 +151,26 @@ config:
       db_database="${MINDOC_DB_DATABASE||./database/mindoc.db}"
       db_username="${MINDOC_DB_USERNAME||root}"
       db_password="${MINDOC_DB_PASSWORD||123456}"
-      
+
       ####################sqlite3 数据库配置###########################
       #db_adapter=sqlite3
       #db_database=./database/mindoc.db
-      
+
       #项目默认封面
       cover=/static/images/book.jpg
-      
+
       #默认头像
       avatar=/static/images/headimgurl.jpg
-      
+
       #默认阅读令牌长度
       token_size=12
-      
+
       #上传文件的后缀,如果不限制后缀可以设置为 *
       upload_file_ext=txt|doc|docx|xls|xlsx|ppt|pptx|pdf|7z|rar|jpg|jpeg|png|gif
-      
+
       #上传的文件大小限制,如果不填写,默认不限制，单位可以是 GB KB MB
       upload_file_size=10MB
-      
+
       ####################邮件配置######################
       #是否启用邮件
       enable_mail="${MINDOC_ENABLE_MAIL||false}"
@@ -190,24 +190,24 @@ config:
       mail_expired="${MINDOC_EXPIRED||30}"
       #加密类型NONE 无认证、SSL 加密、LOGIN 普通用户登录
       secure="${MINDOC_MAIL_SECURE||LOGIN}"
-      
+
       ###############配置导出项目###################
       enable_export="${MINDOC_ENABLE_EXPORT||false}"
       #同一个项目同时运行导出程序的并行数量，取值1-4之间，取值越大导出速度越快，越占用资源
       export_process_num="${MINDOC_EXPORT_PROCESS_NUM||1}"
-      
+
       #并发导出的项目限制，指同一时间限制的导出项目数量，如果为0则不限制。设置的越大，越占用资源
       export_limit_num="${MINDOC_EXPORT_LIMIT_NUM||5}"
-      
+
       #指同时等待导出的任务数量
       export_queue_limit_num="${MINDOC_EXPORT_QUEUE_LIMIT_NUM||100}"
-      
+
       #导出项目的缓存目录配置
       export_output_path="${MINDOC_EXPORT_OUTPUT_PATH||./runtime/cache}"
-      
+
       ################百度地图密钥#################
       baidumapkey=
-      
+
       ################Active Directory/LDAP################
       #是否启用ldap
       ldap_enable=false
@@ -227,70 +227,70 @@ config:
       ldap_user_role=2
       #ldap搜索filter规则,AD服务器: objectClass=User, openldap服务器: objectClass=posixAccount ,也可以定义为其他属性,如: title=mindoc
       ldap_filter=objectClass=posixAccount
-      
+
       ###############配置CDN加速##################
       cdn="${MINDOC_CDN_URL}"
       cdnjs="${MINDOC_CDN_JS_URL}"
       cdncss="${MINDOC_CDN_CSS_URL}"
       cdnimg="${MINDOC_CDN_IMG_URL}"
-      
+
       ######################缓存配置###############################
-      
+
       #是否开启缓存，true 开启/false 不开启
       cache="${MINDOC_CACHE||false}"
-      
+
       #缓存方式:memory/memcache/redis/file
       cache_provider="${MINDOC_CACHE_PROVIDER||file}"
-      
+
       #当配置缓存方式为memory时,内存回收时间,单位是秒
       cache_memory_interval="${MINDOC_CACHE_MEMORY_INTERVAL||120}"
-      
+
       #当缓存方式配置为file时,缓存的储存目录
       cache_file_path="${MINDOC_CACHE_FILE_PATH||./runtime/cache/}"
-      
+
       #缓存文件后缀
       cache_file_suffix="${MINDOC_CACHE_FILE_SUFFIX||.bin}"
-      
+
       #文件缓存目录层级
       cache_file_dir_level="${MINDOC_CACHE_FILE_DIR_LEVEL||2}"
-      
+
       #文件缓存的默认过期时间
       cache_file_expiry="${MINDOC_CACHE_FILE_EXPIRY||3600}"
-      
+
       #memcache缓存服务器地址
       cache_memcache_host="${MINDOC_CACHE_MEMCACHE_HOST||127.0.0.1:11211}"
-      
+
       #redis服务器地址
       cache_redis_host="${MINDOC_CACHE_REDIS_HOST||127.0.0.1:6379}"
-      
+
       #redis数据库索引
       cache_redis_db="${MINDOC_CACHE_REDIS_DB||0}"
-      
+
       #redis服务器密码
       cache_redis_password="${MINDOC_CACHE_REDIS_PASSWORD}"
-      
+
       #缓存键的前缀
       cache_redis_prefix="${MINDOC_CACHE_REDIS_PREFIX||mindoc::cache}"
-      
+
       #########日志储存配置##############
       #日志保存路径，在linux上，自动创建的日志文件请不要删除，否则将无法写入日志
       log_path="${MINDOC_LOG_PATH||./runtime/logs}"
-      
+
       #每个文件保存的最大行数，默认值 1000000
       log_maxlines="${MINDOC_LOG_MAX_LINES||1000000}"
-      
+
       # 每个文件保存的最大尺寸，默认值是 1 << 28, //256 MB
       log_maxsize="${MINDOC_LOG_MAX_SIZE}"
-      
+
       # 是否按照每天 logrotate，默认是 true
       log_daily="${MINDOC_LOG_DAILY||true}"
-      
+
       # 文件最多保存多少天，默认保存 7 天
       log_maxdays="${MINDOC_LOG_MAX_DAYS||30}"
-      
+
       # 日志保存的时候的级别，默认是 Trace 级别,可选值： Emergency/Alert/Critical/Error/Warning/Notice/Informational/Debug/Trace
       log_level="${MINDOC_LOG_LEVEL||Alert}"
-      
+
       # 是否异步生成日志，默认是 true
       log_is_async="${MINDOC_LOG_IS_ASYNC||TRUE}"
 
@@ -300,9 +300,9 @@ secret:
   mountPath: /etc/secret-volume
   subPath: ""
   readOnly: true
-  data: {} 
+  data: {}
 
-## liveness and readiness 
+## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
   enabled: true
@@ -313,7 +313,7 @@ healthCheck:
   livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
   readinessInitialDelaySeconds: 20  # 初始延迟秒数
   readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
- 
+
 resources: {}
   # 容器资源设置
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -390,19 +390,19 @@ mysql:
   root:
     password: mindoc
     forcePassword: false
-  
+
   db:
     user: mindoc
     password: mindoc
     name: mindoc
     forcePassword: false
-  
+
   replication:
     enabled: false
     user: replicator
     password: replicator
     forcePassword: false
-  
+
   master:
     persistence:
       enabled: false
@@ -412,7 +412,7 @@ mysql:
       accessModes:
       - ReadWriteOnce
       size: 8Gi
-  
+
     config: |-
       [mysqld]
       default_authentication_plugin=mysql_native_password
@@ -439,17 +439,17 @@ mysql:
       long_query_time = 2
       slow_query_log_file=slow-query.log
       log_warnings = 1
-  
+
       [client]
       port=3306
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       default-character-set=UTF8
-  
+
       [manager]
       port=3306
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
-  
+
   slave:
     replicas: 1
     persistence:
@@ -460,7 +460,7 @@ mysql:
       accessModes:
       - ReadWriteOnce
       size: 8Gi
-  
+
     config: |-
       [mysqld]
       default_authentication_plugin=mysql_native_password
@@ -487,17 +487,17 @@ mysql:
       long_query_time = 2
       slow_query_log_file=slow-query.log
       log_warnings = 1
-  
+
       [client]
       port=3306
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       default-character-set=UTF8
-  
+
       [manager]
       port=3306
       socket=/opt/bitnami/mysql/tmp/mysql.sock
       pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
-  
+
   metrics:
     enabled: false
     image:

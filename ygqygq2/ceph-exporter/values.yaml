@@ -13,7 +13,7 @@ image:
 service:
   type: ClusterIP
   protocol: TCP
-  #port: 9128
+  #  port: 9128
   port: 9283
 
 resources: {}
@@ -31,7 +31,7 @@ resources: {}
 ## Node labels and tolerations for pod assignment
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
 ### ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
-nodeSelector: 
+nodeSelector:
   ceph-role/mon: ""
 tolerations: []
 affinity: {}
@@ -54,11 +54,11 @@ serviceMonitor:
   # on what port are the metrics exposed by etcd
   exporterPort: 9283
   # for apps that have deployed outside of the cluster, list their adresses here
-  endpoints: 
+  endpoints:
     - 172.16.138.26
     - 172.16.138.31
     - 172.16.138.33
-  
+
   # Are we talking http or https?
   scheme: http
   # service selector label key to target ceph exporter pods
@@ -67,8 +67,8 @@ serviceMonitor:
   prometheusRules: {}
   # Custom Labels to be added to ServiceMonitor
   # 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
-  additionalServiceMonitorLabels: 
+  additionalServiceMonitorLabels:
     release: prometheus-operator
-  #Custom Labels to be added to Prometheus Rules CRD
-  additionalRulesLabels: 
+  # Custom Labels to be added to Prometheus Rules CRD
+  additionalRulesLabels:
     release: prometheus-operator
