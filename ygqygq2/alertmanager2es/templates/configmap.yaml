@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-{{- if .Values.config.enabled }}
->>>>>>> 2da8549b7e29fd82601a558c427911c56ddf1605
+{{- if .Values.config.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
