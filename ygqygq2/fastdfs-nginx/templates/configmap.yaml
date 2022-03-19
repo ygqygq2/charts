@@ -14,11 +14,11 @@ data:
     {{- range $skey, $svalue := $.Values.fastdfs.storage }}
     upstream fdfs_{{ $svalue.name }} {
         dynamic_resolve fallback=stale fail_timeout=30s;
-        {{- range $i, $e := until (int $.Values.fastdfs.tracker.replica) }}
+        {{- range $i, $e := until (int $svalue.replica) }}
         {{- $storageNginxPort := $.Values.storagePorts.storagenginx.containerPort }}
         {{- $storagePodName := (printf "%s-storage-%s-%d" (include "fastdfs-nginx.fullname" $root) $svalue.name $i) }}
         {{- $storageServiceName := (printf "%s-storage-%s-headless" (include "fastdfs-nginx.fullname" $root) $svalue.name) }}
-        server {{ $storagePodName }}.{{ $storageServiceName }}:{{ $storageNginxPort }};
+        server {{ $storagePodName }}.{{ $storageServiceName }}:{{ $storageNginxPort }};  
         {{- end }}
         check interval=3000 rise=2 fall=5 timeout=1000 type=http;
     }
