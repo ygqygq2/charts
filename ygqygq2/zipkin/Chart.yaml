@@ -10,7 +10,7 @@ dependencies:
   version: 17.x.x
   repository: https://charts.bitnami.com/bitnami
   condition: elasticsearch.enabled
-description: Zipkin is a distributed tracing system. 
+description: Zipkin is a distributed tracing system.
 name: zipkin
 version: 2.0.0
 home: https://zipkin.io/

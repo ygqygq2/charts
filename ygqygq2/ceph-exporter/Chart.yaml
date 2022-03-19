@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes
 name: ceph-exporter
 version: 1.0.0
 home: https://github.com/digitalocean/ceph_exporter/
-icon: 
+icon:
 keywords:
 - ceph
 - exporter

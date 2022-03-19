@@ -6,7 +6,7 @@ dependencies:
   tags:
   - bitnami-common
   version: 1.x.x
-description: A elasticsearch visual management tool. 
+description: A elasticsearch visual management tool.
 engine: gotpl
 name: elastichd
 version: 2.0.0

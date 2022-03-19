@@ -14,7 +14,7 @@ description: BookStack是基于Mindoc的一款针对IT团队开发的简单好�
 name: bookstack
 version: 2.0.0
 home: https://www.bookstack.cn
-icon: 
+icon:
 keywords:
 - doc
 - markdown

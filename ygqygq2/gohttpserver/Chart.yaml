@@ -10,7 +10,7 @@ description: A Helm chart for Kubernetes
 name: gohttpserver
 version: 2.0.0
 home: https://github.com/codeskyblue/gohttpserver
-icon: 
+icon:
 keywords:
 - gohttpserver
 maintainers:

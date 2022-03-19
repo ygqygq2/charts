@@ -7,7 +7,7 @@ maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
 home: https://hub.docker.com/r/prom/mysqld-exporter/
-icon: 
+icon:
 keywords:
 - mysql
 - exporter

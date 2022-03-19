@@ -187,7 +187,6 @@ autoscaling:
   ## @param replica.autoscaling.targetMemory Percentage of Memory to consider when autoscaling
   ##
   targetMemory: ""
-  enabled: false
 
 ## Enable persistence using Persistent Volume Claims
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/

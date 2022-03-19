@@ -321,7 +321,7 @@ configservice:
     mountPath: /etc/secret-volume
     subPath: ""
     readOnly: true
-    data: {} 
+    data: {}
 
   existSecret:
     enabled: false
@@ -330,7 +330,7 @@ configservice:
     subPath: ""
     readOnly: true
 
-  ## liveness and readiness 
+  ## liveness and readiness
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   healthCheck:
     enabled: true
@@ -494,7 +494,7 @@ portal:
     #   maxSurge: 25%
     #   maxUnavailable: 25%
     # type: RollingUpdate
-  
+
   ## 副本个数
   replicaCount: 1
 
@@ -553,7 +553,7 @@ portal:
     mountPath: /etc/secret-volume
     subPath: ""
     readOnly: true
-    data: {} 
+    data: {}
 
   existSecret:
     enabled: false
@@ -596,7 +596,7 @@ portal:
   tolerations: []
   affinity: {}
   annotations: {}
-  
+
   ## Enable persistence using Persistent Volume Claims
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##

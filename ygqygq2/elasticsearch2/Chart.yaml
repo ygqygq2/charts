@@ -4,7 +4,7 @@ description: A Helm chart for Kubernetes
 name: elasticsearch2
 version: 1.0.0
 home: https://www.elastic.co/products/elasticsearch
-icon: 
+icon:
 keywords:
 - elasticsearch
 maintainers:
