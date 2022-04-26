@@ -43,6 +43,29 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/alertmanager2es-1.0.0.tgz
     version: 1.0.0
+  apollo:
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-26T09:38:27.365328202Z"
+    description: Chart for the nginx server
+    digest: 61e9be56b03374d7dd825b8caff265539d05a7021117ff188b89e14482f548b2
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: apollo
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/apollo-1.0.2/apollo-1.0.2.tgz
+    version: 1.0.2
   bookstack:
   - apiVersion: v2
     appVersion: v2.1
@@ -231,6 +254,27 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/elasticsearch-1.30.0.tgz
     version: 1.30.0
+  elasticsearch-servicemonitor:
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2022-04-26T09:38:28.137031186Z"
+    description: A Helm chart servicemonitor for elasticsearch exporter
+    digest: de8035d50e56fc52ab7640d93f03a8d47956f7fe8bfa5f7f080bb0e1c13045c5
+    home: https://hub.docker.com/r/justwatch/elasticsearch_exporter
+    keywords:
+    - elasticsearch
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: elasticsearch-servicemonitor
+    sources:
+    - https://github.com/justwatchcom/elasticsearch_exporter
+    - https://github.com/kubernetes/charts/tree/master/stable/elasticsearch-exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/elasticsearch-servicemonitor-1.0.0/elasticsearch-servicemonitor-1.0.0.tgz
+    version: 1.0.0
   elasticsearch2:
   - apiVersion: v1
     appVersion: 2.4.6
@@ -387,6 +431,26 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/gohttpserver-0.1.0.tgz
     version: 0.1.0
+  haproxy-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:28.808952164Z"
+    description: A Helm chart servicemonitor for haproxy exporter
+    digest: 158e6eee41de9605cf80ee02ac089eaafd5c251f885ea7bf3645872900daa09b
+    home: https://github.com/prometheus/haproxy_exporter
+    keywords:
+    - haproxy
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: haproxy-servicemonitor
+    sources:
+    - https://github.com/prometheus/haproxy_exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/haproxy-servicemonitor-1.0.0/haproxy-servicemonitor-1.0.0.tgz
+    version: 1.0.0
   lam:
   - apiVersion: v2
     appVersion: "6.9"
@@ -527,6 +591,34 @@ entries:
   mod-chart:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-04-26T09:38:29.282519943Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: f88f6539755bbd8d9cff6af0dc5cfa507cfc8d113b4c41ff889d40074b068afd
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.1/mod-chart-3.0.1.tgz
+    version: 3.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-04-01T23:31:10.920070146+08:00"
     dependencies:
     - name: common
@@ -664,6 +756,27 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/mongoclient-1.0.1.tgz
     version: 1.0.1
+  mongodb-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:29.542719088Z"
+    description: A Helm chart servicemonitor for mongodb exporter
+    digest: 695cce46ce9ebc571faf54dba524256bc14e8a2fa23a6ddc102c6292d7c2676a
+    home: https://hub.docker.com/r/ssheehy/mongodb-exporter
+    keywords:
+    - mongodb
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mongodb-servicemonitor
+    sources:
+    - https://github.com/percona/mongodb_exporter
+    - https://github.com/helm/charts/tree/master/stable/prometheus-mongodb-exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mongodb-servicemonitor-1.0.0/mongodb-servicemonitor-1.0.0.tgz
+    version: 1.0.0
   mysql:
   - apiVersion: v2
     appVersion: 5.7.26
@@ -1049,6 +1162,26 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/nginx-php-sftp-1.0.0.tgz
     version: 1.0.0
+  nginx-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:30.124847558Z"
+    description: A Helm chart servicemonitor for nginx exporter
+    digest: f10052c989e916e4fd4c8b90a7e3194193f6a0fec117628ab49b7130584ee1ad
+    home: https://github.com/nginxinc/nginx-prometheus-exporter
+    keywords:
+    - nginx
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-servicemonitor
+    sources:
+    - https://github.com/nginxinc/nginx-prometheus-exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/nginx-servicemonitor-1.0.0/nginx-servicemonitor-1.0.0.tgz
+    version: 1.0.0
   nginx-sftp:
   - apiVersion: v2
     appVersion: 1.14.2
@@ -1184,6 +1317,45 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/perfino-2.0.0.tgz
     version: 2.0.0
+  rabbitmq-servicemonitor:
+  - apiVersion: v1
+    appVersion: v1.0.0-RC6.1
+    created: "2022-04-26T09:38:30.659063466Z"
+    description: A Helm chart servicemonitor for rabbitmq exporter
+    digest: ace73ea187f4a0bf1073ee59379e998ab50c58c69bf126eab14b407d44f1f0a1
+    keywords:
+    - redis
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: rabbitmq-servicemonitor
+    sources:
+    - https://github.com/kbudde/rabbitmq_exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/rabbitmq-servicemonitor-1.0.0/rabbitmq-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  redis-servicemonitor:
+  - apiVersion: v1
+    appVersion: v1.5.2-alpine
+    created: "2022-04-26T09:38:30.774590306Z"
+    description: A Helm chart servicemonitor for redis exporter
+    digest: d7e955b207bae331060971b8f345109bd05d99ec8d86e6b9a652ab4e32a688c7
+    home: https://hub.docker.com/r/oliver006/redis_exporter/
+    keywords:
+    - redis
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: redis-servicemonitor
+    sources:
+    - https://github.com/oliver006/redis_exporter
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/redis-servicemonitor-1.0.0/redis-servicemonitor-1.0.0.tgz
+    version: 1.0.0
   self-service-password:
   - apiVersion: v2
     appVersion: "1.3"
@@ -1542,4 +1714,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-04-01T23:31:10.764595376+08:00"
+generated: "2022-04-26T09:38:31.489176386Z"
