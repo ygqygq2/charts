@@ -18,7 +18,7 @@ jobs:
       - name: Lint Code Base
         uses: docker://github/super-linter:slim-v4
         env:
-          DEFAULT_BRANCH: main
+          DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: .github/linters
           VALIDATE_ALL_CODEBASE: false
