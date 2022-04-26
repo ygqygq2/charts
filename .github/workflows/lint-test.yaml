@@ -16,7 +16,7 @@ jobs:
         uses: helm/chart-testing-action@v2.1.0
 
       - name: Run chart-testing (lint)
-        run: ct lint --config .github/ct-lint.yaml
+        run: ct lint --config .github/linters/ct-lint.yaml
 
   test:
     runs-on: ubuntu-latest
@@ -34,4 +34,4 @@ jobs:
         uses: helm/kind-action@v1.2.0
 
       - name: Run chart-testing (install)
-        run: ct install --config .github/ct-install.yaml
+        run: ct install --config .github/linters/ct-install.yaml
