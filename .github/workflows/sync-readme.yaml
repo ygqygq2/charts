@@ -1,3 +1,4 @@
+name: Sync README from master
 on:
   push:
     branches:
