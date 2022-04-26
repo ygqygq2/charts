@@ -89,7 +89,7 @@ service:
   clusterIP: ""
   ## @param service.annotations Annotations for Logstash service
   ##
-  annotations: {}      
+  annotations: {}
 
 ## @param extraEnvVars Extra environment variables to be set on MinIO&reg; container
 ## e.g:

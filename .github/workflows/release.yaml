@@ -32,5 +32,8 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
+        with:
+          charts_dir: ygqygq2
+          charts_repo_url: https://ygqygq2.github.io/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
