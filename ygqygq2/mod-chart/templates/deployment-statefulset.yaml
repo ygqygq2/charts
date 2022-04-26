@@ -17,13 +17,13 @@ metadata:
 {{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
 spec:
-  selector:                                                                                                                                                                                 
+  selector:
     matchLabels: {{- include "common.labels.matchLabels" . | nindent 6 }}
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
   serviceName: {{ include "common.names.fullname" . }}-headless
   {{- end }}
-  {{- if .Values.updateStrategy }}                                                                                                                                                          
+  {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
   template:
@@ -48,7 +48,7 @@ spec:
       {{- end }}
       {{- if .Values.affinity }}
       affinity: {{- include "common.tplvalues.render" (dict "value" .Values.affinity "context" $) | nindent 8 }}
-      {{- else }}
+      {{- else -}}
       affinity:
         podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAffinityPreset "context" $) | nindent 10 }}
         podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.podAntiAffinityPreset "context" $) | nindent 10 }}
@@ -103,7 +103,7 @@ spec:
         - name: {{ include "common.names.name" . }}
           image: {{ template "mod-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          {{- if .Values.containerSecurityContext.enabled }}                                                                                                                                
+          {{- if .Values.containerSecurityContext.enabled }}
           securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           {{- if .Values.lifecycle }}
@@ -138,7 +138,7 @@ spec:
               containerPort: {{ $value.port }}
               protocol: {{ $value.protocol }}
             {{- end }}
-          {{- if .Values.customLivenessProbe }}                                                                                                                                        
+          {{- if .Values.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
           {{- else if .Values.customReadinessProbe }}
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customReadinessProbe "context" $) | nindent 12 }}
@@ -197,7 +197,7 @@ spec:
 {{- if .Values.extraVolumeMounts }}
 {{ toYaml .Values.extraVolumeMounts | indent 12 }}
 {{- end }}
-        {{- if .Values.sidecars }}                                                                                                                                                          
+        {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" (dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
       volumes:
