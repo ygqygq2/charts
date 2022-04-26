@@ -60,8 +60,7 @@ image:
 service:
   name: ""
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
-  type: NodePort  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
-  #type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
+  type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
   loadBalancerIP: ""
   ## Enable client source IP preservation
   ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
@@ -73,7 +72,7 @@ service:
       port: 8080  # Service port number for client-a port.
       protocol: TCP  # Service port protocol for client-a port.
       ## Use nodePorts to requets some specific ports when usin NodePort
-      nodePort: 30020  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
+      # nodePort: 30020  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
   ## @param service.loadBalancerSourceRanges Addresses that are allowed when service is LoadBalancer
   ## https://kubernetes.io/docs/tasks/access-application-cluster/configure-cloud-provider-firewall/#restrict-access-for-loadbalancer-service
   ## e.g:
