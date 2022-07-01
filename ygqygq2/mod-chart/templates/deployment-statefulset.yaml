@@ -142,7 +142,7 @@ spec:
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
           {{- else if .Values.customReadinessProbe }}
           readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customReadinessProbe "context" $) | nindent 12 }}
-          {{- else if .Values.healthCheck.enabled }}
+          {{- else if .Values.healthCheck.livenessProbe.enabled }}
           livenessProbe:
             {{- if eq .Values.healthCheck.type "http" }}
             httpGet:
@@ -152,8 +152,12 @@ spec:
             tcpSocket:
               port: {{ .Values.healthCheck.port }}
             {{- end }}
-            initialDelaySeconds: {{ .Values.healthCheck.livenessInitialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.livenessPeriodSeconds }}
+            initialDelaySeconds: {{ .Values.healthCheck.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.healthCheck.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.healthCheck.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.healthCheck.livenessProbe.failureThreshold }}
+          {{- else if .Values.healthCheck.readinessProbe.enabled }}
           readinessProbe:
             {{- if eq .Values.healthCheck.type "http" }}
             httpGet:
@@ -163,8 +167,11 @@ spec:
             tcpSocket:
               port: {{ .Values.healthCheck.port }}
             {{- end }}
-            initialDelaySeconds: {{ .Values.healthCheck.readinessInitialDelaySeconds }}
-            periodSeconds: {{ .Values.healthCheck.readinessPeriodSeconds }}
+            initialDelaySeconds: {{ .Values.healthCheck.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.healthCheck.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.healthCheck.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.healthCheck.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.healthCheck.readinessProbe.failureThreshold }}
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
@@ -225,14 +232,14 @@ spec:
 {{ toYaml .Values.extraVolumes | indent 8 }}
         {{- end }}
 {{- if not .Values.statefulset.enabled }}
-          {{- if .Values.persistence.enabled }}
+        {{- if .Values.persistence.enabled }}
         - name: data-storage
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "common.names.fullname" .) }}
-          {{- else }}
+        {{- else }}
         - name: data-storage
           emptyDir: {}
-          {{- end }}
+        {{- end }}
 {{- else }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:

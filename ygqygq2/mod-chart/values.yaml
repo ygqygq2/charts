@@ -153,14 +153,23 @@ customReadinessProbe: {}
 ## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
-  enabled: true
   type: tcp  # http/tcp
   port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
-  livenessInitialDelaySeconds: 10  # 初始延迟秒数
-  livenessPeriodSeconds: 10  # 检测周期，默认值10，最小为1
-  readinessInitialDelaySeconds: 10  # 初始延迟秒数
-  readinessPeriodSeconds: 10   # 检测周期，默认值10，最小为1
+  livenessProbe:
+    enabled: false
+  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
+  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+  readinessProbe:
+    enabled: false
+  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
+  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
 
 ## mod-chart containers' resource requests and limits
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -182,9 +191,9 @@ resources: {}
 ## @param updateStrategy.rollingUpdate mod-chart deployment rolling update configuration parameters
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 ##
-updateStrategy:
-  type: RollingUpdate
-  rollingUpdate: {}
+updateStrategy: {}
+  # type: RollingUpdate
+  # rollingUpdate: {}
 ## @param podLabels Additional labels for mod-chart pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 ##

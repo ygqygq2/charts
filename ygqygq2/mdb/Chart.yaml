@@ -1,11 +1,17 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "1.0.0"
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+  - bitnami-common
+  version: 1.x.x
 description: A Helm chart for Kubernetes
 name: mdb
-version: 4.0.0
+version: 5.0.0
 maintainers:
-- email: 29ygq@sina.com
-  name: Chinge Yang
+- email: ygqygq2@qq.com
+  name: ygqygq2
 home:
 icon:
 keywords:
