@@ -509,6 +509,27 @@ entries:
     - http://ygqygq2.github.io/charts/lam-1.0.0.tgz
     version: 1.0.0
   mdb:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-01T15:38:13.780294654Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 383aa8d196c05ae7991bc6246b7094e3123c5afe4d55a096d167286ad0c0f017
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.0/mdb-5.0.0.tgz
+    version: 5.0.0
   - apiVersion: v1
     appVersion: 1.0.0
     created: "2022-04-01T23:31:10.909377733+08:00"
@@ -589,6 +610,34 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-01T15:38:14.050545814Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 652bcaede19bed64cfe5aee4f4583055356cd8baf0f1a12f9bdc68dec327deb5
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.2/mod-chart-3.0.2.tgz
+    version: 3.0.2
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-04-26T09:38:29.282519943Z"
@@ -1714,4 +1763,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-04-26T09:38:31.489176386Z"
+generated: "2022-07-01T15:38:14.050671124Z"
