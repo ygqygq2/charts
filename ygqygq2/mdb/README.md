@@ -1,21 +1,19 @@
-<!--- app-name: mod-chart -->
+# mdb
 
-# mod-chart
-
-[mod-chart](https://nginx.org) (pronounced "engine-x") is an open source reverse proxy server for HTTP, HTTPS, SMTP, POP3, and IMAP protocols, as well as a load balancer, HTTP cache, and a web server (origin server).
+[mdb](https://nginx.org) (pronounced "engine-x") is an open source reverse proxy server for HTTP, HTTPS, SMTP, POP3, and IMAP protocols, as well as a load balancer, HTTP cache, and a web server (origin server).
 
 ## TL;DR
 
 ```bash
 $ helm repo add ygqygq2 https://ygqygq2.github.io/charts/
-$ helm install my-release ygqygq2/mod-chart
+$ helm install my-release ygqygq2/mdb
 ```
 
 ## Introduction
 
-mod-chart 参考 Bitnami 作为一个通用模板，可用于新 chart 的快速制作，仅需将 app-name 名字替换下即可。
+mdb 参考 Bitnami 作为一个通用模板，可用于新 chart 的快速制作，仅需将 app-name 名字替换下即可。
 
-This chart bootstraps a [mod-chart Open Source](https://github.com/bitnami/bitnami-docker-nginx) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps a [mdb Open Source](https://github.com/bitnami/bitnami-docker-nginx) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This Helm chart has been tested on top of [Bitnami Kubernetes Production Runtime](https://kubeprod.io/) (BKPR). Deploy BKPR to get automated TLS certificates, logging and monitoring for your applications.
 
@@ -30,10 +28,10 @@ To install the chart with the release name `my-release`:
 
 ```bash
 $ helm repo add ygqygq2 https://ygqygq2.github.io/charts/
-$ helm install my-release ygqygq2/mod-chart
+$ helm install my-release ygqygq2/mdb
 ```
 
-These commands deploy mod-chart Open Source on the Kubernetes cluster in the default configuration.
+These commands deploy mdb Open Source on the Kubernetes cluster in the default configuration.
 
 > **Tip**: List all releases using `helm list`
 
@@ -70,31 +68,31 @@ The command removes all the Kubernetes components associated with the chart and 
 | `commonAnnotations` | Add annotations to all the deployed resources                                         | `{}`            |
 
 
-### mod-chart parameters
+### mdb parameters
 
 | Name                 | Description                                                          | Value                 |
 | -------------------- | -------------------------------------------------------------------- | --------------------- |
-| `image.registry`     | mod-chart image registry                                                 | `docker.io`           |
-| `image.repository`   | mod-chart image repository                                               | `bitnami/nginx`       |
-| `image.tag`          | mod-chart image tag (immutable tags are recommended)                     | `1.21.5-debian-10-r3` |
-| `image.pullPolicy`   | mod-chart image pull policy                                              | `IfNotPresent`        |
+| `image.registry`     | mdb image registry                                                 | `docker.io`           |
+| `image.repository`   | mdb image repository                                               | `bitnami/nginx`       |
+| `image.tag`          | mdb image tag (immutable tags are recommended)                     | `1.21.5-debian-10-r3` |
+| `image.pullPolicy`   | mdb image pull policy                                              | `IfNotPresent`        |
 | `image.pullSecrets`  | Specify docker-registry secret names as an array                     | `[]`                  |
 | `image.debug`        | Set to true if you would like to see extra information on logs       | `false`               |
 | `hostAliases`        | Deployment pod host aliases                                          | `[]`                  |
 | `command`            | Override default container command (useful when using custom images) | `[]`                  |
 | `args`               | Override default container args (useful when using custom images)    | `[]`                  |
-| `extraEnvVars`       | Extra environment variables to be set on mod-chart containers            | `[]`                  |
+| `extraEnvVars`       | Extra environment variables to be set on mdb containers            | `[]`                  |
 | `extraEnvVarsCM`     | ConfigMap with extra environment variables                           | `""`                  |
 | `extraEnvVarsSecret` | Secret with extra environment variables                              | `""`                  |
 
 
-### mod-chart deployment parameters
+### mdb deployment parameters
 
 | Name                                    | Description                                                                               | Value   |
 | --------------------------------------- | ----------------------------------------------------------------------------------------- | ------- |
-| `replicaCount`                          | Number of mod-chart replicas to deploy                                                    | `1`     |
-| `podLabels`                             | Additional labels for mod-chart pods                                                      | `{}`    |
-| `podAnnotations`                        | Annotations for mod-chart pods                                                            | `{}`    |
+| `replicaCount`                          | Number of mdb replicas to deploy                                                    | `1`     |
+| `podLabels`                             | Additional labels for mdb pods                                                      | `{}`    |
+| `podAnnotations`                        | Annotations for mdb pods                                                            | `{}`    |
 | `podAffinityPreset`                     | Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`       | `""`    |
 | `podAntiAffinityPreset`                 | Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`  | `soft`  |
 | `nodeAffinityPreset.type`               | Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard` | `""`    |
@@ -104,20 +102,20 @@ The command removes all the Kubernetes components associated with the chart and 
 | `nodeSelector`                          | Node labels for pod assignment. Evaluated as a template.                                  | `{}`    |
 | `tolerations`                           | Tolerations for pod assignment. Evaluated as a template.                                  | `{}`    |
 | `priorityClassName`                     | Priority class name                                                                       | `""`    |
-| `podSecurityContext.enabled`            | Enabled mod-chart pods' Security Context                                                  | `false` |
-| `podSecurityContext.fsGroup`            | Set mod-chart pod's Security Context fsGroup                                              | `1001`  |
-| `podSecurityContext.sysctls`            | sysctl settings of the mod-chart pods                                                     | `[]`    |
-| `containerSecurityContext.enabled`      | Enabled mod-chart containers' Security Context                                            | `false` |
-| `containerSecurityContext.runAsUser`    | Set mod-chart container's Security Context runAsUser                                      | `1001`  |
-| `containerSecurityContext.runAsNonRoot` | Set mod-chart container's Security Context runAsNonRoot                                   | `true`  |
-| `containerPorts.http`                   | Sets http port inside mod-chart container                                                 | `8080`  |
-| `containerPorts.https`                  | Sets https port inside mod-chart container                                                | `""`    |
-| `resources.limits`                      | The resources limits for the mod-chart container                                          | `{}`    |
-| `resources.requests`                    | The requested resources for the mod-chart container                                       | `{}`    |
+| `podSecurityContext.enabled`            | Enabled mdb pods' Security Context                                                  | `false` |
+| `podSecurityContext.fsGroup`            | Set mdb pod's Security Context fsGroup                                              | `1001`  |
+| `podSecurityContext.sysctls`            | sysctl settings of the mdb pods                                                     | `[]`    |
+| `containerSecurityContext.enabled`      | Enabled mdb containers' Security Context                                            | `false` |
+| `containerSecurityContext.runAsUser`    | Set mdb container's Security Context runAsUser                                      | `1001`  |
+| `containerSecurityContext.runAsNonRoot` | Set mdb container's Security Context runAsNonRoot                                   | `true`  |
+| `containerPorts.http`                   | Sets http port inside mdb container                                                 | `8080`  |
+| `containerPorts.https`                  | Sets https port inside mdb container                                                | `""`    |
+| `resources.limits`                      | The resources limits for the mdb container                                          | `{}`    |
+| `resources.requests`                    | The requested resources for the mdb container                                       | `{}`    |
 | `customLivenessProbe`                   | Override default liveness probe                                                           | `{}`    |
 | `customReadinessProbe`                  | Override default readiness probe                                                          | `{}`    |
 | `healthCheck`                           | 简化的健康检测，支持 tcp、http，具体查看 `values.yaml`                                    |         |
-| `autoscaling.enabled`                   | Enable autoscaling for mod-chart deployment                                               | `false` |
+| `autoscaling.enabled`                   | Enable autoscaling for mdb deployment                                               | `false` |
 | `autoscaling.minReplicas`               | Minimum number of replicas to scale back                                                  | `""`    |
 | `autoscaling.maxReplicas`               | Maximum number of replicas to scale out                                                   | `""`    |
 | `autoscaling.targetCPU`                 | Target CPU utilization percentage                                                         | `""`    |
@@ -174,19 +172,19 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                                       | Description                                                                                                                               | Value                    |
 | ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `metrics.enabled`                          | Start a Prometheus exporter sidecar container                                                                                             | `false`                  |
-| `metrics.port`                             | mod-chart Container Status Port scraped by Prometheus Exporter                                                                                | `""`                     |
-| `metrics.image.registry`                   | mod-chart Prometheus exporter image registry                                                                                                  | `docker.io`              |
-| `metrics.image.repository`                 | mod-chart Prometheus exporter image repository                                                                                                | `bitnami/nginx-exporter` |
-| `metrics.image.tag`                        | mod-chart Prometheus exporter image tag (immutable tags are recommended)                                                                      | `0.10.0-debian-10-r8`    |
-| `metrics.image.pullPolicy`                 | mod-chart Prometheus exporter image pull policy                                                                                               | `IfNotPresent`           |
+| `metrics.port`                             | mdb Container Status Port scraped by Prometheus Exporter                                                                                | `""`                     |
+| `metrics.image.registry`                   | mdb Prometheus exporter image registry                                                                                                  | `docker.io`              |
+| `metrics.image.repository`                 | mdb Prometheus exporter image repository                                                                                                | `bitnami/nginx-exporter` |
+| `metrics.image.tag`                        | mdb Prometheus exporter image tag (immutable tags are recommended)                                                                      | `0.10.0-debian-10-r8`    |
+| `metrics.image.pullPolicy`                 | mdb Prometheus exporter image pull policy                                                                                               | `IfNotPresent`           |
 | `metrics.image.pullSecrets`                | Specify docker-registry secret names as an array                                                                                          | `[]`                     |
-| `metrics.podAnnotations`                   | Additional annotations for mod-chart Prometheus exporter pod(s)                                                                               | `{}`                     |
-| `metrics.securityContext.enabled`          | Enabled mod-chart Exporter containers' Security Context                                                                                       | `false`                  |
-| `metrics.securityContext.runAsUser`        | Set mod-chart Exporter container's Security Context runAsUser                                                                                 | `1001`                   |
-| `metrics.service.port`                     | mod-chart Prometheus exporter service port                                                                                                    | `9113`                   |
+| `metrics.podAnnotations`                   | Additional annotations for mdb Prometheus exporter pod(s)                                                                               | `{}`                     |
+| `metrics.securityContext.enabled`          | Enabled mdb Exporter containers' Security Context                                                                                       | `false`                  |
+| `metrics.securityContext.runAsUser`        | Set mdb Exporter container's Security Context runAsUser                                                                                 | `1001`                   |
+| `metrics.service.port`                     | mdb Prometheus exporter service port                                                                                                    | `9113`                   |
 | `metrics.service.annotations`              | Annotations for the Prometheus exporter service                                                                                           | `{}`                     |
-| `metrics.resources.limits`                 | The resources limits for the mod-chart Prometheus exporter container                                                                          | `{}`                     |
-| `metrics.resources.requests`               | The requested resources for the mod-chart Prometheus exporter container                                                                       | `{}`                     |
+| `metrics.resources.limits`                 | The resources limits for the mdb Prometheus exporter container                                                                          | `{}`                     |
+| `metrics.resources.requests`               | The requested resources for the mdb Prometheus exporter container                                                                       | `{}`                     |
 | `metrics.serviceMonitor.enabled`           | Creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)                                               | `false`                  |
 | `metrics.serviceMonitor.namespace`         | Namespace in which Prometheus is running                                                                                                  | `""`                     |
 | `metrics.serviceMonitor.interval`          | Interval at which metrics should be scraped.                                                                                              | `""`                     |
@@ -206,7 +204,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```bash
 $ helm install my-release \
   --set imagePullPolicy=Always \
-    ygqygq2/mod-chart
+    ygqygq2/mdb
 ```
 
 The above command sets the `imagePullPolicy` to `Always`.
@@ -214,7 +212,7 @@ The above command sets the `imagePullPolicy` to `Always`.
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install my-release -f values.yaml ygqygq2/mod-chart
+$ helm install my-release -f values.yaml ygqygq2/mdb
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -227,7 +225,7 @@ It is strongly recommended to use immutable tags in a production environment. Th
 
 Bitnami will release a new chart updating its containers if a new version of the main container, significant changes, or critical vulnerabilities exist.
 
-### Use a different mod-chart version
+### Use a different mdb version
 
 To modify the application version used in this chart, specify a different version of the image using the `image.tag` parameter and/or a different repository using the `image.repository` parameter. Refer to the [chart documentation for more information on these parameters and how to use them with images from a private registry](https://docs.bitnami.com/kubernetes/infrastructure/nginx/configuration/change-image-version/).
 
@@ -261,7 +259,7 @@ To enable ingress integration, please set `ingress.enabled` to `true`.
 
 #### Hosts
 
-Most likely you will only want to have one hostname that maps to this mod-chart installation. If that's your case, the property `ingress.hostname` will set it. However, it is possible to have more than one host. To facilitate this, the `ingress.extraHosts` object can be specified as an array. You can also use `ingress.extraTLS` to add the TLS configuration for extra hosts.
+Most likely you will only want to have one hostname that maps to this mdb installation. If that's your case, the property `ingress.hostname` will set it. However, it is possible to have more than one host. To facilitate this, the `ingress.extraHosts` object can be specified as an array. You can also use `ingress.extraTLS` to add the TLS configuration for extra hosts.
 
 For each host indicated at `ingress.extraHosts`, please indicate a `name`, `path`, and any `annotations` that you may want the ingress controller to know about.
 

@@ -11,7 +11,7 @@ files_to_push="$(git diff --name-only "$origin_commit")"
 for chart_name in $( cut -d'/' -f1,2 <<< "$files_to_push" | uniq ); do
     check_yaml_lint
     # Avoid running 'yamllint' when modified dirs are not charts
-    if [[ $chart_name = bitnami/* ]]; then
+    if [[ $chart_name = ygqygq2/* ]]; then
         printf '\033[01;33mLinting yaml of %s:\n\033[0m' "$chart_name"
         if ! run_yaml_lint_chart "$chart_name"; then
             failed=1

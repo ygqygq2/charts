@@ -13,7 +13,7 @@ failed=0
 for chart_name in $( cut -d'/' -f1,2 <<< "$files_to_push" | uniq ); do
     check_kubeval
     # Avoid running 'kubeval' when modified dirs are not charts
-    if [[ $chart_name = bitnami/* ]]; then
+    if [[ $chart_name = ygqygq2/* ]]; then
         printf '\033[01;33mValidating %s with kubeval:\n\033[0m' "$chart_name"
         if ! run_kubeval_chart "$chart_name"; then
             failed=1

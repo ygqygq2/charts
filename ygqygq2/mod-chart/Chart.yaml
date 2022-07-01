@@ -19,7 +19,7 @@ keywords:
 - www
 - reverse proxy
 maintainers:
-- email: 29ygq@sina.com
-  name: Chinge Yang
+- email: ygqygq2@qq.com
+  name: ygqygq2
 sources:
 - https://github.com/bitnami/bitnami-docker-nginx
