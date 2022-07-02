@@ -12,7 +12,7 @@ dependencies:
   condition: elasticsearch.enabled
 description: Zipkin is a distributed tracing system.
 name: zipkin
-version: 2.0.0
+version: 2.1.0
 home: https://zipkin.io/
 icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
 keywords:
@@ -20,4 +20,4 @@ keywords:
 - tracing
 maintainers:
 - email: 29ygq@sina.com
-  name: Chinge Yang
+  name: ygqygq2
