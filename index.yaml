@@ -359,6 +359,27 @@ entries:
     version: 1.0.0
   fastdfs-nginx:
   - apiVersion: v2
+    appVersion: "6.08"
+    created: "2022-07-02T14:25:38.557619289Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: FastDFS-Nginx chart for Kubernetes
+    digest: fcc24aaf16c7659cf60df1da92bab099b2f42463778fb00866e4a565263b0df8
+    home: https://github.com/happyfish100/fastdfs
+    keywords:
+    - fastdfs
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: fastdfs-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/fastdfs-nginx-2.1.0/fastdfs-nginx-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
     appVersion: "6.07"
     created: "2022-04-01T23:31:10.885394625+08:00"
     dependencies:
@@ -511,6 +532,27 @@ entries:
   mdb:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-07-02T14:25:38.821105343Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 0e5fc735e8bca7f14e1f2ab567bbd4544efcb4dc43db235867ec9ae171d23dda
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.1/mdb-5.0.1.tgz
+    version: 5.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-01T15:38:13.780294654Z"
     dependencies:
     - name: common
@@ -610,6 +652,34 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-02T14:25:39.071990899Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 1e848f96d793184c3233f57cba1e95070cc319d8f24991298e768d1ec6138330
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.3/mod-chart-3.0.3.tgz
+    version: 3.0.3
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-07-01T15:38:14.050545814Z"
@@ -1752,6 +1822,33 @@ entries:
   zipkin:
   - apiVersion: v2
     appVersion: "2.23"
+    created: "2022-07-02T14:25:39.35021155Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.x.x
+    description: Zipkin is a distributed tracing system.
+    digest: a9bac32da03c9aebfea000b43b4bebd51436e5e639a24c7b44db99f403d6f1d9
+    home: https://zipkin.io/
+    icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
+    keywords:
+    - zipkin
+    - tracing
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: zipkin
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.0/zipkin-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: "2.23"
     created: "2022-04-01T23:31:11.150155981+08:00"
     dependencies:
     - name: common
@@ -1794,4 +1891,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-07-01T16:02:14.651651595Z"
+generated: "2022-07-02T14:25:39.35035105Z"
