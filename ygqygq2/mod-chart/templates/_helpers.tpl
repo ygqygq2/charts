@@ -27,7 +27,6 @@ Expand the name of the chart.
 {{- coalesce .Values.persistence.existingClaim (include "common.names.fullname" .) -}}
 {{- end -}}
 
-
 {{/*
 Create the name of the service account to use
 */}}
