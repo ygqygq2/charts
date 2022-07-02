@@ -2,43 +2,57 @@
 apiVersion: {{ include "common.capabilities.cronjob.apiVersion" . }}
 kind: CronJob
 metadata:
-  name: {{ template "zipkin.fullname" . }}-dependencies
-  labels:
-    app: {{ template "zipkin.name" . }}
-    chart: {{ template "zipkin.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+  name: {{ template "common.names.fullname" . }}-dependencies
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "common.labels.standard" . | nindent 4 }}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
 spec:
   schedule: "{{ .Values.dependencies.schedule }}"
   failedJobsHistoryLimit: 5
   successfulJobsHistoryLimit: 5
   jobTemplate:
     metadata:
-      labels:
-        app: {{ template "zipkin.name" . }}
-        chart: {{ template "zipkin.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
-        cronjob-name: {{ template "zipkin.fullname" . }}-dependencies
+      labels: {{- include "common.labels.standard" . | nindent 8 }}
+        cronjob-name: {{ template "common.names.fullname" . }}-dependencies
     spec:
       template:
+        metadata:
+          labels: {{- include "common.labels.standard" . | nindent 12 }}
+            cronjob-name: {{ template "common.names.fullname" . }}-dependencies
         spec:
-          imagePullSecrets:
-          {{- range .Values.dependencies.image.imagePullSecrets }}
-            - name: {{ . }}
-          {{- end }}
+{{- include "zipkin.imagePullSecrets" . | indent 10 }}
           restartPolicy: Never
           containers:
-          - name: {{ .Chart.Name }}-dependencies
+          - name: {{ template "common.names.fullname" . }}-dependencies
             env:
-{{- if .Values.env }}
-{{ toYaml .Values.env | indent 12 }}
-{{- end }}
-            - name: STORAGE_TYPE
-              value: elasticsearch
-            - name : ES_HOSTS
-              value: {{ template "zipkin.elasticsearch.fullname" . }}:9200
-            name: {{ .Chart.Name }}-dependencies
+              {{- if .Values.extraEnvVars }}
+              {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 12 }}
+              {{- end }}
+              {{- if .Values.elasticsearch.enabled }}
+              - name: STORAGE_TYPE
+                value: elasticsearch
+              - name : ES_HOSTS
+                value: {{ template "zipkin.elasticsearch.fullname" . }}:9200
+              {{- else }}
+              {{- range $key, $value := .Values.elasticsearch.external }}
+              - name: {{ $key }}
+                value: {{ $value }}
+              {{- end }}
+              {{- end }}
+            envFrom:
+              {{- if .Values.extraEnvVarsCM }}
+              - configMapRef:
+                  name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsCM "context" $) }}
+              {{- end }}
+              {{- if .Values.extraEnvVarsSecret }}
+              - secretRef:
+                  name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
+              {{- end }}
             imagePullPolicy: {{ .Values.dependencies.image.pullPolicy }}
             image: {{ .Values.dependencies.image.repository }}:{{ .Values.dependencies.image.tag }}
 {{- end -}}

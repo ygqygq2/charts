@@ -9,7 +9,7 @@ dependencies:
 description: Chart for the nginx server
 engine: gotpl
 name: mod-chart
-version: 3.0.2
+version: 3.0.3
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:

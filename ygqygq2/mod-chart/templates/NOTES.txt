@@ -30,12 +30,12 @@ mod-chart can be accessed:
            You can watch the status of by running 'kubectl get svc -w {{ include "common.names.fullname" . }}'
 
     export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "common.names.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    echo http://$SERVICE_IP:{{ .Values.service.ingressPort }}
+    echo http://$SERVICE_IP:{{ .Values.service.ports.http.port }}
     {{- else if contains "ClusterIP"  .Values.service.type }}
 
-    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ include "common.names.fullname" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-    echo "Visit http://127.0.0.1:{{ .Values.service.ingressPort }} to use mod-chart"
-    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME {{ .Values.service.ingressPort }}:{{ .Values.service.ingressPort }}
+    export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+    echo "Visit http://127.0.0.1:{{ .Values.service.ports.http.port }} to use mod-chart"
+    kubectl port-forward --namespace {{ .Release.Namespace }} $POD_NAME {{ .Values.service.ports.http.port }}:{{ .Values.service.ports.http.port }}
     {{- end }}
 
 

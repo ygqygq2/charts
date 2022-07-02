@@ -160,19 +160,19 @@ healthCheck:
   port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
   livenessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
-  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+    enabled: true
+    initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+    successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+    failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
   readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-  #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
-  #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-  #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+    enabled: true
+    initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+    successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+    failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
 
 ## mod-chart containers' resource requests and limits
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -183,20 +183,20 @@ healthCheck:
 ## @param resources.limits The resources limits for the mod-chart container
 ## @param resources.requests The requested resources for the mod-chart container
 resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
 
 ## @param updateStrategy.type mod-chart deployment strategy type
 ## @param updateStrategy.rollingUpdate mod-chart deployment rolling update configuration parameters
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 ##
 updateStrategy: {}
-  # type: RollingUpdate
-  # rollingUpdate: {}
+#  type: RollingUpdate
+#  rollingUpdate: {}
 ## @param podLabels Additional labels for mod-chart pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 ##
@@ -205,7 +205,7 @@ podLabels: {}
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 ##
 podAnnotations: {}
-  # sidecar.istio.io/inject: "true"
+#  sidecar.istio.io/inject: "true"
 ## @param podAffinityPreset Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
 ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
 ##
@@ -448,16 +448,16 @@ ingress:
 
 ## istio configure
 canary:
-  enabled: true
+  enabled: false
 
   ## canary subset
   subset:
-  - name: v1
-    replicaCount: 1
-    image:
-      repository: bitnami/nginx
-      tag: latest
-      pullPolicy: IfNotPresent
+    - name: v1
+      replicaCount: 1
+      image:
+        repository: bitnami/nginx
+        tag: latest
+        pullPolicy: IfNotPresent
 
 ## @section Other Parameters
 ##
@@ -548,12 +548,12 @@ pdb:
 ## Uncomment and modify this to run a command after starting the core container.
 ## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
 lifecycle: {}
-  # preStop:
-  #   exec:
-  #     command: ["/bin/bash","/pre-stop.sh"]
-  # postStart:
-  #   exec:
-  #     command: ["/bin/bash","/post-start.sh"]
+#  preStop:
+#    exec:
+#      command: ["/bin/bash","/pre-stop.sh"]
+#  postStart:
+#    exec:
+#      command: ["/bin/bash","/post-start.sh"]
 
 ## init containers
 ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
