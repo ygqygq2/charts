@@ -31,3 +31,4 @@ jobs:
           VALIDATE_PYTHON_BLACK: false
           VALIDATE_YAML: false
           VALIDATE_MARKDOWN: false
+          NATURAL_LANGUAGE: false
