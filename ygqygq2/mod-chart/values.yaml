@@ -5,6 +5,7 @@
 
 ## @param global.imageRegistry Global Docker image registry
 ## @param global.imagePullSecrets Global Docker registry secret names as an array
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
 ##
 global:
   imageRegistry: ""
@@ -13,6 +14,7 @@ global:
   ##   - myRegistryKeySecretName
   ##
   imagePullSecrets: []
+  storageClass: ""
 
 ## @section Common parameters
 
@@ -42,23 +44,43 @@ commonAnnotations: {}
 statefulset:
   enabled: false
 
-## @param replicaCount Number of NGINX replicas to deploy
+## @param replicaCount Number of replicas to deploy
 ##
 replicaCount: 1
 
-## 容器image及tag
+## @section Tomcat parameters
+##
+
+## Bitnami Tomcat image version
+## ref: https://hub.docker.com/r/bitnami/tomcat/tags/
+## @param image.registry Tomcat image registry
+## @param image.repository Tomcat image repository
+## @param image.tag Tomcat image tag (immutable tags are recommended)
+## @param image.pullPolicy Tomcat image pull policy
+## @param image.pullSecrets Specify docker-registry secret names as an array
+## @param image.debug Specify if debug logs should be enabled
+##
 image:
   registry: docker.io
   repository: bitnami/nginx
   tag: latest
-  pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## Example:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
   pullSecrets: []
-  #  - private-registry-key
 
 ## Kubernetes svc configuration
 ##
 service:
-  name: ""
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
   type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
   loadBalancerIP: ""
@@ -157,16 +179,16 @@ healthCheck:
   port: http  # 上面的端口名或端口
   httpPath: '/'  # http时必须设置
   livenessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    enabled: true
+    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
   #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
   #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
   #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
   readinessProbe:
-    enabled: false
-  #  initialDelaySeconds: 45   # 初始延迟秒数, k8s默认值为0，最小为0
-  #  periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    enabled: true
+    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
   #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
   #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
   #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
