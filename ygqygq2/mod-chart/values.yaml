@@ -133,6 +133,11 @@ command: []
 ##
 args: []
 
+## @param querier.podManagementPolicy podManagementPolicy to manage scaling operation
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
+##
+podManagementPolicy: ""
+
 ## Enable configmap and add data in configmap
 config:
   enabled: false
