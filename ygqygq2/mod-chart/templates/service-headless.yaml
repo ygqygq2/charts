@@ -13,7 +13,7 @@ spec:
     - name: {{ $key }}
       targetPort: {{ $key }}
 {{ toYaml $value | indent 6 }}
-    {{- end }}
+  {{- end }}
     {{- if .Values.metrics.enabled }}
     - name: metrics
       port: {{ .Values.metrics.service.port }}

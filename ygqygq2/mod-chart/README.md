@@ -75,16 +75,16 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                 | Description                                                          | Value                 |
 | -------------------- | -------------------------------------------------------------------- | --------------------- |
-| `image.registry`     | mod-chart image registry                                                 | `docker.io`           |
-| `image.repository`   | mod-chart image repository                                               | `bitnami/nginx`       |
-| `image.tag`          | mod-chart image tag (immutable tags are recommended)                     | `1.21.5-debian-10-r3` |
-| `image.pullPolicy`   | mod-chart image pull policy                                              | `IfNotPresent`        |
+| `image.registry`     | mod-chart image registry                                             | `docker.io`           |
+| `image.repository`   | mod-chart image repository                                           | `bitnami/nginx`       |
+| `image.tag`          | mod-chart image tag (immutable tags are recommended)                 | `1.21.5-debian-10-r3` |
+| `image.pullPolicy`   | mod-chart image pull policy                                          | `IfNotPresent`        |
 | `image.pullSecrets`  | Specify docker-registry secret names as an array                     | `[]`                  |
 | `image.debug`        | Set to true if you would like to see extra information on logs       | `false`               |
 | `hostAliases`        | Deployment pod host aliases                                          | `[]`                  |
 | `command`            | Override default container command (useful when using custom images) | `[]`                  |
 | `args`               | Override default container args (useful when using custom images)    | `[]`                  |
-| `extraEnvVars`       | Extra environment variables to be set on mod-chart containers            | `[]`                  |
+| `extraEnvVars`       | Extra environment variables to be set on mod-chart containers        | `[]`                  |
 | `extraEnvVarsCM`     | ConfigMap with extra environment variables                           | `""`                  |
 | `extraEnvVarsSecret` | Secret with extra environment variables                              | `""`                  |
 
