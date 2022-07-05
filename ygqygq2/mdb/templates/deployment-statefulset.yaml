@@ -23,6 +23,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   {{- if .Values.statefulset.enabled }}
   serviceName: {{ include "common.names.fullname" . }}-headless
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
   {{- end }}
   {{- if .Values.updateStrategy }}
   strategy: {{- toYaml .Values.updateStrategy | nindent 4 }}
