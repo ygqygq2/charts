@@ -268,7 +268,7 @@ priorityClassName: ""
 ## @param podSecurityContext.sysctls sysctl settings of the mdb pods
 ##
 podSecurityContext:
-  enabled: false
+  enabled: true
   fsGroup: 1001
   ## sysctl settings
   ## Example:
@@ -284,9 +284,11 @@ podSecurityContext:
 ## @param containerSecurityContext.runAsNonRoot Set mdb container's Security Context runAsNonRoot
 ##
 containerSecurityContext:
-  enabled: false
+  enabled: true
   runAsUser: 1001
   runAsNonRoot: true
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
 
 ## @param Pod's DNS Policy
 ## https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
