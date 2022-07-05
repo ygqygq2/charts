@@ -23,9 +23,10 @@ metadata:
 spec:
   selector:
     matchLabels: {{- include "common.labels.matchLabels" $root | nindent 6 }}
-  replicas: {{ $svalue.replicaCount }}
+  replicas: {{ $.Values.replicaCount }}
   {{- if $.Values.statefulset.enabled }}
   serviceName: {{ include "common.names.fullname" $root }}-headless
+  podManagementPolicy: {{ $.Values.podManagementPolicy }}
   {{- end }}
   {{- if $.Values.updateStrategy }}
   strategy: {{- toYaml $.Values.updateStrategy | nindent 4 }}
