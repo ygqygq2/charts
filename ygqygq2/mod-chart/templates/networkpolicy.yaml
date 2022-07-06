@@ -28,7 +28,7 @@ spec:
               {{ template "common.names.fullname" . }}-client: "true"
           {{- if .Values.networkPolicy.explicitNamespacesSelector }}
           namespaceSelector:
-{{ toYaml .Values.networkPolicy.explicitNamespacesSelector | indent 12 }}
+            {{- toYaml .Values.networkPolicy.explicitNamespacesSelector | nindent 12 }}
           {{- end }}
         - podSelector:
             matchLabels:

@@ -114,6 +114,11 @@ command: []
 ##
 args: []
 
+## @param querier.podManagementPolicy podManagementPolicy to manage scaling operation
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
+##
+podManagementPolicy: ""
+
 ## Enable configmap and add data in configmap
 config:
   enabled: false
@@ -174,14 +179,14 @@ healthCheck:
     successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
     failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
 
-## mod-chart containers' resource requests and limits
+## mdb containers' resource requests and limits
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
 ## We usually recommend not to specify default resources and to leave this as a conscious
 ## choice for the user. This also increases chances charts run on environments with little
 ## resources, such as Minikube. If you do want to specify resources, uncomment the following
 ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-## @param resources.limits The resources limits for the mod-chart container
-## @param resources.requests The requested resources for the mod-chart container
+## @param resources.limits The resources limits for the mdb container
+## @param resources.requests The requested resources for the mdb container
 resources: {}
 #  limits:
 #    cpu: 100m
@@ -190,18 +195,18 @@ resources: {}
 #    cpu: 100m
 #    memory: 128Mi
 
-## @param updateStrategy.type mod-chart deployment strategy type
-## @param updateStrategy.rollingUpdate mod-chart deployment rolling update configuration parameters
+## @param updateStrategy.type mdb deployment strategy type
+## @param updateStrategy.rollingUpdate mdb deployment rolling update configuration parameters
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
 ##
 updateStrategy: {}
 #  type: RollingUpdate
 #  rollingUpdate: {}
-## @param podLabels Additional labels for mod-chart pods
+## @param podLabels Additional labels for mdb pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 ##
 podLabels: {}
-## @param podAnnotations Annotations for mod-chart pods
+## @param podAnnotations Annotations for mdb pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 ##
 podAnnotations: {}
@@ -238,10 +243,10 @@ nodeAffinityPreset:
 ## Note: podAffinityPreset, podAntiAffinityPreset, and  nodeAffinityPreset will be ignored when it's set
 ##
 affinity: {}
-## @param hostNetwork Specify if host network should be enabled for mod-chart pod
+## @param hostNetwork Specify if host network should be enabled for mdb pod
 ##
 hostNetwork: false
-## @param hostIPC Specify if host IPC should be enabled for mod-chart pod
+## @param hostIPC Specify if host IPC should be enabled for mdb pod
 ##
 hostIPC: false
 ## @param nodeSelector Node labels for pod assignment. Evaluated as a template.
@@ -256,14 +261,14 @@ tolerations: {}
 ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
 ##
 priorityClassName: ""
-## mod-chart pods' Security Context.
+## mdb pods' Security Context.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-## @param podSecurityContext.enabled Enabled mod-chart pods' Security Context
-## @param podSecurityContext.fsGroup Set mod-chart pod's Security Context fsGroup
-## @param podSecurityContext.sysctls sysctl settings of the mod-chart pods
+## @param podSecurityContext.enabled Enabled mdb pods' Security Context
+## @param podSecurityContext.fsGroup Set mdb pod's Security Context fsGroup
+## @param podSecurityContext.sysctls sysctl settings of the mdb pods
 ##
 podSecurityContext:
-  enabled: false
+  enabled: true
   fsGroup: 1001
   ## sysctl settings
   ## Example:
@@ -272,16 +277,18 @@ podSecurityContext:
   ##   value: "10000"
   ##
   sysctls: []
-## mod-chart containers' Security Context.
+## mdb containers' Security Context.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-## @param containerSecurityContext.enabled Enabled mod-chart containers' Security Context
-## @param containerSecurityContext.runAsUser Set mod-chart container's Security Context runAsUser
-## @param containerSecurityContext.runAsNonRoot Set mod-chart container's Security Context runAsNonRoot
+## @param containerSecurityContext.enabled Enabled mdb containers' Security Context
+## @param containerSecurityContext.runAsUser Set mdb container's Security Context runAsUser
+## @param containerSecurityContext.runAsNonRoot Set mdb container's Security Context runAsNonRoot
 ##
 containerSecurityContext:
-  enabled: false
+  enabled: true
   runAsUser: 1001
   runAsNonRoot: true
+  # readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
 
 ## @param Pod's DNS Policy
 ## https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
@@ -296,7 +303,7 @@ hostAliases: []
 #   - "example.local"
 
 ## Autoscaling parameters
-## @param autoscaling.enabled Enable autoscaling for mod-chart deployment
+## @param autoscaling.enabled Enable autoscaling for mdb deployment
 ## @param autoscaling.minReplicas Minimum number of replicas to scale back
 ## @param autoscaling.maxReplicas Maximum number of replicas to scale out
 ## @param autoscaling.targetCPU Target CPU utilization percentage
@@ -370,7 +377,7 @@ ingress:
   ## @param ingress.hostname Default host for the ingress resource
   ##
   hostname: chart-example.local
-  ## @param ingress.path The Path to mod-chart&reg;. You may need to set this to '/*' in order to use this with ALB ingress controllers.
+  ## @param ingress.path The Path to mdb&reg;. You may need to set this to '/*' in order to use this with ALB ingress controllers.
   ##
   path: /
   ## @param ingress.pathType Ingress path type

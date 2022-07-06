@@ -12,7 +12,7 @@ spec:
   {{- range $key, $value := .Values.service.ports }}
     - name: {{ $key }}
       targetPort: {{ $key }}
-{{ toYaml $value | indent 6 }}
+      {{- toYaml $value | nindent 6 }}
     {{- end }}
     {{- if .Values.metrics.enabled }}
     - name: metrics
@@ -20,4 +20,4 @@ spec:
       targetPort: metrics
     {{- end }}
   selector: {{- include "common.labels.matchLabels" . | nindent 4 }}
-{{- end }}
+{{- end -}}

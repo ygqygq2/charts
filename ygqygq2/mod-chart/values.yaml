@@ -133,6 +133,11 @@ command: []
 ##
 args: []
 
+## @param querier.podManagementPolicy podManagementPolicy to manage scaling operation
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-management-policies
+##
+podManagementPolicy: ""
+
 ## Enable configmap and add data in configmap
 config:
   enabled: false
@@ -165,12 +170,15 @@ existSecret:
   subPath: ""
   readOnly: true
 
-## @param customLivenessProbe Override default liveness probe
+## @param customLivenessProbe override default liveness probe
 ##
 customLivenessProbe: {}
-## @param customReadinessProbe Override default readiness probe
+## @param customReadinessProbe override default readiness probe
 ##
 customReadinessProbe: {}
+## @param customStartupProbe overrides the default one
+##
+customStartupProbe: {}
 
 ## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -182,16 +190,23 @@ healthCheck:
     enabled: true
     initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
     periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-    #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
-    #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-    #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+    # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+    # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+    # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
   readinessProbe:
     enabled: true
     initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
     periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
-    #  timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
-    #  successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
-    #  failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+    # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
+    # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
+    # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    # timeoutSeconds: 1
+    # failureThreshold: 15
+    # successThreshold: 1
 
 ## mod-chart containers' resource requests and limits
 ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
@@ -300,6 +315,8 @@ containerSecurityContext:
   enabled: false
   runAsUser: 1001
   runAsNonRoot: true
+  # readOnlyRootFilesystem: true
+  # allowPrivilegeEscalation: false
 
 ## @param Pod's DNS Policy
 ## https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
