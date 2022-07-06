@@ -68,13 +68,13 @@ spec:
       {{- if .Values.dnsPolicy }} 
       dnsPolicy: {{ .Values.dnsPolicy | quote }}
       {{- end }}
-{{- include "mod-chart.imagePullSecrets" . | indent 6 }}
+      {{- include "mod-chart.imagePullSecrets" . | nindent 6 }}
       {{- with .Values.initContainers }}
       initContainers:
       {{- include "common.tplvalues.render" ( dict "value" . "context" $ ) | nindent 8 }}
       {{- end }}
       containers:
-{{- if .Values.metrics.enabled }}
+        {{- if .Values.metrics.enabled }}
         - name: metrics
           image: {{ template "metrics.image" . }}
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
@@ -95,8 +95,8 @@ spec:
             initialDelaySeconds: 15
             timeoutSeconds: 1
           resources:
-{{ toYaml .Values.metrics.resources | indent 12 }}
-{{- end }}
+            {{- toYaml .Values.metrics.resources | nindent 12 }}
+        {{- end }}
         - name: {{ include "common.names.name" . }}
           image: {{ template "mod-chart.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
@@ -105,7 +105,7 @@ spec:
           {{- end }}
           {{- if .Values.lifecycle }}
           lifecycle:
-{{ toYaml .Values.lifecycle | indent 12 }}
+            {{- toYaml .Values.lifecycle | nindent 12 }}
           {{- end }}
           {{- if .Values.command }}
           command: {{- include "common.tplvalues.render" (dict "value" .Values.command "context" $) | nindent 12 }}
@@ -135,11 +135,7 @@ spec:
               containerPort: {{ $value.port }}
               protocol: {{ $value.protocol }}
             {{- end }}
-          {{- if .Values.customLivenessProbe }}
-          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
-          {{- else if .Values.customReadinessProbe }}
-          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customReadinessProbe "context" $) | nindent 12 }}
-          {{- else if .Values.healthCheck.livenessProbe.enabled }}
+          {{- if .Values.healthCheck.livenessProbe.enabled }}
           livenessProbe:
             {{- if eq .Values.healthCheck.type "http" }}
             httpGet:
@@ -154,7 +150,10 @@ spec:
             timeoutSeconds: {{ .Values.healthCheck.livenessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.healthCheck.livenessProbe.successThreshold }}
             failureThreshold: {{ .Values.healthCheck.livenessProbe.failureThreshold }}
-          {{- else if .Values.healthCheck.readinessProbe.enabled }}
+          {{- else if .Values.customLivenessProbe }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customLivenessProbe "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if .Values.healthCheck.readinessProbe.enabled }}
           readinessProbe:
             {{- if eq .Values.healthCheck.type "http" }}
             httpGet:
@@ -169,6 +168,8 @@ spec:
             timeoutSeconds: {{ .Values.healthCheck.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.healthCheck.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.healthCheck.readinessProbe.failureThreshold }}
+          {{- else if .Values.customReadinessProbe }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.customReadinessProbe "context" $) | nindent 12 }}
           {{- end }}
           volumeMounts:
             {{- if .Values.config.enabled }}
@@ -195,12 +196,12 @@ spec:
               subPath: {{ .Values.existSecret.subPath }}
               readOnly: {{ .Values.existSecret.readOnly }}
             {{- end }}
-{{- if .Values.persistence.mountPaths }}
-{{ toYaml .Values.persistence.mountPaths | indent 12 }}
-{{- end }}
-{{- if .Values.extraVolumeMounts }}
-{{ toYaml .Values.extraVolumeMounts | indent 12 }}
-{{- end }}
+            {{- if .Values.persistence.mountPaths }}
+            {{- toYaml .Values.persistence.mountPaths | nindent 12 }}
+            {{- end }}
+            {{- if .Values.extraVolumeMounts }}
+            {{- toYaml .Values.extraVolumeMounts | nindent 12 }}
+            {{- end }}
         {{- if .Values.sidecars }}
         {{- include "common.tplvalues.render" (dict "value" .Values.sidecars "context" $) | nindent 8 }}
         {{- end }}
@@ -226,7 +227,7 @@ spec:
             secretName: {{ .Values.existSecret.name }}
         {{- end }}
         {{- if .Values.extraVolumes }}
-{{ toYaml .Values.extraVolumes | indent 8 }}
+        {{- toYaml .Values.extraVolumes | nindent 8 }}
         {{- end }}
 {{- if not .Values.statefulset.enabled }}
         {{- if .Values.persistence.enabled }}
