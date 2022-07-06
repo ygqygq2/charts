@@ -243,8 +243,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: data-storage
-      {{- if .Values.data.persistence.annotations }}
-      annotations: {{- toYaml .Values.data.persistence.annotations | nindent 10 }}
+      {{- if .Values.persistence.annotations }}
+      annotations: {{- toYaml .Values.persistence.annotations | nindent 10 }}
       {{- end }}
     spec:
       accessModes:
