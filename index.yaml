@@ -532,6 +532,27 @@ entries:
   mdb:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-07-06T16:02:18.460920312Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: ef9dbc8e894c1150de7df9fabdc906d75d63e15d86a2a5da6ca2d73b2e8876e5
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.2/mdb-5.0.2.tgz
+    version: 5.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-02T14:25:38.821105343Z"
     dependencies:
     - name: common
@@ -652,6 +673,34 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-06T16:02:18.725524575Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 3cdad9cfa50c1c58fe0477378bdc9a6705878492e44bb56f9f9ff63a87397979
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.4/mod-chart-3.0.4.tgz
+    version: 3.0.4
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-07-02T14:25:39.071990899Z"
@@ -941,6 +990,37 @@ entries:
     - http://ygqygq2.github.io/charts/mysql-servicemonitor-1.0.0.tgz
     version: 1.0.0
   nacos:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-07-06T16:02:18.983128539Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: b4eb3594d577717c74789386ed909d07767f607cee73e6a79a84981e9f6e6864
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.1.0/nacos-2.1.0.tgz
+    version: 2.1.0
   - apiVersion: v2
     appVersion: 2.1.0
     created: "2022-07-01T16:02:14.651449292Z"
@@ -1891,4 +1971,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-07-02T14:25:39.35035105Z"
+generated: "2022-07-06T16:02:18.983487349Z"
