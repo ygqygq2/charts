@@ -1,0 +1,2183 @@
+apiVersion: v1
+entries:
+  alertmanager2es:
+  - apiVersion: v2
+    appVersion: 0.0.3
+    created: "2022-04-01T23:31:10.777309897+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the alertmanager2es
+    digest: a2b194f603d67ecc1dcb31773a013f0d5c2cbdd9624818b2a9fda4a9576d92b0
+    home: https://github.com/ygqygq2/alertmanager2es
+    keywords:
+    - alertmanager
+    - elasticsearch
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: alertmanager2es
+    sources:
+    - https://github.com/ygqygq2/alertmanager2es
+    urls:
+    - http://ygqygq2.github.io/charts/alertmanager2es-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 0.0.3
+    created: "2022-04-01T23:31:10.768133029+08:00"
+    description: Chart for the alertmanager2es
+    digest: 0ce7c3be275c69558d9d295ca856c3592e2eb88c7d26e38db8e007249d413b1e
+    home: https://github.com/ygqygq2/alertmanager2es
+    keywords:
+    - alertmanager
+    - elasticsearch
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: alertmanager2es
+    sources:
+    - https://github.com/ygqygq2/alertmanager2es
+    urls:
+    - http://ygqygq2.github.io/charts/alertmanager2es-1.0.0.tgz
+    version: 1.0.0
+  apollo:
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-26T09:38:27.365328202Z"
+    description: Chart for the nginx server
+    digest: 61e9be56b03374d7dd825b8caff265539d05a7021117ff188b89e14482f548b2
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: apollo
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/apollo-1.0.2/apollo-1.0.2.tgz
+    version: 1.0.2
+  bookstack:
+  - apiVersion: v2
+    appVersion: v2.1
+    created: "2022-04-01T23:31:10.799407198+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://ygqygq2.github.io/charts
+      version: 4.5.3
+    description: BookStack是基于Mindoc的一款针对IT团队开发的简单好用的文档管理系统。
+    digest: fd5b1b567c724b996573a1253497ea993616f17a093a9e053c2ee0b7163dd512
+    home: https://www.bookstack.cn
+    keywords:
+    - doc
+    - markdown
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: bookstack
+    urls:
+    - http://ygqygq2.github.io/charts/bookstack-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: v2.1
+    created: "2022-04-01T23:31:10.788254424+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: BookStack是基于Mindoc的一款针对IT团队开发的简单好用的文档管理系统。
+    digest: 3b2f1bb88af2c7a93bbcc442e09b5a257f471b6eede9efed72c8d55f3e68ac51
+    home: https://www.bookstack.cn
+    keywords:
+    - doc
+    - markdown
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: bookstack
+    urls:
+    - http://ygqygq2.github.io/charts/bookstack-1.0.0.tgz
+    version: 1.0.0
+  ceph-exporter:
+  - apiVersion: v1
+    appVersion: 2.0.1-luminous
+    created: "2022-04-01T23:31:10.800259729+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 61132de6234ce03fc80f0e9df278227fff77c372b75d4479605b92db8fb05e4c
+    home: https://github.com/digitalocean/ceph_exporter/
+    keywords:
+    - ceph
+    - exporter
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: ceph-exporter
+    urls:
+    - http://ygqygq2.github.io/charts/ceph-exporter-1.0.0.tgz
+    version: 1.0.0
+  dejavu:
+  - apiVersion: v2
+    appVersion: 3.4.0
+    created: "2022-04-01T23:31:10.826618099+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: dejavu is the missing web UI for Elasticsearch.
+    digest: dc21f85d1267638fa46b5557cddd1b3b68e13fcda90de9413bc368dd3929bf6c
+    home: https://github.com/appbaseio/dejavu
+    icon: https://raw.githubusercontent.com/appbaseio/dejavu/bb83b68b7d726dfb3bc58380892d63b9cc585131/packages/dejavu-main/site/src/images/dejavu-logo.svg
+    keywords:
+    - elasticsearch
+    - web ui
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: dejavu
+    sources:
+    - https://hub.docker.com/r/appbaseio/dejavu
+    urls:
+    - http://ygqygq2.github.io/charts/dejavu-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 3.4.0
+    created: "2022-04-01T23:31:10.801454002+08:00"
+    description: Chart for the nginx server
+    digest: 10bd1c6d7b349f99481d8f7e1a2ce6d63cf5244d00ed7e39998c178a5835329d
+    home: https://github.com/appbaseio/dejavu
+    icon: https://github.com/appbaseio/dejavu/blob/dev/app/src/images/dejavu-logo.svg
+    keywords:
+    - elasticsearch
+    - web ui
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: dejavu
+    sources:
+    - https://hub.docker.com/r/appbaseio/dejavu
+    urls:
+    - http://ygqygq2.github.io/charts/dejavu-1.0.0.tgz
+    version: 1.0.0
+  elastichd:
+  - apiVersion: v2
+    appVersion: "1.4"
+    created: "2022-04-01T23:31:10.847857958+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A elasticsearch visual management tool.
+    digest: 2f8044b7d21c8c4ee5c6fe7e9cbfad9556513c34d92058fd302b317ff46939d0
+    home: https://github.com/360EntSecGroup-Skylar/ElasticHD
+    icon: https://raw.githubusercontent.com/ygqygq2/charts/master/ygqygq2/elastichd/elastichd.png
+    keywords:
+    - dashboard
+    - elasticSearch
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: elastichd
+    sources:
+    - https://github.com/360EntSecGroup-Skylar/ElasticHD
+    urls:
+    - http://ygqygq2.github.io/charts/elastichd-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.4"
+    created: "2022-04-01T23:31:10.836078549+08:00"
+    description: A elasticsearch visual management tool.
+    digest: 5b28e2ba00e109f7999a8426268bfb931148bae3f8bc430e97c8ab90ea7da094
+    home: https://github.com/360EntSecGroup-Skylar/ElasticHD
+    icon: https://raw.githubusercontent.com/ygqygq2/charts/master/elastichd/elastichd.png
+    keywords:
+    - dashboard
+    - elasticSearch
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: elastichd
+    sources:
+    - https://github.com/360EntSecGroup-Skylar/ElasticHD
+    urls:
+    - http://ygqygq2.github.io/charts/elastichd-1.0.0.tgz
+    version: 1.0.0
+  elasticsearch:
+  - apiVersion: v1
+    appVersion: 6.7.0
+    created: "2022-04-01T23:31:10.857439919+08:00"
+    description: Flexible and powerful open source, distributed real-time search and
+      analytics engine.
+    digest: 29ec93e029e891260f1ca368ee429a21c700de04e348138a9143af6a3742f8b4
+    home: https://www.elastic.co/products/elasticsearch
+    icon: https://static-www.elastic.co/assets/blteb1c97719574938d/logo-elastic-elasticsearch-lt.svg
+    maintainers:
+    - email: christian@jetstack.io
+      name: simonswine
+    - email: michael.haselton@gmail.com
+      name: icereval
+    - email: pete.brown@powerhrg.com
+      name: rendhalver
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    - email: goonohc@gmail.com
+      name: KongZ
+    - email: hfernandez@mesosphere.com
+      name: hectorj2f
+    name: elasticsearch
+    sources:
+    - https://www.elastic.co/products/elasticsearch
+    - https://github.com/jetstack/elasticsearch-pet
+    - https://github.com/giantswarm/kubernetes-elastic-stack
+    - https://github.com/GoogleCloudPlatform/elasticsearch-docker
+    - https://github.com/clockworksoul/helm-elasticsearch
+    - https://github.com/pires/kubernetes-elasticsearch-cluster
+    urls:
+    - http://ygqygq2.github.io/charts/elasticsearch-1.30.0.tgz
+    version: 1.30.0
+  elasticsearch-servicemonitor:
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2022-04-26T09:38:28.137031186Z"
+    description: A Helm chart servicemonitor for elasticsearch exporter
+    digest: de8035d50e56fc52ab7640d93f03a8d47956f7fe8bfa5f7f080bb0e1c13045c5
+    home: https://hub.docker.com/r/justwatch/elasticsearch_exporter
+    keywords:
+    - elasticsearch
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: elasticsearch-servicemonitor
+    sources:
+    - https://github.com/justwatchcom/elasticsearch_exporter
+    - https://github.com/kubernetes/charts/tree/master/stable/elasticsearch-exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/elasticsearch-servicemonitor-1.0.0/elasticsearch-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  elasticsearch2:
+  - apiVersion: v1
+    appVersion: 2.4.6
+    created: "2022-04-01T23:31:10.867396948+08:00"
+    description: A Helm chart for Kubernetes
+    digest: a778e04a2cf681b3e9a23ff76553d880ad1a6338b3bf2810eef1d281eb63f20f
+    home: https://www.elastic.co/products/elasticsearch
+    keywords:
+    - elasticsearch
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: elasticsearch2
+    urls:
+    - http://ygqygq2.github.io/charts/elasticsearch2-1.0.0.tgz
+    version: 1.0.0
+  elasticsearch5:
+  - apiVersion: v1
+    appVersion: 7.3.0
+    created: "2022-04-01T23:31:10.869558752+08:00"
+    description: A highly scalable open-source full-text search and analytics engine
+    digest: 5321e1212dab184bfb8cf644fbb836634cf7f4647ce9278a78a18586331f1586
+    home: https://www.elastic.co/products/elasticsearch
+    icon: https://bitnami.com/assets/stacks/elasticsearch/img/elasticsearch-stack-110x117.png
+    keywords:
+    - elasticsearch
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: elasticsearch5
+    sources:
+    - https://github.com/bitnami/bitnami-docker-elasticsearch
+    urls:
+    - http://ygqygq2.github.io/charts/elasticsearch5-6.2.2.tgz
+    version: 6.2.2
+  eureka:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.881783649+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: AWS Service registry for resilient mid-tier load balancing and failover.
+    digest: 307a0f1744bed20a0827e82f355b9ff23e5a2327a1b5b1bb95f8e5a25912d3a8
+    home: https://github.com/Netflix/eureka
+    icon: https://avatars.githubusercontent.com/u/317776
+    keywords:
+    - registry
+    - eureka
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: eureka
+    sources:
+    - https://github.com/Netflix/eureka
+    - https://github.com/ygqygq2/eureka-server
+    urls:
+    - http://ygqygq2.github.io/charts/eureka-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.871102045+08:00"
+    description: AWS Service registry for resilient mid-tier load balancing and failover.
+    digest: 386a39ab5484a3dfeef28e198865dd506e6e66b04777ebef002613874a919063
+    home: https://github.com/Netflix/eureka
+    icon: https://spring.io/img/homepage/icon-spring-cloud.svg
+    keywords:
+    - registry
+    - eureka
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: eureka
+    sources:
+    - https://github.com/Netflix/eureka
+    - https://github.com/ygqygq2/eureka-server
+    urls:
+    - http://ygqygq2.github.io/charts/eureka-1.0.0.tgz
+    version: 1.0.0
+  fastdfs-nginx:
+  - apiVersion: v2
+    appVersion: "6.08"
+    created: "2022-07-02T14:25:38.557619289Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: FastDFS-Nginx chart for Kubernetes
+    digest: fcc24aaf16c7659cf60df1da92bab099b2f42463778fb00866e4a565263b0df8
+    home: https://github.com/happyfish100/fastdfs
+    keywords:
+    - fastdfs
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: fastdfs-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/fastdfs-nginx-2.1.0/fastdfs-nginx-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: "6.07"
+    created: "2022-04-01T23:31:10.885394625+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: FastDFS-Nginx chart for Kubernetes
+    digest: c44f4f815c96e74de1f39b0ee005b61ff4f7d907bfc68fc2e71e925d7a1bfd05
+    home: https://github.com/happyfish100/fastdfs
+    keywords:
+    - fastdfs
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: fastdfs-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/fastdfs-nginx-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: V5.11
+    created: "2022-04-01T23:31:10.884078879+08:00"
+    description: FastDFS-Nginx chart for Kubernetes
+    digest: 7ec3e6fa4ff328bb7a69bb5e4f5dc1d348009a91a772304f099e2f1aaf7b418d
+    home: https://github.com/happyfish100/fastdfs
+    keywords:
+    - fastdfs
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: fastdfs-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/fastdfs-nginx-1.0.2.tgz
+    version: 1.0.2
+  gohttpserver:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:10.893154984+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 109a8e6f456674aaca3b919d8a5fbe4e0640a0617e6d32c68b68674606786233
+    home: https://github.com/codeskyblue/gohttpserver
+    keywords:
+    - gohttpserver
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: gohttpserver
+    urls:
+    - http://ygqygq2.github.io/charts/gohttpserver-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:10.886232847+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 9a8e075ad1086e3a0893f36eafe4775cc21233348bf6d5655345a3f77ae49b15
+    home: https://github.com/codeskyblue/gohttpserver
+    keywords:
+    - gohttpserver
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: gohttpserver
+    urls:
+    - http://ygqygq2.github.io/charts/gohttpserver-0.1.0.tgz
+    version: 0.1.0
+  haproxy-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:28.808952164Z"
+    description: A Helm chart servicemonitor for haproxy exporter
+    digest: 158e6eee41de9605cf80ee02ac089eaafd5c251f885ea7bf3645872900daa09b
+    home: https://github.com/prometheus/haproxy_exporter
+    keywords:
+    - haproxy
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: haproxy-servicemonitor
+    sources:
+    - https://github.com/prometheus/haproxy_exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/haproxy-servicemonitor-1.0.0/haproxy-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  lam:
+  - apiVersion: v2
+    appVersion: "6.9"
+    created: "2022-04-01T23:31:10.905302906+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: LDAP Account Manager (LAM)
+    digest: 41de41b4dd908c7ba9e5d208714fa89a7bc6904375cceaab291f8dba289cf8a2
+    home: https://www.ldap-account-manager.org/lamcms/
+    icon: https://avatars0.githubusercontent.com/u/17960417?s=200&v=4
+    keywords:
+    - lam
+    - ldap
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: lam
+    urls:
+    - http://ygqygq2.github.io/charts/lam-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "6.9"
+    created: "2022-04-01T23:31:10.90168535+08:00"
+    description: LDAP Account Manager (LAM)
+    digest: 6d7b964a0b441a462e3feb8760358d7be4ed8f84af3bd74742941a5a5be550d3
+    home: https://www.ldap-account-manager.org/lamcms/
+    icon: https://avatars0.githubusercontent.com/u/17960417?s=200&v=4
+    keywords:
+    - lam
+    - ldap
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: lam
+    urls:
+    - http://ygqygq2.github.io/charts/lam-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: "6.6"
+    created: "2022-04-01T23:31:10.900215582+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 902a694018ccd1744c83d638fafc6bc4c42b738a4c923f7c3ddddfe5187efbab
+    home: https://www.ldap-account-manager.org/lamcms/releases
+    keywords:
+    - lam
+    - ldap
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: lam
+    urls:
+    - http://ygqygq2.github.io/charts/lam-1.0.0.tgz
+    version: 1.0.0
+  mdb:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T03:25:28.457870891Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 5a314de6f2f265dbfb9838d1e64ce9ce5482e46b1ec0c06df8d603b1d7d357d3
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.5/mdb-5.0.5.tgz
+    version: 5.0.5
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T02:49:27.175370698Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: ecb590f82819e7cf96db2001b8970f9d3dfe049912ef6b18374762d5645f838b
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.4/mdb-5.0.4.tgz
+    version: 5.0.4
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-06T17:09:39.05533996Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 7a65ebb199d327e7b045a43e78d37665dcdb552d64416c5a210ecf73a63494ef
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.3/mdb-5.0.3.tgz
+    version: 5.0.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-06T16:02:18.460920312Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: ef9dbc8e894c1150de7df9fabdc906d75d63e15d86a2a5da6ca2d73b2e8876e5
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.2/mdb-5.0.2.tgz
+    version: 5.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-02T14:25:38.821105343Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 0e5fc735e8bca7f14e1f2ab567bbd4544efcb4dc43db235867ec9ae171d23dda
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.1/mdb-5.0.1.tgz
+    version: 5.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-01T15:38:13.780294654Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 383aa8d196c05ae7991bc6246b7094e3123c5afe4d55a096d167286ad0c0f017
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.0/mdb-5.0.0.tgz
+    version: 5.0.0
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.909377733+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 2d464d5c6cc7ea04e56a6295c8b2f980fdb71c96f09cad989857d7098ac20307
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mdb
+    urls:
+    - http://ygqygq2.github.io/charts/mdb-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.907242272+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 7c5ea640cec1351547ef1027b444dab45d4f61cb61c07b6aa61b4ed9b7bf6306
+    keywords:
+    - template
+    - istio
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mdb
+    urls:
+    - http://ygqygq2.github.io/charts/mdb-3.0.1.tgz
+    version: 3.0.1
+  mindoc:
+  - apiVersion: v2
+    appVersion: "2.0"
+    created: "2022-04-01T23:31:10.915213544+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://ygqygq2.github.io/charts
+      version: 4.5.3
+    description: Mindoc是一款针对IT团队开发的简单好用的文档管理系统。
+    digest: 00013c4b1113f5e758c3ca15b009a9cdcaaaae6d0b6fa6ce48b9dc7566049e22
+    home: https://www.iminho.me/
+    keywords:
+    - doc
+    - markdown
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mindoc
+    urls:
+    - http://ygqygq2.github.io/charts/mindoc-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: v2.0-beta.2
+    created: "2022-04-01T23:31:10.913362385+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Mindoc是一款针对IT团队开发的简单好用的文档管理系统。
+    digest: 54d1ffdb2f0721c8574c1227285328e7fd51e175cdc41ae7aa8eeeee8d0840d8
+    home: https://www.iminho.me/
+    keywords:
+    - doc
+    - markdown
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mindoc
+    urls:
+    - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
+    version: 1.0.0
+  mod-chart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T03:25:28.590749221Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: e556938a99f227e0a9017ef93720b09f77c515973b57e9904b5fd007d646ef9a
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.7/mod-chart-3.0.7.tgz
+    version: 3.0.7
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T02:49:27.301216749Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 465fbafd720e630f78da20015ebb521fda9b66c62f02286e0d28739448c44b3e
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.6/mod-chart-3.0.6.tgz
+    version: 3.0.6
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-06T17:09:39.215729531Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 715181f6881bb8fe03bafdbbbbc1bba245f3efafd654cbc614531f42faa7d4dd
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.5/mod-chart-3.0.5.tgz
+    version: 3.0.5
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-06T16:02:18.725524575Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 3cdad9cfa50c1c58fe0477378bdc9a6705878492e44bb56f9f9ff63a87397979
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.4/mod-chart-3.0.4.tgz
+    version: 3.0.4
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-02T14:25:39.071990899Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 1e848f96d793184c3233f57cba1e95070cc319d8f24991298e768d1ec6138330
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.3/mod-chart-3.0.3.tgz
+    version: 3.0.3
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-01T15:38:14.050545814Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 652bcaede19bed64cfe5aee4f4583055356cd8baf0f1a12f9bdc68dec327deb5
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.2/mod-chart-3.0.2.tgz
+    version: 3.0.2
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-04-26T09:38:29.282519943Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: f88f6539755bbd8d9cff6af0dc5cfa507cfc8d113b4c41ff889d40074b068afd
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.1/mod-chart-3.0.1.tgz
+    version: 3.0.1
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.920070146+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: bd78e65fc3415f423c9e8ce71bb7838ef6936456e9aea5a2331385165a7cd58d
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/mod-chart-3.0.0.tgz
+    version: 3.0.0
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:10.918408272+08:00"
+    description: Chart for the nginx server
+    digest: 099e9d5d6ed490cb4bc08527625c7a6c64ac6ee2b1c6ce33188fd9efc7c2ddb3
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/mod-chart-2.1.2.tgz
+    version: 2.1.2
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:10.917366992+08:00"
+    description: Chart for the nginx server
+    digest: 60307a8a460d34bcd6913e7b0e41d3724328e52876456b30e15b05987652ef10
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/mod-chart-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:10.916358662+08:00"
+    description: Chart for the nginx server
+    digest: 4b71a3adcdd76d9a853746cc089da02993e2cabf2e95725d683e7bc4d53e7775
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/mod-chart-1.0.1.tgz
+    version: 1.0.1
+  mongoclient:
+  - apiVersion: v2
+    appVersion: 2.2.0
+    created: "2022-04-01T23:31:10.938573806+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Nosqlclient (Formerly Mongoclient), MongoDB Management Tool
+    digest: 64d57afe981f620e94554fa14ca77447fce245a5a284b7521d4df3e4c69dc115
+    home: https://www.nosqlclient.com
+    icon: https://raw.githubusercontent.com/nosqlclient/nosqlclient/master/public/logo/full_1.png
+    keywords:
+    - mongodb
+    - client
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mongoclient
+    sources:
+    - https://github.com/nosqlclient/nosqlclient/
+    urls:
+    - http://ygqygq2.github.io/charts/mongoclient-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 2.2.0
+    created: "2022-04-01T23:31:10.921133481+08:00"
+    description: Nosqlclient (Formerly Mongoclient), MongoDB Management Tool
+    digest: 7435491ff570268b64ae7e2ed091d9f5bb7878d303f78ae0fe84c58563804be9
+    home: https://www.nosqlclient.com
+    icon: https://raw.githubusercontent.com/nosqlclient/nosqlclient/master/public/logo/full_1.png
+    keywords:
+    - mongodb
+    - client
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mongoclient
+    sources:
+    - https://github.com/nosqlclient/nosqlclient/
+    urls:
+    - http://ygqygq2.github.io/charts/mongoclient-1.0.1.tgz
+    version: 1.0.1
+  mongodb-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:29.542719088Z"
+    description: A Helm chart servicemonitor for mongodb exporter
+    digest: 695cce46ce9ebc571faf54dba524256bc14e8a2fa23a6ddc102c6292d7c2676a
+    home: https://hub.docker.com/r/ssheehy/mongodb-exporter
+    keywords:
+    - mongodb
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mongodb-servicemonitor
+    sources:
+    - https://github.com/percona/mongodb_exporter
+    - https://github.com/helm/charts/tree/master/stable/prometheus-mongodb-exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/mongodb-servicemonitor-1.0.0/mongodb-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  mysql:
+  - apiVersion: v2
+    appVersion: 5.7.26
+    created: "2022-04-01T23:31:10.957633504+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart to create a Highly available MySQL cluster
+    digest: e5bd47ca1bfb39275b4b244666b1d6ac783b9a8387c9544bcd509f55d49ec356
+    home: https://mysql.com
+    icon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
+    keywords:
+    - mysql
+    - database
+    - sql
+    - cluster
+    - high availablity
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: mysql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-mysql
+    urls:
+    - http://ygqygq2.github.io/charts/mysql-4.5.3.tgz
+    version: 4.5.3
+  mysql-servicemonitor:
+  - apiVersion: v1
+    appVersion: 5.7.24
+    created: "2022-04-01T23:31:10.959090355+08:00"
+    description: A Helm chart servicemonitor for mysql exporter
+    digest: b4c6d95c20c9921dd9d1e58a5e61d8b9eaa78e0bdd6bc2ce456bfaf82296d3b4
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: mysql-servicemonitor
+    urls:
+    - http://ygqygq2.github.io/charts/mysql-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  nacos:
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-07-08T02:49:27.426147383Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: ae57f6b89ef8bdcd84473f77d4b7f38e8086ff57dce9e0073679a60ed9f1f1b1
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.2/nacos-2.1.2.tgz
+    version: 2.1.2
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-07-06T17:09:40.425163673Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: b54fb528e8463158c5d50ffaadc954dbeabcc3a6a370691404260079193fd9ac
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.1/nacos-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-07-06T16:02:18.983128539Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: b4eb3594d577717c74789386ed909d07767f607cee73e6a79a84981e9f6e6864
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.0/nacos-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2022-07-01T16:02:14.651449292Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: 9952863104cccd9782a9dd34f7e18f62e509646bb8637799756a68bd360fb4b8
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/nacos-2.0.2/nacos-2.0.2.tgz
+    version: 2.0.2
+  - apiVersion: v2
+    appVersion: 2.0.4
+    created: "2022-04-01T23:31:11.030592317+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: fc65ed50afd338f1cffc823a4dabe404a1d13be9ca6b1d8db0e33c39eeb922f1
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
+    appVersion: 2.0.4
+    created: "2022-04-01T23:31:11.019056271+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: f909c4c4836e03d30e5773efacbb08053b371eb322ab68455f017256725fc978
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 1.1.4
+    created: "2022-04-01T23:31:11.009977647+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: 7507fbb9a080e47c5b36af1baf78c11d00ed96b965392054d509ad95c3e79985
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://nacos.io
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v1
+    appVersion: 1.1.4
+    created: "2022-04-01T23:31:10.991102624+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: b2d744d976380eacf2d853e263a7383563164d94b59cf037fb88afc785ab5187
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://nacos.io
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-1.1.4.tgz
+    version: 1.1.4
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2022-04-01T23:31:10.978980452+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: a77d535ca1f93537f7b161e669ac8c49acc4bf67d773246810ad72e6e53db77a
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://nacos.io
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: 1.0.1
+    created: "2022-04-01T23:31:10.96871464+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: 9c713b71342c20c7d54fc70ed8ad72b5ac8e25c2df43245ef71cd54557b74c31
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://nacos.io
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:10.962039682+08:00"
+    dependencies:
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://charts.bitnami.com/bitnami
+      version: 4.5.2
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: 8d67c4da887532b396deda9d37a4799f70ed6dc3017719f2d094219898a3997f
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nacos
+    sources:
+    - https://nacos.io
+    urls:
+    - http://ygqygq2.github.io/charts/nacos-1.0.0.tgz
+    version: 1.0.0
+  nginx-php:
+  - apiVersion: v2
+    appVersion: nginx-1.10.3_php-7.0_1242
+    created: "2022-04-01T23:31:11.034083653+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx php server
+    digest: a5aca8a60e109841dbf61ec4fc3d97a53dace0cf93b4932e651e940b44b8a35c
+    home: https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    icon: https://secure.gravatar.com/avatar/758bb0e0f4b0735998dda305a917b5af.jpg?s=80&r=g&d=mm
+    keywords:
+    - nginx
+    - http
+    - php
+    - web
+    - www
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php
+    sources:
+    - https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:11.032940145+08:00"
+    description: A Helm chart for Kubernetes
+    digest: ed6636418ac75bb688b1394819861d008d31f83ff780f875b2840f1bd44d4fff
+    home: https://
+    keywords:
+    - java
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: nginx-1.10.3_php-7.0
+    created: "2022-04-01T23:31:11.031756454+08:00"
+    description: Chart for the nginx php server
+    digest: 36467369abd7e6050cfc6f41304d20da8579c8cbdcf0597d4868cbe1fa7b9d68
+    home: https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    icon: https://secure.gravatar.com/avatar/758bb0e0f4b0735998dda305a917b5af.jpg?s=80&r=g&d=mm
+    keywords:
+    - nginx
+    - http
+    - php
+    - web
+    - www
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php
+    sources:
+    - https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-1.0.1.tgz
+    version: 1.0.1
+  nginx-php-sftp:
+  - apiVersion: v2
+    appVersion: nginx-1.10.3_php-7.0_1242
+    created: "2022-04-01T23:31:11.060582225+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 32585e3e089722482878e63b2ec5a8a2d83bb07b11ca1859ffb1343bf54b266a
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - php
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php-sftp
+    sources:
+    - https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    - https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-sftp-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: nginx-1.10.3_php-7.0
+    created: "2022-04-01T23:31:11.053900652+08:00"
+    description: Chart for the nginx server
+    digest: 0ddd4a6e71d97e495ec59f6bb0386d3a30cbed9bc866660ad790d38bdf43ffbc
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - php
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php-sftp
+    sources:
+    - https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    - https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-sftp-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v1
+    appVersion: nginx-1.10.3_php-7.0
+    created: "2022-04-01T23:31:11.046444913+08:00"
+    description: Chart for the nginx server
+    digest: 189cdf502a992a3e60160a0627568a498dbbd73de13cb094a0df37e474135bcb
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - php
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-php-sftp
+    sources:
+    - https://github.com/1and1internet/ubuntu-16-nginx-php-7.0
+    - https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-php-sftp-1.0.0.tgz
+    version: 1.0.0
+  nginx-servicemonitor:
+  - apiVersion: v1
+    appVersion: 0.10.0
+    created: "2022-04-26T09:38:30.124847558Z"
+    description: A Helm chart servicemonitor for nginx exporter
+    digest: f10052c989e916e4fd4c8b90a7e3194193f6a0fec117628ab49b7130584ee1ad
+    home: https://github.com/nginxinc/nginx-prometheus-exporter
+    keywords:
+    - nginx
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-servicemonitor
+    sources:
+    - https://github.com/nginxinc/nginx-prometheus-exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/nginx-servicemonitor-1.0.0/nginx-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  nginx-sftp:
+  - apiVersion: v2
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:11.077657587+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: 90745ea73a97ab741ca9661f197627501b8964a0ca199d7e1b3c792e075cc08b
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-sftp
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-sftp-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:11.076061954+08:00"
+    description: Chart for the nginx server
+    digest: 408addeb530ee5830d305f8fe31b5c7e4347d7ce181a7be0b15fb4146ee8783f
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-sftp
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-sftp-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:11.074776317+08:00"
+    description: Chart for the nginx server
+    digest: c1b0e0b74cebe6316101aba045cea17795f8c7d597ead3363126d89c02bd0a9c
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-sftp
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-sftp-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 1.14.2
+    created: "2022-04-01T23:31:11.06198873+08:00"
+    description: Chart for the nginx server
+    digest: e418b6f86b9664b7075fe7604c38202399a7172be971b3a6b34e458be08b67e9
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: nginx-sftp
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://ygqygq2.github.io/charts/nginx-sftp-1.0.1.tgz
+    version: 1.0.1
+  node-exporter-servicemonitor:
+  - apiVersion: v1
+    appVersion: v0.17.0
+    created: "2022-04-01T23:31:11.078288924+08:00"
+    description: A Helm chart servicemonitor for node exporter
+    digest: e000303dbb6de30580dd5846e856689bbf67fe77c05f0d2e3ef59662f9d18792
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: node-exporter-servicemonitor
+    urls:
+    - http://ygqygq2.github.io/charts/node-exporter-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  perfino:
+  - apiVersion: v2
+    appVersion: 3.2.1
+    created: "2022-04-01T23:31:11.096324647+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for perfino
+    digest: a7bd44c609548893bf688fdd7c1277feb8856e3296af637191670c219fd81f45
+    home: https://www.ej-technologies.com/products/perfino/overview.html
+    icon: https://www.ej-technologies.com/assets/content/icon-app-perfino@2x-f4697966c89b65a5a8f611ce850c18ae.png
+    keywords:
+    - jvm
+    - monitoring
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: perfino
+    urls:
+    - http://ygqygq2.github.io/charts/perfino-2.0.0.tgz
+    version: 2.0.0
+  rabbitmq-servicemonitor:
+  - apiVersion: v1
+    appVersion: v1.0.0-RC6.1
+    created: "2022-04-26T09:38:30.659063466Z"
+    description: A Helm chart servicemonitor for rabbitmq exporter
+    digest: ace73ea187f4a0bf1073ee59379e998ab50c58c69bf126eab14b407d44f1f0a1
+    keywords:
+    - redis
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: rabbitmq-servicemonitor
+    sources:
+    - https://github.com/kbudde/rabbitmq_exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/rabbitmq-servicemonitor-1.0.0/rabbitmq-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  redis-servicemonitor:
+  - apiVersion: v1
+    appVersion: v1.5.2-alpine
+    created: "2022-04-26T09:38:30.774590306Z"
+    description: A Helm chart servicemonitor for redis exporter
+    digest: d7e955b207bae331060971b8f345109bd05d99ec8d86e6b9a652ab4e32a688c7
+    home: https://hub.docker.com/r/oliver006/redis_exporter/
+    keywords:
+    - redis
+    - exporter
+    - servicemonitor
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: redis-servicemonitor
+    sources:
+    - https://github.com/oliver006/redis_exporter
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/redis-servicemonitor-1.0.0/redis-servicemonitor-1.0.0.tgz
+    version: 1.0.0
+  self-service-password:
+  - apiVersion: v2
+    appVersion: "1.3"
+    created: "2022-04-01T23:31:11.115235524+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Web interface to change and reset password in an LDAP directory.
+    digest: 42dadfbce3fee7519fe5fb3b8e822881a3e36a622065fc1d5a1c2dc2dc261285
+    home: https://ltb-project.org/documentation/self-service-password
+    icon: https://www.ltb-project.org/images/ltb-logo.png
+    keywords:
+    - ldap
+    - password
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: self-service-password
+    sources:
+    - https://github.com/ltb-project/self-service-password
+    - https://github.com/tiredofit/docker-self-service-password
+    urls:
+    - http://ygqygq2.github.io/charts/self-service-password-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.3"
+    created: "2022-04-01T23:31:11.106458889+08:00"
+    description: Web interface to change and reset password in an LDAP directory.
+    digest: 8dff77dc0d4920e51f7ea97bfe7d04ff2d081f6b3c9669abef3c77a9a9c3ba88
+    home: https://ltb-project.org/documentation/self-service-password
+    icon: https://ltb-project.org/_media/wiki/logo.png
+    keywords:
+    - ldap
+    - password
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: self-service-password
+    sources:
+    - https://github.com/ltb-project/self-service-password
+    - https://github.com/tiredofit/docker-self-service-password
+    urls:
+    - http://ygqygq2.github.io/charts/self-service-password-1.0.0.tgz
+    version: 1.0.0
+  sftp:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:11.116836236+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for sftp
+    digest: 5e31550fac2e3c954d49f47a99419bcedf949f7989676e77353159594ea11bc9
+    home: https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
+    icon: https://raw.githubusercontent.com/ygqygq2/sftp/master/openssh.png
+    keywords:
+    - sftp
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: sftp
+    sources:
+    - https://github.com/ygqygq2/sftp/
+    urls:
+    - http://ygqygq2.github.io/charts/sftp-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:11.116078983+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 10e77351fb09b90a18667fc7e3f4e4bf600901ee246393d58ae7aed455657feb
+    home: https://en.wikipedia.org/wiki/SSH_File_Transfer_Protocol
+    icon: https://raw.githubusercontent.com/ygqygq2/sftp/master/openssh.png
+    keywords:
+    - sftp
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: sftp
+    urls:
+    - http://ygqygq2.github.io/charts/sftp-1.0.0.tgz
+    version: 1.0.0
+  tengine-sftp:
+  - apiVersion: v2
+    appVersion: 2.3.2
+    created: "2022-04-01T23:31:11.120027199+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the tengine server.
+    digest: 73edfef5b6634dff020aeb1f3b6a2a1a4604df1d888376e9fe5c090a6ade5e7b
+    home: http://tengine.taobao.org
+    icon: http://tengine.taobao.org/img/logo.png
+    keywords:
+    - nginx
+    - tengine
+    - http
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: tengine-sftp
+    sources:
+    - https://github.com/alibaba/tengine
+    - https://github.com/ygqygq2/tengine-docker
+    urls:
+    - http://ygqygq2.github.io/charts/tengine-sftp-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 2.3.2
+    created: "2022-04-01T23:31:11.118136977+08:00"
+    description: Chart for the tengine server.
+    digest: 378085264d466bd922ba9d6ab020ee7ae6e83f901c0bcbb2f8b5e5f9567575d1
+    home: http://tengine.taobao.org
+    icon: http://tengine.taobao.org/img/logo.png
+    keywords:
+    - nginx
+    - tengine
+    - http
+    - web
+    - www
+    - sftp
+    - reverse proxy
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: tengine-sftp
+    sources:
+    - https://github.com/alibaba/tengine
+    - https://github.com/ygqygq2/tengine-docker
+    urls:
+    - http://ygqygq2.github.io/charts/tengine-sftp-1.0.0.tgz
+    version: 1.0.0
+  utcook:
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:11.128983851+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 7faebb26ecf1fd32d631858dad70b4e132ea73a054beed942c1615c853df901a
+    home: https://github.com/ygqygq2/charts/tree/master/utcook
+    keywords:
+    - template
+    - istio
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.1.4.tgz
+    version: 2.1.4
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:11.127866913+08:00"
+    description: A Helm chart for Kubernetes
+    digest: ce7d3d68c27044492cff4aee4efde27b1b9cd0989ac39611305752bb4b6fdf2f
+    home: https://github.com/ygqygq2/charts/tree/master/utcook
+    keywords:
+    - template
+    - istio
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.1.3.tgz
+    version: 2.1.3
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:11.126553646+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 07d6dad0aa3956fc6845314488f09cbc596fc2b5c8cc5c53d598c4cf3fe634b1
+    home: https://github.com/ygqygq2/charts/tree/master/utcook
+    keywords:
+    - template
+    - istio
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.1.2.tgz
+    version: 2.1.2
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:11.125112826+08:00"
+    description: A Helm chart for Kubernetes
+    digest: d5d10896ae6b809430e4cacbd4ed15a5011e899d585854e9ceebace8c7af63b3
+    home: https://github.com/ygqygq2/charts/tree/master/utcook
+    keywords:
+    - template
+    - istio
+    - helm
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2022-04-01T23:31:11.123680712+08:00"
+    description: A Helm chart for Kubernetes
+    digest: fa974b66c648c39b20b285ffae4b4af9098aefe886793c27435612247247d537
+    home: https://
+    keywords:
+    - java
+    - istio
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v1
+    appVersion: 1.1.8
+    created: "2022-04-01T23:31:11.122414231+08:00"
+    description: A Helm chart for Kubernetes
+    digest: ad99f9f8ad4d3bf2ab8585ec1c6511557968924c4f17a563c7026e36d21aa0ca
+    home: https://
+    keywords:
+    - java
+    - istio
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-04-01T23:31:11.121244234+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 09992c642218d96ee8db2d212d8ddb8f04fce3ee9c81778ff99c454613d59298
+    home: https://
+    keywords:
+    - java
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: utcook
+    urls:
+    - http://ygqygq2.github.io/charts/utcook-1.1.0.tgz
+    version: 1.1.0
+  yapi:
+  - apiVersion: v2
+    appVersion: v1.8.0
+    created: "2022-04-01T23:31:11.135604692+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.x.x
+    description: 高效、易用、功能强大的 api 管理平台
+    digest: 0d80cf0f5fcc71b14ea16f57bfa3fea99b1107e471e9deaf781dfdbdcf51e07c
+    home: https://github.com/ymfe/yapi
+    icon: https://hellosean1025.github.io/yapi/documents/images/logo_header@2x.png
+    keywords:
+    - api
+    - doc
+    - mock
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: yapi
+    urls:
+    - http://ygqygq2.github.io/charts/yapi-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: v1.7.2
+    created: "2022-04-01T23:31:11.131459942+08:00"
+    dependencies:
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.x.x
+    description: 高效、易用、功能强大的 api 管理平台
+    digest: 08bd80595ee6cf2778a059522025d291b236372e0ca5b89096ea552f898dc1d9
+    home: https://github.com/ymfe/yapi
+    icon: https://hellosean1025.github.io/yapi/documents/images/logo_header@2x.png
+    keywords:
+    - api
+    - doc
+    - mock
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: yapi
+    urls:
+    - http://ygqygq2.github.io/charts/yapi-1.0.0.tgz
+    version: 1.0.0
+  zipkin:
+  - apiVersion: v2
+    appVersion: "2.23"
+    created: "2022-07-02T14:25:39.35021155Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.x.x
+    description: Zipkin is a distributed tracing system.
+    digest: a9bac32da03c9aebfea000b43b4bebd51436e5e639a24c7b44db99f403d6f1d9
+    home: https://zipkin.io/
+    icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
+    keywords:
+    - zipkin
+    - tracing
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: zipkin
+    urls:
+    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.0/zipkin-2.1.0.tgz
+    version: 2.1.0
+  - apiVersion: v2
+    appVersion: "2.23"
+    created: "2022-04-01T23:31:11.150155981+08:00"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.x.x
+    description: Zipkin is a distributed tracing system.
+    digest: cd30c3093e2671617c740f3256dc0ac9ee5be507ec7b0692effaae2df9d3b12c
+    home: https://zipkin.io/
+    icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
+    keywords:
+    - zipkin
+    - tracing
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: zipkin
+    urls:
+    - http://ygqygq2.github.io/charts/zipkin-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "2"
+    created: "2022-04-01T23:31:11.137778948+08:00"
+    description: A Helm chart for Kubernetes
+    digest: 803aa364f94627723e6d11db174f32e3e66de4e6dcc734b871377b85396016e3
+    home: https://zipkin.io/
+    icon: https://zipkin.io/public/img/zipkin-logo-200x119.jpg
+    keywords:
+    - zipkin
+    - tracing
+    maintainers:
+    - email: 29ygq@sina.com
+      name: Chinge Yang
+    name: zipkin
+    urls:
+    - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
+    version: 1.0.1
+generated: "2022-07-08T03:25:28.590911721Z"
