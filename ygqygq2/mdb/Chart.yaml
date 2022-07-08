@@ -8,7 +8,7 @@ dependencies:
   version: 1.x.x
 description: A Helm chart for Kubernetes
 name: mdb
-version: 5.0.3
+version: 5.0.4
 maintainers:
 - email: ygqygq2@qq.com
   name: ygqygq2
