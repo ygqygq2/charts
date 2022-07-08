@@ -45,6 +45,7 @@ jobs:
         run: |
           speed_up_addr="https://gh.api.99988866.xyz/"
           release_addr="https://github.com/ygqygq2/charts/releases/"
+          git checkout gh-pages
           [ ! -d speed-up ] && mkdir speed-up
           ls -la
           sed "s@${release_addr}@${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
