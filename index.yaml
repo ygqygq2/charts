@@ -532,6 +532,27 @@ entries:
   mdb:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-07-08T03:25:28.457870891Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: A Helm chart for Kubernetes
+    digest: 5a314de6f2f265dbfb9838d1e64ce9ce5482e46b1ec0c06df8d603b1d7d357d3
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.5/mdb-5.0.5.tgz
+    version: 5.0.5
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-07-08T02:49:27.175370698Z"
     dependencies:
     - name: common
@@ -715,6 +736,34 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-07-08T03:25:28.590749221Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Chart for the nginx server
+    digest: e556938a99f227e0a9017ef93720b09f77c515973b57e9904b5fd007d646ef9a
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.7/mod-chart-3.0.7.tgz
+    version: 3.0.7
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-07-08T02:49:27.301216749Z"
@@ -2131,4 +2180,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-07-08T02:49:27.426359287Z"
+generated: "2022-07-08T03:25:28.590911721Z"
