@@ -46,8 +46,9 @@ jobs:
           release_addr="https://github.com/ygqygq2/charts/releases/"
           git checkout gh-pages
           [ ! -d speed-up ] && mkdir speed-up
-          ls -la
-          sed "s@- ${release_addr}@- ${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
-          git add speed-up
-          git commit -sm 'Update speed-up/index.yaml' 
-          git push origin gh-pages
+          if egrep "\- ${release_addr}" index.yaml >/dev/null ; then
+            sed "s@- ${release_addr}@- ${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
+            git add speed-up
+            git commit -sm 'Update speed-up/index.yaml' 
+            git push origin gh-pages
+          fi
