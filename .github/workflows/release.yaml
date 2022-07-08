@@ -39,3 +39,14 @@ jobs:
           charts_repo_url: https://ygqygq2.github.io/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      
+      - name: Update speed up index.yaml
+        run: |
+          speed_up_addr="https://gh.api.99988866.xyz/"
+          release_addr="https://github.com/ygqygq2/charts/releases/"
+          [ ! -d speed-up ] && mkdir speed-up
+          ls -la
+          sed "s@${release_addr}@${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
+          git add speed-up
+          git commit -sm 'Update speed-up/index.yaml' 
+          git push origin gh-pages
