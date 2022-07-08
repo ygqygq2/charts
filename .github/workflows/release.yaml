@@ -47,9 +47,9 @@ jobs:
           git checkout gh-pages
           [ ! -d speed-up ] && mkdir speed-up
           sed "s@- ${release_addr}@- ${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
-    	  git add -A
-    	  is_changed=$(git status -s)
-    	  if [ ! -z "$is_changed" ]; then
+          git add -A
+          is_changed=$(git status -s)
+          if [ ! -z "$is_changed" ]; then
             git commit -sm 'Update speed-up/index.yaml' 
             git push origin gh-pages
           else
