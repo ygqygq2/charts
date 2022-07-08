@@ -43,29 +43,6 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/alertmanager2es-1.0.0.tgz
     version: 1.0.0
-  apollo:
-  - apiVersion: v1
-    appVersion: 1.14.2
-    created: "2022-04-26T09:38:27.365328202Z"
-    description: Chart for the nginx server
-    digest: 61e9be56b03374d7dd825b8caff265539d05a7021117ff188b89e14482f548b2
-    home: http://www.nginx.org
-    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
-    keywords:
-    - nginx
-    - http
-    - web
-    - www
-    - reverse proxy
-    maintainers:
-    - email: 29ygq@sina.com
-      name: Chinge Yang
-    name: apollo
-    sources:
-    - https://github.com/bitnami/bitnami-docker-nginx
-    urls:
-    - https://gh.api.99988866.xyz/https://github.com/ygqygq2/charts/releases/download/apollo-1.0.2/apollo-1.0.2.tgz
-    version: 1.0.2
   bookstack:
   - apiVersion: v2
     appVersion: v2.1
