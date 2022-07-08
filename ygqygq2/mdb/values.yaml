@@ -59,7 +59,6 @@ image:
 ## Kubernetes svc configuration
 ##
 service:
-  name: ""
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
   type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
   loadBalancerIP: ""
