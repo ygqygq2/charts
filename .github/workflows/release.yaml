@@ -42,7 +42,7 @@ jobs:
       
       - name: Update speed up index.yaml
         run: |
-          speed_up_addr="https://gh.api.99988866.xyz/"
+          speed_up_addr="http://gh.linuxba.com/"
           release_addr="https://github.com/ygqygq2/charts/releases/"
           git checkout gh-pages
           [ ! -d speed-up ] && mkdir speed-up
