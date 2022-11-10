@@ -2089,6 +2089,33 @@ entries:
   zipkin:
   - apiVersion: v2
     appVersion: "2.23"
+    created: "2022-11-10T14:49:42.964311854Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.x.x
+    description: Zipkin is a distributed tracing system.
+    digest: 430ed15f7d9bfb00b17e9dd7aad0d7ae3f7cd6b2fc7575916590a5e0651fb97a
+    home: https://zipkin.io/
+    icon: https://zipkin.io/public/img/logo_png/zipkin_vertical_grey_gb.png
+    keywords:
+    - zipkin
+    - tracing
+    maintainers:
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: zipkin
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.1/zipkin-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
+    appVersion: "2.23"
     created: "2022-07-02T14:25:39.35021155Z"
     dependencies:
     - name: common
@@ -2158,4 +2185,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-07-08T03:25:28.590911721Z"
+generated: "2022-11-10T14:49:42.964457354Z"
