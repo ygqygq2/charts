@@ -54,5 +54,5 @@ spec:
                   name: {{ include "common.tplvalues.render" (dict "value" .Values.extraEnvVarsSecret "context" $) }}
               {{- end }}
             imagePullPolicy: {{ .Values.dependencies.image.pullPolicy }}
-            image: {{ .Values.dependencies.image.repository }}:{{ .Values.dependencies.image.tag }}
+            image: {{ .Values.global.imageRegistry }}/{{ .Values.dependencies.image.repository }}:{{ .Values.dependencies.image.tag }}
 {{- end -}}
