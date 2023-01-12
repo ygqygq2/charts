@@ -1,43 +1,34 @@
-{{- if .Values.podSecurityPolicy.enabled }}
-apiVersion: extensions/v1beta1
+{{- $pspAvailable := (semverCompare "<1.25-0" (include "common.capabilities.kubeVersion" .)) -}}
+{{- if and $pspAvailable .Values.curator.enabled .Values.curator.psp.create }}
+apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "elasticsearch.fullname" . }}
-  labels:
-    app: {{ template "elasticsearch.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-  annotations:
-{{- if .Values.podSecurityPolicy.annotations }}
-{{ toYaml .Values.podSecurityPolicy.annotations | indent 4 }}
-{{- end }}
+  name: {{ include "elasticsearch.curator.fullname" . }}
+  labels: {{- include "common.labels.standard" . | nindent 4 }}
+    role: curator
 spec:
   privileged: true
-  allowPrivilegeEscalation: true
+  #requiredDropCapabilities:
   volumes:
     - 'configMap'
     - 'secret'
-    - 'emptyDir'
-    - 'persistentVolumeClaim'
   hostNetwork: false
-  hostPID: false
   hostIPC: false
+  hostPID: false
   runAsUser:
-    rule: 'RunAsAny'
-  runAsGroup:
-    rule: 'RunAsAny'
+    # Require the container to run without root privileges.
+    rule: 'MustRunAsNonRoot'
   seLinux:
     rule: 'RunAsAny'
   supplementalGroups:
-    rule: 'RunAsAny'
+    rule: 'MustRunAs'
+    ranges:
+      - min: 1
+        max: 65535
   fsGroup:
     rule: 'MustRunAs'
     ranges:
-      - min: 1000
-        max: 1000
+      - min: 1
+        max: 65535
   readOnlyRootFilesystem: false
-  hostPorts:
-    - min: 1
-      max: 65535
 {{- end }}
