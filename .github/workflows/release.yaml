@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - name: Fetch history
         run: git fetch --prune --unshallow
@@ -32,5 +34,25 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
+        with:
+          charts_dir: ygqygq2
+          charts_repo_url: https://ygqygq2.github.io/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      
+      - name: Update speed up index.yaml
+        run: |
+          speed_up_addr="http://gh.linuxba.com/"
+          release_addr="https://github.com/ygqygq2/charts/releases/"
+          git checkout gh-pages
+          git pull
+          [ ! -d speed-up ] && mkdir speed-up
+          sed "s@- ${release_addr}@- ${speed_up_addr}${release_addr}@g" index.yaml > speed-up/index.yaml
+          git add -A
+          is_changed=$(git status -s)
+          if [ ! -z "$is_changed" ]; then
+            git commit -sm 'Update speed-up/index.yaml' 
+            git push origin gh-pages
+          else
+            echo "Nothing to push"
+          fi
