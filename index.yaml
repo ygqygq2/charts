@@ -199,9 +199,9 @@ entries:
     - http://ygqygq2.github.io/charts/elastichd-1.0.0.tgz
     version: 1.0.0
   elasticsearch:
-  - apiVersion: v2
-    annotations:
+  - annotations:
       category: Analytics
+    apiVersion: v2
     appVersion: 7.17.3
     created: "2023-01-12T13:54:24.342312768Z"
     dependencies:
