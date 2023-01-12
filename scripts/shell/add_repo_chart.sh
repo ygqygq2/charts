@@ -5,7 +5,7 @@ cd `dirname $0`
 bash_path=`pwd`
 
 chart_path="$1"
-charts_dir="/tmp"
+charts_dir="../../"
 charts_url="http://ygqygq2.github.io/charts"
 
 ## 不使用 helm package 将依赖包打进来
@@ -16,5 +16,5 @@ chart_dirname=$(dirname $chart_path)
 echo tar ${chart_basename}-${version}.tgz
 tar -C $chart_dirname -zcvf ${chart_basename}-${version}.tgz $chart_basename
 \mv -f *.tgz $charts_dir
-helm repo index $charts_dir --url $charts_url
+helm repo index $charts_dir --merge $charts_dir/index.yaml --url $charts_url
 
