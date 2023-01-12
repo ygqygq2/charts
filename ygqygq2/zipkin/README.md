@@ -68,16 +68,16 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                 | Description                                                          | Value                 |
 | -------------------- | -------------------------------------------------------------------- | --------------------- |
-| `image.registry`     | zipkin image registry                                                 | `docker.io`           |
-| `image.repository`   | zipkin image repository                                               | `bitnami/nginx`       |
-| `image.tag`          | zipkin image tag (immutable tags are recommended)                     | `1.21.5-debian-10-r3` |
-| `image.pullPolicy`   | zipkin image pull policy                                              | `IfNotPresent`        |
+| `image.registry`     | zipkin image registry                                                | `docker.io`           |
+| `image.repository`   | zipkin image repository                                              | `openzipkin/zipkin`   |
+| `image.tag`          | zipkin image tag (immutable tags are recommended)                    | `2.24`                |
+| `image.pullPolicy`   | zipkin image pull policy                                             | `IfNotPresent`        |
 | `image.pullSecrets`  | Specify docker-registry secret names as an array                     | `[]`                  |
 | `image.debug`        | Set to true if you would like to see extra information on logs       | `false`               |
 | `hostAliases`        | Deployment pod host aliases                                          | `[]`                  |
 | `command`            | Override default container command (useful when using custom images) | `[]`                  |
 | `args`               | Override default container args (useful when using custom images)    | `[]`                  |
-| `extraEnvVars`       | Extra environment variables to be set on zipkin containers            | `[]`                  |
+| `extraEnvVars`       | Extra environment variables to be set on zipkin containers           | `[]`                  |
 | `extraEnvVarsCM`     | ConfigMap with extra environment variables                           | `""`                  |
 | `extraEnvVarsSecret` | Secret with extra environment variables                              | `""`                  |
 
