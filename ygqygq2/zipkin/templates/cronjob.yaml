@@ -37,7 +37,7 @@ spec:
               - name: STORAGE_TYPE
                 value: elasticsearch
               - name : ES_HOSTS
-                value: {{ template "zipkin.elasticsearch.fullname" . }}:9200
+                value: {{ template "zipkin.elasticsearch.fullname" . }}-coordinating-only:9200
               {{- else }}
               {{- range $key, $value := .Values.elasticsearch.external }}
               - name: {{ $key }}
