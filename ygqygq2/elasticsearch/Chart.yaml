@@ -3,10 +3,10 @@ annotations:
 apiVersion: v2
 appVersion: 7.17.3
 dependencies:
-  - condition: global.kibanaEnabled
-    name: kibana
-    repository: https://charts.bitnami.com/bitnami
-    version: 9.x.x
+#  - condition: global.kibanaEnabled
+#    name: kibana
+#    repository: https://charts.bitnami.com/bitnami
+#    version: 9.x.x
   - name: common
     repository: https://charts.bitnami.com/bitnami
     tags:
