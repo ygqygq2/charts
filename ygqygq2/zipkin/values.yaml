@@ -63,7 +63,7 @@ replicaCount: 1
 image:
   registry: docker.io
   repository: openzipkin/zipkin
-  tag: 2.23
+  tag: 2.24
   pullPolicy: IfNotPresent  # IfNotPresent: 有则不拉（减少流量和操作步骤），Always: 不管tag总拉（适合tag不变时更新）
   pullSecrets: []
   #  - private-registry-key
