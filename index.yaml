@@ -199,6 +199,35 @@ entries:
     - http://ygqygq2.github.io/charts/elastichd-1.0.0.tgz
     version: 1.0.0
   elasticsearch:
+  - annotations:
+      category: Analytics
+    apiVersion: v2
+    appVersion: 7.17.3
+    created: "2023-01-12T13:54:24.342312768Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 1.x.x
+    description: Elasticsearch is a distributed search and analytics engine. It is
+      used for web search, log monitoring, and real-time analytics. Ideal for Big
+      Data applications.
+    digest: 80285d57012461cde545f961f3e3b8f270fcf3ad3f1ad3fc1e297ecba92fda33
+    home: https://github.com/bitnami/charts/tree/master/bitnami/elasticsearch
+    icon: https://bitnami.com/assets/stacks/elasticsearch/img/elasticsearch-stack-220x234.png
+    keywords:
+    - elasticsearch
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: elasticsearch
+    sources:
+    - https://github.com/bitnami/bitnami-docker-elasticsearch
+    - https://www.elastic.co/products/elasticsearch
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/elasticsearch-17.9.29/elasticsearch-17.9.29.tgz
+    version: 17.9.29
   - apiVersion: v1
     appVersion: 6.7.0
     created: "2022-04-01T23:31:10.857439919+08:00"
@@ -2185,4 +2214,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2022-11-10T14:49:42.964457354Z"
+generated: "2023-01-12T13:54:24.342599168Z"
