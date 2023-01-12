@@ -22,8 +22,3 @@ helm repo update
 For more information on using Helm, refer to the Helm's [documentation](https://docs.helm.sh/using_helm/#quickstart-guide).
 
 To get a quick introduction to Charts see this Chart's [documentation](https://docs.helm.sh/developing_charts/#charts).
-
-## Contribution
-
-Please pull request to `develop` branch.    
-Update chart version need to be upgrade before merge.
