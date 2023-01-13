@@ -13,6 +13,7 @@
 
 # Chart dependencies
 **/charts/*.tgz
+**/Chart.lock
 
 #
 tmp
