@@ -41,6 +41,8 @@ jobs:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
       - name: Update speed up index.yaml
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"        
         run: |
           speed_up_addr="http://gh.linuxba.com/"
           release_addr="https://github.com/ygqygq2/charts/releases/"
