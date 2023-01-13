@@ -44,6 +44,7 @@ jobs:
         run: |
           speed_up_addr="http://gh.linuxba.com/"
           release_addr="https://github.com/ygqygq2/charts/releases/"
+          git stash
           git checkout gh-pages
           git pull
           [ ! -d speed-up ] && mkdir speed-up
