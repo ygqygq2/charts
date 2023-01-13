@@ -1,6 +1,7 @@
 name: Release Charts
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -24,8 +25,6 @@ jobs:
 
       - name: Set up Helm
         uses: azure/setup-helm@v3
-        with:
-          version: v3.10.0
 
       - name: Add dependency chart repos
         run: |
@@ -36,7 +35,6 @@ jobs:
         uses: helm/chart-releaser-action@v1.5.0
         with:
           charts_dir: ygqygq2
-          charts_repo_url: https://ygqygq2.github.io/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       
