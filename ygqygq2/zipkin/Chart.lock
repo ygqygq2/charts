@@ -1,0 +1,9 @@
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: 1.17.1
+- name: elasticsearch
+  repository: https://ygqygq2.github.io/charts/
+  version: 17.9.29
+digest: sha256:93dd168e59e8721374533b99cc70a0f1d2243b65c9024a77ed1923df9f0f3608
+generated: "2023-01-13T01:38:32.938206732Z"

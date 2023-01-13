@@ -226,7 +226,7 @@ entries:
     - https://github.com/bitnami/bitnami-docker-elasticsearch
     - https://www.elastic.co/products/elasticsearch
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/elasticsearch-17.9.29/elasticsearch-17.9.29.tgz
+    - https://github.com/ygqygq2/charts/releases/download/elasticsearch-17.9.29/elasticsearch-17.9.29.tgz
     version: 17.9.29
   - apiVersion: v1
     appVersion: 6.7.0
@@ -279,7 +279,7 @@ entries:
     - https://github.com/justwatchcom/elasticsearch_exporter
     - https://github.com/kubernetes/charts/tree/master/stable/elasticsearch-exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/elasticsearch-servicemonitor-1.0.0/elasticsearch-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/elasticsearch-servicemonitor-1.0.0/elasticsearch-servicemonitor-1.0.0.tgz
     version: 1.0.0
   elasticsearch2:
   - apiVersion: v1
@@ -383,7 +383,7 @@ entries:
       name: ygqygq2
     name: fastdfs-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/fastdfs-nginx-2.1.0/fastdfs-nginx-2.1.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/fastdfs-nginx-2.1.0/fastdfs-nginx-2.1.0.tgz
     version: 2.1.0
   - apiVersion: v2
     appVersion: "6.07"
@@ -476,7 +476,7 @@ entries:
     sources:
     - https://github.com/prometheus/haproxy_exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/haproxy-servicemonitor-1.0.0/haproxy-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/haproxy-servicemonitor-1.0.0/haproxy-servicemonitor-1.0.0.tgz
     version: 1.0.0
   lam:
   - apiVersion: v2
@@ -556,7 +556,7 @@ entries:
     name: mdb
     urls:
     - https://images.linuxba.com/charts/mdb-5.0.5.tgz
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.5/mdb-5.0.5.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.5/mdb-5.0.5.tgz
     version: 5.0.5
   - apiVersion: v2
     appVersion: 1.0.0
@@ -577,7 +577,7 @@ entries:
       name: ygqygq2
     name: mdb
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.4/mdb-5.0.4.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.4/mdb-5.0.4.tgz
     version: 5.0.4
   - apiVersion: v2
     appVersion: 1.0.0
@@ -598,7 +598,7 @@ entries:
       name: ygqygq2
     name: mdb
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.3/mdb-5.0.3.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.3/mdb-5.0.3.tgz
     version: 5.0.3
   - apiVersion: v2
     appVersion: 1.0.0
@@ -619,7 +619,7 @@ entries:
       name: ygqygq2
     name: mdb
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.2/mdb-5.0.2.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.2/mdb-5.0.2.tgz
     version: 5.0.2
   - apiVersion: v2
     appVersion: 1.0.0
@@ -640,7 +640,7 @@ entries:
       name: ygqygq2
     name: mdb
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.1/mdb-5.0.1.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.1/mdb-5.0.1.tgz
     version: 5.0.1
   - apiVersion: v2
     appVersion: 1.0.0
@@ -661,7 +661,7 @@ entries:
       name: ygqygq2
     name: mdb
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.0/mdb-5.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mdb-5.0.0/mdb-5.0.0.tgz
     version: 5.0.0
   - apiVersion: v1
     appVersion: 1.0.0
@@ -769,7 +769,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.7/mod-chart-3.0.7.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.7/mod-chart-3.0.7.tgz
     version: 3.0.7
   - apiVersion: v2
     appVersion: 1.0.0
@@ -797,7 +797,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.6/mod-chart-3.0.6.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.6/mod-chart-3.0.6.tgz
     version: 3.0.6
   - apiVersion: v2
     appVersion: 1.0.0
@@ -825,7 +825,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.5/mod-chart-3.0.5.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.5/mod-chart-3.0.5.tgz
     version: 3.0.5
   - apiVersion: v2
     appVersion: 1.0.0
@@ -853,7 +853,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.4/mod-chart-3.0.4.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.4/mod-chart-3.0.4.tgz
     version: 3.0.4
   - apiVersion: v2
     appVersion: 1.0.0
@@ -881,7 +881,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.3/mod-chart-3.0.3.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.3/mod-chart-3.0.3.tgz
     version: 3.0.3
   - apiVersion: v2
     appVersion: 1.0.0
@@ -909,7 +909,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.2/mod-chart-3.0.2.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.2/mod-chart-3.0.2.tgz
     version: 3.0.2
   - apiVersion: v2
     appVersion: 1.0.0
@@ -937,7 +937,7 @@ entries:
     sources:
     - https://github.com/bitnami/bitnami-docker-nginx
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.1/mod-chart-3.0.1.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mod-chart-3.0.1/mod-chart-3.0.1.tgz
     version: 3.0.1
   - apiVersion: v2
     appVersion: 1.0.0
@@ -1097,7 +1097,7 @@ entries:
     - https://github.com/percona/mongodb_exporter
     - https://github.com/helm/charts/tree/master/stable/prometheus-mongodb-exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mongodb-servicemonitor-1.0.0/mongodb-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/mongodb-servicemonitor-1.0.0/mongodb-servicemonitor-1.0.0.tgz
     version: 1.0.0
   mysql:
   - apiVersion: v2
@@ -1173,7 +1173,7 @@ entries:
     sources:
     - https://github.com/alibaba/nacos
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.2/nacos-2.1.2.tgz
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.1.2/nacos-2.1.2.tgz
     version: 2.1.2
   - apiVersion: v2
     appVersion: 2.1.0
@@ -1204,7 +1204,7 @@ entries:
     sources:
     - https://github.com/alibaba/nacos
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.1/nacos-2.1.1.tgz
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.1.1/nacos-2.1.1.tgz
     version: 2.1.1
   - apiVersion: v2
     appVersion: 2.1.0
@@ -1235,7 +1235,7 @@ entries:
     sources:
     - https://github.com/alibaba/nacos
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/nacos-2.1.0/nacos-2.1.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.1.0/nacos-2.1.0.tgz
     version: 2.1.0
   - apiVersion: v2
     appVersion: 2.1.0
@@ -1266,7 +1266,7 @@ entries:
     sources:
     - https://github.com/alibaba/nacos
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/nacos-2.0.2/nacos-2.0.2.tgz
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.0.2/nacos-2.0.2.tgz
     version: 2.0.2
   - apiVersion: v2
     appVersion: 2.0.4
@@ -1626,7 +1626,7 @@ entries:
     sources:
     - https://github.com/nginxinc/nginx-prometheus-exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/nginx-servicemonitor-1.0.0/nginx-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/nginx-servicemonitor-1.0.0/nginx-servicemonitor-1.0.0.tgz
     version: 1.0.0
   nginx-sftp:
   - apiVersion: v2
@@ -1780,7 +1780,7 @@ entries:
     sources:
     - https://github.com/kbudde/rabbitmq_exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/rabbitmq-servicemonitor-1.0.0/rabbitmq-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/rabbitmq-servicemonitor-1.0.0/rabbitmq-servicemonitor-1.0.0.tgz
     version: 1.0.0
   redis-servicemonitor:
   - apiVersion: v1
@@ -1800,7 +1800,7 @@ entries:
     sources:
     - https://github.com/oliver006/redis_exporter
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/redis-servicemonitor-1.0.0/redis-servicemonitor-1.0.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/redis-servicemonitor-1.0.0/redis-servicemonitor-1.0.0.tgz
     version: 1.0.0
   self-service-password:
   - apiVersion: v2
@@ -2141,7 +2141,7 @@ entries:
       name: ygqygq2
     name: zipkin
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.2/zipkin-2.1.2.tgz
+    - https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.2/zipkin-2.1.2.tgz
     version: 2.1.2
   - apiVersion: v2
     appVersion: "2.23"
@@ -2168,7 +2168,7 @@ entries:
       name: ygqygq2
     name: zipkin
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.1/zipkin-2.1.1.tgz
+    - https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.1/zipkin-2.1.1.tgz
     version: 2.1.1
   - apiVersion: v2
     appVersion: "2.23"
@@ -2195,7 +2195,7 @@ entries:
       name: ygqygq2
     name: zipkin
     urls:
-    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.0/zipkin-2.1.0.tgz
+    - https://github.com/ygqygq2/charts/releases/download/zipkin-2.1.0/zipkin-2.1.0.tgz
     version: 2.1.0
   - apiVersion: v2
     appVersion: "2.23"
