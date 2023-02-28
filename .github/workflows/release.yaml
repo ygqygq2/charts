@@ -24,6 +24,8 @@ jobs:
 
       - name: Set up Helm
         uses: azure/setup-helm@v3
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Add dependency chart repos
         run: |
@@ -41,6 +43,7 @@ jobs:
         run: |
           speed_up_addr="http://gh.linuxba.com/"
           release_addr="https://github.com/ygqygq2/charts/releases/"
+          git stash
           git checkout gh-pages
           git pull
           [ ! -d speed-up ] && mkdir speed-up
