@@ -111,6 +111,34 @@ entries:
   common:
   - annotations:
       category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 2.2.3
+    created: "2023-02-28T10:15:11.590891324Z"
+    description: A Library Helm Chart for grouping common logic between bitnami charts.
+      This chart is not deployable by itself.
+    digest: 1d1db24b36e1de84c1108123b2a3b4efbc260dbb75a4732190da57c6d032ea16
+    home: https://github.com/bitnami/charts/tree/main/bitnami/common
+    icon: https://bitnami.com/downloads/logos/bitnami-mark.png
+    keywords:
+    - common
+    - helper
+    - template
+    - function
+    - bitnami
+    maintainers:
+    - name: Bitnami
+      url: https://github.com/bitnami/charts
+    name: common
+    sources:
+    - https://github.com/bitnami/charts
+    - https://www.bitnami.com/
+    type: library
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/common-2.2.3/common-2.2.3.tgz
+    version: 2.2.3
+  - annotations:
+      category: Infrastructure
     apiVersion: v2
     appVersion: 1.17.1
     created: "2023-02-28T09:57:29.133749508Z"
@@ -2359,4 +2387,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2023-02-28T09:57:29.338027879Z"
+generated: "2023-02-28T10:15:11.591041629Z"
