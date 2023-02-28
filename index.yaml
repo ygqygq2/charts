@@ -108,6 +108,34 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/ceph-exporter-1.0.0.tgz
     version: 1.0.0
+  common:
+  - annotations:
+      category: Infrastructure
+    apiVersion: v2
+    appVersion: 1.17.1
+    created: "2023-02-28T09:57:29.133749508Z"
+    description: A Library Helm Chart for grouping common logic between bitnami charts.
+      This chart is not deployable by itself.
+    digest: e3804bd1a710aa95642f8a3df1d9a5900af48ae297803e2a0581fb72fff0ac9a
+    home: https://github.com/bitnami/charts/tree/master/bitnami/common
+    icon: https://bitnami.com/downloads/logos/bitnami-mark.png
+    keywords:
+    - common
+    - helper
+    - template
+    - function
+    - bitnami
+    maintainers:
+    - name: Bitnami
+      url: https://github.com/bitnami/charts
+    name: common
+    sources:
+    - https://github.com/bitnami/charts
+    - https://www.bitnami.com/
+    type: library
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/common-1.17.1/common-1.17.1.tgz
+    version: 1.17.1
   dejavu:
   - apiVersion: v2
     appVersion: 3.4.0
@@ -1100,6 +1128,42 @@ entries:
     - https://github.com/ygqygq2/charts/releases/download/mongodb-servicemonitor-1.0.0/mongodb-servicemonitor-1.0.0.tgz
     version: 1.0.0
   mysql:
+  - annotations:
+      category: Database
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 8.0.32
+    created: "2023-02-28T09:57:29.337844568Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: MySQL is a fast, reliable, scalable, and easy to use open source
+      relational database system. Designed to handle mission-critical, heavy-load
+      production applications.
+    digest: a5849126fb0c10a640a3b08fe4c6ee10287f020704265431fa8259af38981f7b
+    home: https://github.com/bitnami/charts/tree/main/bitnami/mysql
+    icon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
+    keywords:
+    - mysql
+    - database
+    - sql
+    - cluster
+    - high availability
+    maintainers:
+    - name: Bitnami
+      url: https://github.com/bitnami/charts
+    - email: 29ygq@sina.com
+      name: ygqygq2
+    name: mysql
+    sources:
+    - https://github.com/bitnami/containers/tree/main/bitnami/mysql
+    - https://mysql.com
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/mysql-9.5.0/mysql-9.5.0.tgz
+    version: 9.5.0
   - apiVersion: v2
     appVersion: 5.7.26
     created: "2022-04-01T23:31:10.957633504+08:00"
@@ -2295,4 +2359,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2023-01-13T06:28:21.816763252Z"
+generated: "2023-02-28T09:57:29.338027879Z"
