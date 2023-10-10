@@ -2,6 +2,7 @@
 ## Global Docker image parameters
 ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
 ## Current available global Docker image parameters: imageRegistry, imagePullSecrets and storageClass
+##
 
 ## @param global.imageRegistry Global Docker image registry
 ## @param global.imagePullSecrets Global Docker registry secret names as an array
@@ -17,6 +18,7 @@ global:
   storageClass: ""
 
 ## @section Common parameters
+##
 
 ## @param nameOverride String to partially override nginx.fullname template (will maintain the release name)
 ##
@@ -24,6 +26,9 @@ nameOverride: ""
 ## @param fullnameOverride String to fully override nginx.fullname template
 ##
 fullnameOverride: ""
+## @param namespaceOverride String to fully override common.names.namespace
+##
+namespaceOverride: ""
 ## @param kubeVersion Force target Kubernetes version (using Helm capabilities if not set)
 ##
 kubeVersion: ""
@@ -40,6 +45,21 @@ commonLabels: {}
 ##
 commonAnnotations: {}
 
+## Enable diagnostic mode in the deployment(s)/statefulset(s)
+##
+diagnosticMode:
+  ## @param diagnosticMode.enabled Enable diagnostic mode (all probes will be disabled and the command will be overridden)
+  ##
+  enabled: false
+  ## @param diagnosticMode.command Command to override all containers in the the deployment(s)/statefulset(s)
+  ##
+  command:
+    - sleep
+  ## @param diagnosticMode.args Args to override all containers in the the deployment(s)/statefulset(s)
+  ##
+  args:
+    - infinity
+
 ## Deployment or Statefulset
 statefulset:
   enabled: false
@@ -48,15 +68,14 @@ statefulset:
 ##
 replicaCount: 1
 
-## @section Tomcat parameters
-##
-
-## Bitnami Tomcat image version
-## ref: https://hub.docker.com/r/bitnami/tomcat/tags/
-## @param image.registry Tomcat image registry
-## @param image.repository Tomcat image repository
-## @param image.tag Tomcat image tag (immutable tags are recommended)
-## @param image.pullPolicy Tomcat image pull policy
+## @section Nginx parameters
+## Bitnami Nginx image version
+## ref: https://hub.docker.com/r/bitnami/nginx/tags/
+## @param image.registry Nginx image registry
+## @param image.repository Nginx image repository
+## @param image.tag Nginx image tag (immutable tags are recommended)
+## @param image.digest Nginx image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+## @param image.pullPolicy Nginx image pull policy
 ## @param image.pullSecrets Specify docker-registry secret names as an array
 ## @param image.debug Specify if debug logs should be enabled
 ##
@@ -64,6 +83,7 @@ image:
   registry: docker.io
   repository: bitnami/nginx
   tag: latest
+  digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -110,8 +130,26 @@ service:
   ##
   clusterIP: ""
   ## @param service.annotations Annotations for Logstash service
+  ## @param service.sessionAffinity Session Affinity for Kubernetes service, can be "None" or "ClientIP"
+  ## If "ClientIP", consecutive client requests will be directed to the same Pod
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+  ##
+  sessionAffinity: None
+  ## @param service.sessionAffinityConfig Additional settings for the sessionAffinity
+  ## sessionAffinityConfig:
+  ##   clientIP:
+  ##     timeoutSeconds: 300
+  ##
+  sessionAffinityConfig: {}
+  ## @param service.annotations Service annotations
+  ## This can be used to set the LoadBalancer service type to internal only.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
   ##
   annotations: {}
+  ## @param service.externalTrafficPolicy Enable client source IP preservation
+  ## ref https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+  ##
+  externalTrafficPolicy: Cluster  
 
 ## @param extraEnvVars Extra environment variables to be set on MinIO&reg; container
 ## e.g:
@@ -119,11 +157,11 @@ service:
 ##   - name: FOO
 ##     value: "bar"
 ##
-extraEnvVars: {}
-## @param extraEnvVarsCM ConfigMap with extra environment variables
+extraEnvVars: []
+## @param extraEnvVarsCM Name of existing ConfigMap containing extra environment variables
 ##
 extraEnvVarsCM: ""
-## @param extraEnvVarsSecret Secret with extra environment variables
+## @param extraEnvVarsSecret Name of existing Secret containing extra environment variables
 ##
 extraEnvVarsSecret: ""
 ## @param command Default container command (useful when using custom images). Use array form
@@ -208,22 +246,6 @@ healthCheck:
     # failureThreshold: 15
     # successThreshold: 1
 
-## mod-chart containers' resource requests and limits
-## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-## We usually recommend not to specify default resources and to leave this as a conscious
-## choice for the user. This also increases chances charts run on environments with little
-## resources, such as Minikube. If you do want to specify resources, uncomment the following
-## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-## @param resources.limits The resources limits for the mod-chart container
-## @param resources.requests The requested resources for the mod-chart container
-resources: {}
-#  limits:
-#    cpu: 100m
-#    memory: 128Mi
-#  requests:
-#    cpu: 100m
-#    memory: 128Mi
-
 ## @param updateStrategy.type mod-chart deployment strategy type
 ## @param updateStrategy.rollingUpdate mod-chart deployment rolling update configuration parameters
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy
@@ -284,12 +306,25 @@ nodeSelector: {}
 ## @param tolerations Tolerations for pod assignment. Evaluated as a template.
 ## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 ##
-tolerations: {}
+tolerations: []
 ## @param priorityClassName Priority class name
 ## ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass
 ##
 priorityClassName: ""
-## mod-chart pods' Security Context.
+## @param schedulerName Name of the k8s scheduler (other than default)
+## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+##
+schedulerName: ""
+## @param terminationGracePeriodSeconds In seconds, time the given to the NGINX pod needs to terminate gracefully
+## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+##
+terminationGracePeriodSeconds: ""
+## @param topologySpreadConstraints Topology Spread Constraints for pod assignment
+## https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/
+## The value is evaluated as a template
+##
+topologySpreadConstraints: []
+## NGINX pods' Security Context.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 ## @param podSecurityContext.enabled Enabled mod-chart pods' Security Context
 ## @param podSecurityContext.fsGroup Set mod-chart pod's Security Context fsGroup
@@ -330,6 +365,42 @@ hostAliases: []
 #   hostnames:
 #   - "example.local"
 
+## mod-chart containers' resource requests and limits
+## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+## We usually recommend not to specify default resources and to leave this as a conscious
+## choice for the user. This also increases chances charts run on environments with little
+## resources, such as Minikube. If you do want to specify resources, uncomment the following
+## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+## @param resources.limits The resources limits for the mod-chart container
+## @param resources.requests The requested resources for the mod-chart container
+resources:
+  ## Example:
+  ## limits:
+  ##    cpu: 100m
+  ##    memory: 128Mi
+  limits: {}
+  ## Examples:
+  ## requests:
+  ##    cpu: 100m
+  ##    memory: 128Mi
+  requests: {}
+## NGINX containers' lifecycleHooks
+## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+## If you do want to specify lifecycleHooks, uncomment the following
+## lines, adjust them as necessary, and remove the curly braces on 'lifecycle:{}'.
+## @param lifecycleHooks Optional lifecycleHooks for the NGINX container
+lifecycleHooks: {}
+  ## Example:
+  ## postStart:
+  ##   exec:
+  ##     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+  ## Example:
+  ## preStop:
+  ##   exec:
+  ##     command: ["/bin/sleep", "20"]
+  ##     command: ["/bin/sh","-c","nginx -s quit; while killall -0 nginx; do sleep 1; done"]
+
 ## Autoscaling parameters
 ## @param autoscaling.enabled Enable autoscaling for mod-chart deployment
 ## @param autoscaling.minReplicas Minimum number of replicas to scale back
@@ -345,22 +416,15 @@ autoscaling:
   targetMemory: ""
 
 ## Enable persistence using Persistent Volume Claims
-## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  enabled: false
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
-  ##   Azure, standard on GKE, AWS & OpenStack)
+  ## @param persistence.enabled Enable persistence using Persistent Volume Claims
   ##
-  storageClass: ""
-  accessMode: ReadWriteOnce
-  annotations: {}
-  #   helm.sh/resource-policy: keep
-  size: 1Gi  # 大小
-  existingClaim: {}  # 使用已存在的pvc
+  enabled: false
+  ## @param persistence.existingClaim Name of an existing PVC to use
+  ##
+  existingClaim: ""
   mountPaths:
     - name: data-storage
       mountPath: /app/data
@@ -370,12 +434,38 @@ persistence:
   # - name: data-storage
   #   mountPath: /data
   #   subPath: data
-  ## @param persistence.selector [object] Selector to match an existing Persistent Volume
+  ## @param persistence.storageClass Storage class of backing PVC
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: ""
+  ## @param persistence.labels Persistent Volume Claim labels
+  ##
+  labels: {}
+  ## @param persistence.annotations Persistent Volume Claim annotations
+  ##
+  annotations: {}
+  ## @param persistence.accessModes Persistent Volume Access Modes
+  ##
+  accessModes:
+    - ReadWriteOnce
+  ## @param persistence.size Size of data volume
+  ##
+  size: 8Gi
+  ## @param persistence.selector Selector to match an existing Persistent Volume for ClickHouse data PVC
+  ## If set, the PVC can't have a PV dynamically provisioned for it
+  ## E.g.
   ## selector:
   ##   matchLabels:
   ##     app: my-app
   ##
   selector: {}
+  ## @param persistence.dataSource Custom PVC data source
+  ##
+  dataSource: {}
 
 ## @param extraVolumeMounts Array to add extra mount
 ##
@@ -565,47 +655,9 @@ serviceAccount:
   ## Only used if `create` is `true`.
   ##
   annotations: {}
-  ## @param serviceAccount.autoMount Auto-mount the service account token in the pod
+  ## @param serviceAccount.automountServiceAccountToken Auto-mount the service account token in the pod
   ##
-  autoMount: false
-
-## Pod Disruption Budget configuration
-## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
-##
-pdb:
-  ## @param pdb.create Created a PodDisruptionBudget
-  ##
-  create: false
-  ## @param pdb.minAvailable Min number of pods that must still be available after the eviction
-  ##
-  minAvailable: 1
-  ## @param pdb.maxUnavailable Max number of pods that can be unavailable after the eviction
-  ##
-  maxUnavailable: 0
-
-## Uncomment and modify this to run a command after starting the core container.
-## ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
-lifecycle: {}
-#  preStop:
-#    exec:
-#      command: ["/bin/bash","/pre-stop.sh"]
-#  postStart:
-#    exec:
-#      command: ["/bin/bash","/post-start.sh"]
-
-## init containers
-## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-## Add init containers. e.g. to be used to give specific permissions for data
-## Add your own init container or uncomment and modify the given example.
-initContainers: []
-#  - name: fmp-volume-permission
-#    image: busybox
-#    imagePullPolicy: IfNotPresent
-#    command: ['chown','-R', '200', '/extra-data']
-#    volumeMounts:
-#      - name: extra-data
-#        mountPath: /extra-data
-
+  automountServiceAccountToken: false
 ## @param sidecars Sidecar parameters
 ## e.g:
 ## sidecars:
@@ -623,6 +675,24 @@ sidecars: []
 ##
 sidecarSingleProcessNamespace: false
 
+## @param initContainers Extra init containers
+##
+initContainers: []
+## Pod Disruption Budget configuration
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+##
+pdb:
+  ## @param pdb.create Created a PodDisruptionBudget
+  ##
+  create: false
+  ## @param pdb.minAvailable Min number of pods that must still be available after the eviction.
+  ## You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0
+  ##
+  minAvailable: 1
+  ## @param pdb.maxUnavailable Max number of pods that can be unavailable after the eviction.
+  ## You can specify an integer or a percentage by setting the value to a string representation of a percentage (eg. "50%"). It will be disabled if set to 0
+  ##
+  maxUnavailable: 0
 ## Prometheus Exporter / Metrics
 ##
 metrics:
@@ -637,13 +707,15 @@ metrics:
   ## @param metrics.image.registry NGINX Prometheus exporter image registry
   ## @param metrics.image.repository NGINX Prometheus exporter image repository
   ## @param metrics.image.tag NGINX Prometheus exporter image tag (immutable tags are recommended)
+  ## @param metrics.image.digest NGINX Prometheus exporter image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param metrics.image.pullPolicy NGINX Prometheus exporter image pull policy
   ## @param metrics.image.pullSecrets Specify docker-registry secret names as an array
   ##
   image:
     registry: docker.io
     repository: bitnami/nginx-exporter
-    tag: 0.10.0-debian-10-r8
+    tag: latest
+    digest: ""
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -705,6 +777,9 @@ metrics:
     ## @param metrics.serviceMonitor.namespace Namespace in which Prometheus is running
     ##
     namespace: ""
+    ## @param metrics.serviceMonitor.jobLabel The name of the label on the target service to use as the job name in prometheus.
+    ##
+    jobLabel: ""
     ## @param metrics.serviceMonitor.interval Interval at which metrics should be scraped.
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     ## e.g:
@@ -718,21 +793,24 @@ metrics:
     ##
     scrapeTimeout: ""
     ## @param metrics.serviceMonitor.selector Prometheus instance selector labels
-    ## ref: https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-configuration
+    ## ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
     ##
     ## selector:
     ##   prometheus: my-prometheus
     ##
     selector: {}
-    ## @param metrics.serviceMonitor.additionalLabels Additional labels that can be used so PodMonitor will be discovered by Prometheus
+    ## @param metrics.serviceMonitor.labels Additional labels that can be used so PodMonitor will be discovered by Prometheus
     ##
-    additionalLabels: {}
+    labels: {}
     ## @param metrics.serviceMonitor.relabelings RelabelConfigs to apply to samples before scraping
     ##
     relabelings: []
     ## @param metrics.serviceMonitor.metricRelabelings MetricRelabelConfigs to apply to samples before ingestion
     ##
     metricRelabelings: []
+    ## @param metrics.serviceMonitor.honorLabels honorLabels chooses the metric's labels on collisions with target labels
+    ##
+    honorLabels: false
   ## Prometheus Operator PrometheusRule configuration
   ##
   prometheusRule:
@@ -752,7 +830,7 @@ metrics:
     ##     labels:
     ##       severity: critical
     ##     annotations:
-    ##       description: Service {{ template "common.names.fullname" . }} Tomcat is down since 1m.
-    ##       summary: Tomcat instance is down.
+    ##       description: Service {{ template "common.names.fullname" . }} Nginx is down since 1m.
+    ##       summary: Nginx instance is down.
     ##
     rules: []

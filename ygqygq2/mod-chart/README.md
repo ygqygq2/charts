@@ -17,12 +17,12 @@ mod-chart 参考 Bitnami 作为一个通用模板，可用于新 chart 的快速
 
 This chart bootstraps a [mod-chart Open Source](https://github.com/bitnami/bitnami-docker-nginx) deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This Helm chart has been tested on top of [Bitnami Kubernetes Production Runtime](https://kubeprod.io/) (BKPR). Deploy BKPR to get automated TLS certificates, logging and monitoring for your applications.
+Bitnami charts can be used with [Kubeapps](https://kubeapps.dev/) for deployment and management of Helm Charts in clusters.
 
 ## Prerequisites
 
-- Kubernetes 1.19+
-- Helm 3.2.0+
+- Kubernetes 1.23+
+- Helm 3.8.0+
 
 ## Installing the Chart
 
@@ -73,20 +73,21 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ### mod-chart parameters
 
-| Name                 | Description                                                          | Value                 |
-| -------------------- | -------------------------------------------------------------------- | --------------------- |
-| `image.registry`     | mod-chart image registry                                             | `docker.io`           |
-| `image.repository`   | mod-chart image repository                                           | `bitnami/nginx`       |
-| `image.tag`          | mod-chart image tag (immutable tags are recommended)                 | `1.21.5-debian-10-r3` |
-| `image.pullPolicy`   | mod-chart image pull policy                                          | `IfNotPresent`        |
-| `image.pullSecrets`  | Specify docker-registry secret names as an array                     | `[]`                  |
-| `image.debug`        | Set to true if you would like to see extra information on logs       | `false`               |
-| `hostAliases`        | Deployment pod host aliases                                          | `[]`                  |
-| `command`            | Override default container command (useful when using custom images) | `[]`                  |
-| `args`               | Override default container args (useful when using custom images)    | `[]`                  |
-| `extraEnvVars`       | Extra environment variables to be set on mod-chart containers        | `[]`                  |
-| `extraEnvVarsCM`     | ConfigMap with extra environment variables                           | `""`                  |
-| `extraEnvVarsSecret` | Secret with extra environment variables                              | `""`                  |
+| Name                 | Description                                                                                           | Value                 |
+| -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------- |
+| `image.registry`     | mod-chart image registry                                                                              | `docker.io`           |
+| `image.repository`   | mod-chart image repository                                                                            | `bitnami/nginx`       |
+| `image.tag`          | mod-chart image tag (immutable tags are recommended)                                                  | `latest`              |
+| `image.digest`       | Image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag       | `""`                  |
+| `image.pullPolicy`   | mod-chart image pull policy                                                                           | `IfNotPresent`        |
+| `image.pullSecrets`  | Specify docker-registry secret names as an array                                                      | `[]`                  |
+| `image.debug`        | Set to true if you would like to see extra information on logs                                        | `false`               |
+| `hostAliases`        | Deployment pod host aliases                                                                           | `[]`                  |
+| `command`            | Override default container command (useful when using custom images)                                  | `[]`                  |
+| `args`               | Override default container args (useful when using custom images)                                     | `[]`                  |
+| `extraEnvVars`       | Extra environment variables to be set on mod-chart containers                                         | `[]`                  |
+| `extraEnvVarsCM`     | Name of existing ConfigMap containing extra environment variables                                     | `""`                  |
+| `extraEnvVarsSecret` | Name of existing Secret containing extra environment variables                                        | `""`                  |
 
 
 ### mod-chart deployment parameters
@@ -99,9 +100,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | `podAffinityPreset`                     | Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`       | `""`    |
 | `podAntiAffinityPreset`                 | Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`  | `soft`  |
 | `nodeAffinityPreset.type`               | Node affinity preset type. Ignored if `affinity` is set. Allowed values: `soft` or `hard` | `""`    |
-| `nodeAffinityPreset.key`                | Node label key to match Ignored if `affinity` is set.                                     | `""`    |
+| `nodeAffinityPreset.key`                | Node label key to match. Ignored if `affinity` is set.                                     | `""`   |
 | `nodeAffinityPreset.values`             | Node label values to match. Ignored if `affinity` is set.                                 | `[]`    |
 | `affinity`                              | Affinity for pod assignment                                                               | `{}`    |
+| `hostNetwork`                           | Specify if host network should be enabled for NGINX pod                                   | `false` |
+| `hostIPC`                               | Specify if host IPC should be enabled for NGINX pod                                       | `false` |
 | `nodeSelector`                          | Node labels for pod assignment. Evaluated as a template.                                  | `{}`    |
 | `tolerations`                           | Tolerations for pod assignment. Evaluated as a template.                                  | `{}`    |
 | `priorityClassName`                     | Priority class name                                                                       | `""`    |
@@ -142,11 +145,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                            | Description                                                                                                                      | Value                    |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | `service.type`                  | Service type                                                                                                                     | `LoadBalancer`           |
-| `service.port`                  | Service HTTP port                                                                                                                | `80`                     |
-| `service.httpsPort`             | Service HTTPS port                                                                                                               | `443`                    |
-| `service.nodePorts`             | Specify the nodePort(s) value(s) for the LoadBalancer and NodePort service types.                                                | `{}`                     |
-| `service.targetPort`            | Target port reference value for the Loadbalancer service types can be specified explicitly.                                      | `{}`                     |
+| `service.ports`                 | Service ports                                                                                                                    | see values.yaml          |
 | `service.loadBalancerIP`        | LoadBalancer service IP address                                                                                                  | `""`                     |
+| `service.sessionAffinity`       | Session Affinity for Kubernetes service, can be "None" or "ClientIP"                                                             | `None`                   |
+| `service.sessionAffinityConfig` | Additional settings for the sessionAffinity                                                                                      | `{}`                     |
 | `service.annotations`           | Service annotations                                                                                                              | `{}`                     |
 | `service.externalTrafficPolicy` | Enable client source IP preservation                                                                                             | `Cluster`                |
 | `ingress.enabled`               | Set to true to enable ingress record generation                                                                                  | `false`                  |
@@ -190,10 +192,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | `metrics.resources.requests`               | The requested resources for the mod-chart Prometheus exporter container                                                                       | `{}`                     |
 | `metrics.serviceMonitor.enabled`           | Creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)                                               | `false`                  |
 | `metrics.serviceMonitor.namespace`         | Namespace in which Prometheus is running                                                                                                  | `""`                     |
+| `metrics.serviceMonitor.jobLabel`          | The name of the label on the target service to use as the job name in prometheus.                                                         | `""`                     |
 | `metrics.serviceMonitor.interval`          | Interval at which metrics should be scraped.                                                                                              | `""`                     |
 | `metrics.serviceMonitor.scrapeTimeout`     | Timeout after which the scrape is ended                                                                                                   | `""`                     |
 | `metrics.serviceMonitor.selector`          | Prometheus instance selector labels                                                                                                       | `{}`                     |
-| `metrics.serviceMonitor.additionalLabels`  | Additional labels that can be used so PodMonitor will be discovered by Prometheus                                                         | `{}`                     |
+| `metrics.serviceMonitor.labels`            | Additional labels that can be used so PodMonitor will be discovered by Prometheus                                                         | `{}`                     |
 | `metrics.serviceMonitor.relabelings`       | RelabelConfigs to apply to samples before scraping                                                                                        | `[]`                     |
 | `metrics.serviceMonitor.metricRelabelings` | MetricRelabelConfigs to apply to samples before ingestion                                                                                 | `[]`                     |
 | `metrics.prometheusRule.enabled`           | if `true`, creates a Prometheus Operator PrometheusRule (also requires `metrics.enabled` to be `true` and `metrics.prometheusRule.rules`) | `false`                  |
@@ -242,13 +245,36 @@ extraEnvVars:
     value: error
 ```
 
-Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the `extraEnvVarsCM` or the `extraEnvVarsSecret` values.
+Alternatively, define a ConfigMap or a Secret with the environment variables. To do so, use the `extraEnvVarsCM` or the `extraEnvVarsSecret` values.
+
+### Use Sidecars and Init Containers
+
+If additional containers are needed in the same pod (such as additional metrics or logging exporters), they can be defined using the `sidecars` config parameter. Similarly, extra init containers can be added using the `initContainers` parameter.
+
+Refer to the chart documentation for more information on, and examples of, configuring and using [sidecars and init containers](https://docs.bitnami.com/kubernetes/infrastructure/tomcat/configuration/configure-sidecar-init-containers/).
 
 ### Setting Pod's affinity
 
 This chart allows you to set your custom affinity using the `affinity` parameter. Find more information about Pod's affinity in the [kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity).
 
 As an alternative, you can use of the preset configurations for pod affinity, pod anti-affinity, and node affinity available at the [bitnami/common](https://github.com/bitnami/charts/tree/master/bitnami/common#affinity) chart. To do so, set the `podAffinityPreset`, `podAntiAffinityPreset`, or `nodeAffinityPreset` parameters.
+
+## Persistence
+
+The [Bitnami Tomcat](https://github.com/bitnami/containers/tree/main/bitnami/tomcat) image stores the Tomcat data and configurations at the `/bitnami/tomcat` path of the container.
+
+Persistent Volume Claims (PVCs) are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
+
+See the [Parameters](#parameters) section to configure the PVC or to disable persistence.
+
+### Adjust permissions of persistent volume mountpoint
+
+As the image run as non-root by default, it is necessary to adjust the ownership of the persistent volume so that the container can write data into it.
+
+By default, the chart is configured to use Kubernetes Security Context to automatically change the ownership of the volume. However, this feature does not work in all Kubernetes distributions.
+As an alternative, this chart supports using an init container to change the ownership of the volume before mounting it in the final destination.
+
+You can enable this init container by setting `volumePermissions.enabled` to `true`.
 
 ### Deploying extra resources
 
@@ -270,5 +296,5 @@ For annotations, please see [this document](https://github.com/kubernetes/ingres
 
 ## Troubleshooting
 
-Find more information about how to deal with common errors related to Bitnami’s Helm charts in [this troubleshooting guide](https://docs.bitnami.com/general/how-to/troubleshoot-helm-chart-issues).
+Find more information about how to deal with common errors related to Bitnami's Helm charts in [this troubleshooting guide](https://docs.bitnami.com/general/how-to/troubleshoot-helm-chart-issues).
 
