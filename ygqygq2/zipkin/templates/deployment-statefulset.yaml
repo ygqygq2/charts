@@ -79,7 +79,7 @@ spec:
       containers:
 {{- if .Values.metrics.enabled }}
         - name: metrics
-          image: {{ template "metrics.image" . }}
+          image: {{ template "zipkin.metrics.image" . }}
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy | quote }}
           command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8080/status']
           ports:
