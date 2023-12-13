@@ -1330,6 +1330,37 @@ entries:
     version: 1.0.0
   nacos:
   - apiVersion: v2
+    appVersion: 2.2.3
+    created: "2023-12-13T07:52:09.997561219Z"
+    dependencies:
+    - name: common
+      repository: https://ygqygq2.github.io/charts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    - condition: mysql.enabled
+      name: mysql
+      repository: https://ygqygq2.github.io/charts
+      version: 9.x.x
+    description: Chart for nacos, an easy-to-use dynamic service discovery, configuration
+      and service management platform for building cloud native applications.
+    digest: 0677676dbe36b953754e1e0fa48d77f336d616588c17ced82ef9a18a2a80abce
+    home: https://nacos.io
+    icon: https://nacos.io/img/nacos_colorful.png
+    keywords:
+    - nacos
+    - dynamic service discovery
+    - configuration and service management platform
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: nacos
+    sources:
+    - https://github.com/alibaba/nacos
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/nacos-2.1.5/nacos-2.1.5.tgz
+    version: 2.1.5
+  - apiVersion: v2
     appVersion: 2.2.0
     created: "2023-02-28T10:40:02.875406652Z"
     dependencies:
@@ -2511,4 +2542,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2023-10-10T10:45:20.427620444Z"
+generated: "2023-12-13T07:52:09.997779385Z"
