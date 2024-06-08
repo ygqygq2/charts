@@ -113,6 +113,35 @@ entries:
       category: Infrastructure
       licenses: Apache-2.0
     apiVersion: v2
+    appVersion: 2.20.0
+    created: "2024-06-08T03:52:36.769406907Z"
+    description: A Library Helm Chart for grouping common logic between bitnami charts.
+      This chart is not deployable by itself.
+    digest: ee6facec44c55a50ab6a6d90c022ddaf85697322cddf7c34f72db08088529824
+    home: https://bitnami.com
+    icon: https://bitnami.com/downloads/logos/bitnami-mark.png
+    keywords:
+    - common
+    - helper
+    - template
+    - function
+    - bitnami
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    - name: ygqygq2
+      url: https://github.com/ygqygq2/charts
+    name: common
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/common
+    type: library
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/common-2.20.0/common-2.20.0.tgz
+    version: 2.20.0
+  - annotations:
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
     appVersion: 2.13.2
     created: "2023-10-10T09:13:22.189363129Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
@@ -2573,4 +2602,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2023-12-13T08:02:26.284329239Z"
+generated: "2024-06-08T03:52:36.769542911Z"
