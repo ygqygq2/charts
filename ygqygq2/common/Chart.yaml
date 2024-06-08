@@ -19,6 +19,8 @@ keywords:
 maintainers:
   - name: Broadcom, Inc. All Rights Reserved.
     url: https://github.com/bitnami/charts
+  - name: ygqygq2
+    url: https://github.com/ygqygq2/charts
 name: common
 sources:
   - https://github.com/bitnami/charts/tree/main/bitnami/common
