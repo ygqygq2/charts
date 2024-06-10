@@ -658,6 +658,35 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.0.0
+    created: "2024-06-10T15:26:09.146548103Z"
+    dependencies:
+    - name: common
+      repository: https://ygqygq2.github.io/charts/
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: A Helm chart for Kubernetes
+    digest: fc9a91fe53b694aa2b273ba2bf58264d3fddde17266b642f1c54972fd92039dc
+    keywords:
+    - template
+    - helm
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mdb
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mdb-5.0.7/mdb-5.0.7.tgz
+    version: 5.0.7
+  - annotations:
+      category: Infrastructure
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: nginx
+          image: docker.io/bitnami/nginx:latest
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.0.0
     created: "2023-10-10T03:12:27.956568646Z"
     dependencies:
     - name: common
@@ -2602,4 +2631,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2024-06-08T03:52:36.769542911Z"
+generated: "2024-06-10T15:26:09.146704715Z"
