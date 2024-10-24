@@ -1,0 +1,23 @@
+annotations:
+  category: Infrastructure
+  images: |
+    - name: seata-server
+      image: apache/seata-server:2.2.0
+  licenses: Apache-2.0
+apiVersion: v2
+appVersion: 2.2.0
+dependencies:
+- name: common
+  repository: https://ygqygq2.github.io/charts/
+  tags:
+  - bitnami-common
+  version: 2.x.x
+description: A Helm chart for seata-server
+keywords:
+- helm
+- seata
+maintainers:
+- email: ygqygq2@qq.com
+  name: ygqygq2
+name: seata-server
+version: 1.0.0

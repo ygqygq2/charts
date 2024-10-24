@@ -1,0 +1,277 @@
+{{- if $.Values.canary.enabled -}}
+{{- $root := . -}}
+{{- range $skey, $svalue := $.Values.canary.subset -}}
+{{- if $.Values.statefulset.enabled }}
+apiVersion: {{ include "common.capabilities.statefulset.apiVersion" $root }}
+kind: StatefulSet
+{{- else }}
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" $root }}
+kind: Deployment
+{{- end }}
+metadata:
+  name: {{ include "common.names.fullname" $root }}-canary
+  namespace: {{ $.Release.Namespace }}
+  labels: {{- include "common.labels.standard" $root | nindent 4 }}
+    {{- if $.Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" $.Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+    canary: "true"
+spec:
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" $root | nindent 6 }}
+  replicas: {{ $.Values.replicaCount }}
+  {{- if $.Values.statefulset.enabled }}
+  serviceName: {{ include "common.names.fullname" $root }}-headless
+  podManagementPolicy: {{ $.Values.podManagementPolicy }}
+  {{- end }}
+  {{- if $.Values.updateStrategy }}
+  strategy: {{- toYaml $.Values.updateStrategy | nindent 4 }}
+  {{- end }}
+  template:
+    metadata:
+      labels: {{- include "common.labels.standard" $root | nindent 8 }}
+        {{- if $.Values.podLabels }}
+        {{- include "common.tplvalues.render" (dict "value" $.Values.podLabels "context" $) | nindent 8 }}
+        {{- end }}
+        canary: "true"
+      annotations:
+        {{- if $.Values.podAnnotations }}
+        {{- include "common.tplvalues.render" ( dict "value" $.Values.podAnnotations "context" $) | nindent 8 }}
+        {{- end }}
+        {{- if and $.Values.metrics.enabled $.Values.metrics.podAnnotations }}
+        {{- include "common.tplvalues.render" ( dict "value" $.Values.metrics.podAnnotations "context" $) | nindent 8 }}
+        {{- end }}
+    spec:
+      automountServiceAccountToken: {{ $.Values.serviceAccount.autoMount }}
+      shareProcessNamespace: {{ $.Values.sidecarSingleProcessNamespace }}
+      serviceAccountName: {{ template "seata-server.serviceAccountName" $root }}
+      {{- if $.Values.hostAliases }}
+      hostAliases: {{- include "common.tplvalues.render" (dict "value" $.Values.hostAliases "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" $.Values.affinity "context" $) | nindent 8 }}
+      {{- else }}
+      affinity:
+        podAffinity: {{- include "common.affinities.pods" (dict "type" $.Values.podAffinityPreset "context" $) | nindent 10 }}
+        podAntiAffinity: {{- include "common.affinities.pods" (dict "type" $.Values.podAntiAffinityPreset "context" $) | nindent 10 }}
+        nodeAffinity: {{- include "common.affinities.nodes" (dict "type" $.Values.nodeAffinityPreset.type "key" $.Values.nodeAffinityPreset.key "values" $.Values.nodeAffinityPreset.values) | nindent 10 }}
+      {{- end }}
+      hostNetwork: {{ $.Values.hostNetwork }}
+      hostIPC: {{ $.Values.hostIPC }}
+      {{- if $.Values.priorityClassName }}
+      priorityClassName: {{ $.Values.priorityClassName | quote }}
+      {{- end }}
+      {{- if $.Values.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" $.Values.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" $.Values.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.podSecurityContext.enabled }}
+      securityContext: {{- omit $.Values.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.dnsPolicy }} 
+      dnsPolicy: {{ $.Values.dnsPolicy | quote }}
+      {{- end }}
+      {{- include "seata-server.imagePullSecrets" $ | nindent 6 }}
+      {{- if $.Values.initContainers }}
+      initContainers:
+      {{- include "common.tplvalues.render" ( dict "value" $root "context" $ ) | nindent 8 }}
+      {{- end }}
+      containers:
+        {{- if $.Values.metrics.enabled }}
+        - name: metrics
+          image: {{ template "metrics.image" . }}
+          imagePullPolicy: {{ $.Values.metrics.image.pullPolicy | quote }}
+          command: [ '/usr/bin/exporter', '-nginx.scrape-uri', 'http://127.0.0.1:8080/status']
+          ports:
+          - name: metrics
+            containerPort: 9113
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+          resources:
+            {{- toYaml $.Values.metrics.resources | nindent 12 }}
+        {{- end }}
+        - name: {{ include "common.names.name" $root }}
+          image: {{ template "seata-server.image" $root }}
+          imagePullPolicy: {{ $.Values.image.pullPolicy | quote }}
+          {{- if $.Values.containerSecurityContext.enabled }}
+          securityContext: {{- omit $.Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.lifecycleHooks }}
+          lifecycle: {{- include "common.tplvalues.render" (dict "value" $.Values.lifecycleHooks "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.command }}
+          command: {{- include "common.tplvalues.render" (dict "value" $.Values.command "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.args }}
+          args: {{- include "common.tplvalues.render" (dict "value" $.Values.args "context" $) | nindent 12 }}
+          {{- end }}
+          env:
+            {{- if $.Values.extraEnvVars }}
+            {{- include "common.tplvalues.render" (dict "value" $.Values.extraEnvVars "context" $) | nindent 12 }}
+            {{- end }}
+          envFrom:
+            {{- if $.Values.extraEnvVarsCM }}
+            - configMapRef:
+                name: {{ include "common.tplvalues.render" (dict "value" $.Values.extraEnvVarsCM "context" $) }}
+            {{- end }}
+            {{- if $.Values.extraEnvVarsSecret }}
+            - secretRef:
+                name: {{ include "common.tplvalues.render" (dict "value" $.Values.extraEnvVarsSecret "context" $) }}
+            {{- end }}
+          {{- if $.Values.resources }}
+          resources: {{- toYaml $.Values.resources | nindent 12 }}
+          {{- end }}
+          ports:
+            {{- range $key, $value := $.Values.service.ports }}
+            - name: {{ $key }}
+              containerPort: {{ $value.port }}
+              protocol: {{ $value.protocol }}
+            {{- end }}
+          {{- if $.Values.healthCheck.livenessProbe.enabled }}
+          livenessProbe:
+            {{- if eq $.Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ $.Values.healthCheck.httpPath }}
+              port: {{ $.Values.healthCheck.port }}
+            {{- else }}
+            tcpSocket:
+              port: {{ $.Values.healthCheck.port }}
+            {{- end }}
+            initialDelaySeconds: {{ $.Values.healthCheck.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.healthCheck.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ $.Values.healthCheck.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ $.Values.healthCheck.livenessProbe.successThreshold }}
+            failureThreshold: {{ $.Values.healthCheck.livenessProbe.failureThreshold }}
+          {{- else if $.Values.customLivenessProbe }}
+          livenessProbe: {{- include "common.tplvalues.render" (dict "value" $.Values.customLivenessProbe "context" $) | nindent 12 }}
+          {{- end }}
+          {{- if $.Values.healthCheck.readinessProbe.enabled }}
+          readinessProbe:
+            {{- if eq $.Values.healthCheck.type "http" }}
+            httpGet:
+              path: {{ $.Values.healthCheck.httpPath }}
+              port: {{ $.Values.healthCheck.port }}
+            {{- else }}
+            tcpSocket:
+              port: {{ $.Values.healthCheck.port }}
+            {{- end }}
+            initialDelaySeconds: {{ $.Values.healthCheck.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ $.Values.healthCheck.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ $.Values.healthCheck.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ $.Values.healthCheck.readinessProbe.successThreshold }}
+            failureThreshold: {{ $.Values.healthCheck.readinessProbe.failureThreshold }}
+          {{- else if $.Values.customReadinessProbe }}
+          readinessProbe: {{- include "common.tplvalues.render" (dict "value" $.Values.customReadinessProbe "context" $) | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            {{- if $.Values.config.enabled }}
+            - name: {{ include "common.names.name" $root }}-conf
+              mountPath: {{ $.Values.config.mountPath }}
+              subPath: {{ $.Values.config.subPath }}
+              readOnly: {{ $.Values.config.readOnly }}
+            {{- end }}
+            {{- if $.Values.existConfig.enabled }}
+            - name: {{ include "common.names.name" $root }}-exist-conf
+              mountPath: {{ $.Values.existConfig.mountPath }}
+              subPath: {{ $.Values.existConfig.subPath }}
+              readOnly: {{ $.Values.existConfig.readOnly }}
+            {{- end }}
+            {{- if $.Values.secret.enabled }}
+            - name: {{ include "common.names.name" $root }}-secret
+              mountPath: {{ $.Values.secret.mountPath }}
+              subPath: {{ $.Values.secret.subPath }}
+              readOnly: {{ $.Values.secret.readOnly }}
+            {{- end }}
+            {{- if $.Values.existSecret.enabled }}
+            - name: {{ include "common.names.name" $root }}-exist-secret
+              mountPath: {{ $.Values.existSecret.mountPath }}
+              subPath: {{ $.Values.existSecret.subPath }}
+              readOnly: {{ $.Values.existSecret.readOnly }}
+            {{- end }}
+            {{- if $.Values.persistence.mountPaths }}
+            {{- toYaml $.Values.persistence.mountPaths | nindent 12 }}
+            {{- end }}
+            {{- if $.Values.extraVolumeMounts }}
+            {{- toYaml $.Values.extraVolumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if $.Values.sidecars }}
+        {{- include "common.tplvalues.render" (dict "value" $.Values.sidecars "context" $) | nindent 8 }}
+        {{- end }}
+      volumes:
+        {{- if $.Values.config.enabled }}
+        - name: {{ include "common.names.name" $root }}-conf
+          configMap:
+            name: {{ include "common.names.fullname" $root }}
+        {{- end }}
+        {{- if $.Values.existConfig.enabled }}
+        - name: {{ include "common.names.name" $root }}-exist-conf
+          configMap:
+            name: {{ $.Values.existConfig.name }}
+        {{- end }}
+        {{- if $.Values.secret.enabled }}
+        - name: {{ include "common.names.name" $root }}-secret
+          secret:
+            secretName: {{ include "common.names.fullname" $root }}
+        {{- end }}
+        {{- if $.Values.existSecret.enabled }}
+        - name: {{ include "common.names.name" $root }}-exist-secret
+          secret:
+            secretName: {{ $.Values.existSecret.name }}
+        {{- end }}
+        {{- if $.Values.extraVolumes }}
+        {{- toYaml $.Values.extraVolumes | nindent 8 }}
+        {{- end }}
+{{- if not $.Values.statefulset.enabled }}
+        {{- if $.Values.persistence.enabled }}
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: {{ $.Values.persistence.existingClaim | default (include "common.names.fullname" $root) }}
+        {{- else }}
+        - name: data-storage
+          emptyDir: {}
+        {{- end }}
+{{- else }}
+  {{- if $.Values.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data-storage
+      {{- if $.Values.persistence.annotations }}
+      annotations: {{- toYaml $.Values.persistence.annotations | nindent 10 }}
+      {{- end }}
+    spec:
+      accessModes:
+        - {{ $.Values.persistence.accessMode | quote }}
+      annotations:
+      {{- range $key, $value := $.Values.persistence.annotations }}
+        {{ $key }}: {{ $value }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ $.Values.persistence.size }}
+          {{- if $.Values.persistence.storageClass }}
+            {{- if (eq "-" $.Values.persistence.storageClass) }}
+      storageClassName: ""
+            {{- else }}
+      storageClassName: "{{ $.Values.persistence.storageClass }}"
+            {{- end }}
+          {{- end }}
+  {{- else }}
+        - name: data-storage
+          emptyDir: {}
+  {{- end }}
+{{- end }}
+---
+{{- end -}}
+{{- end -}}
