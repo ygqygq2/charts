@@ -948,6 +948,42 @@ entries:
           image: docker.io/bitnami/nginx-exporter:latest
         - name: nginx
           image: docker.io/bitnami/nginx:latest
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-11-20T02:39:36.11772085Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Chart for the nginx server
+    digest: f05ecaec0715201e3f52ed085d8c4ab095cb9ab8890ef7bb00ecd6ef0699c585
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-5.0.0/mod-chart-5.0.0.tgz
+    version: 5.0.0
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: nginx
+          image: docker.io/bitnami/nginx:latest
       licenses: ""
     apiVersion: v2
     appVersion: 1.0.0
@@ -2753,4 +2789,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2024-11-20T01:45:17.327443331Z"
+generated: "2024-11-20T02:39:36.117909342Z"
