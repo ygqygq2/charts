@@ -250,10 +250,6 @@ spec:
       {{- range .Values.persistence.accessModes }}
         - {{ . | quote }}
       {{- end }}
-      annotations:
-      {{- range $key, $value := $.Values.persistence.annotations }}
-        {{ $key }}: {{ $value }}
-      {{- end }}
       resources:
         requests:
           storage: {{ .Values.persistence.size }}
