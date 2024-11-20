@@ -1,6 +1,6 @@
 annotations:
   category: ApplicationServer
-  licenses:
+  licenses: Apache-2.0
   images: |
     - name: nginx-exporter
       image: docker.io/bitnami/nginx-exporter:latest
@@ -17,7 +17,7 @@ dependencies:
 description: Chart for the nginx server
 engine: gotpl
 name: mod-chart
-version: 4.0.1
+version: 5.0.0
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:
