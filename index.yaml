@@ -2229,6 +2229,39 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/perfino-2.0.0.tgz
     version: 2.0.0
+  prometheusalert:
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: prometheusalert
+          image: docker.io/feiyu563/prometheus-alert:v4.9.1
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 4.9.1
+    created: "2024-11-20T03:31:00.847513005Z"
+    dependencies:
+    - name: common
+      repository: https://ygqygq2.github.io/charts/
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Chart for PrometheusAlert
+    digest: 16c35f887bbe041552c72172f377876f95b26fbaa1e805e2d9a5f55b514e3675
+    home: https://github.com/feiyu563/PrometheusAlert
+    icon: https://raw.githubusercontent.com/feiyu563/PrometheusAlert/refs/heads/master/static/dist/img/logo.png
+    keywords:
+    - prometheus
+    - alert
+    - webhook
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: prometheusalert
+    sources:
+    - https://github.com/feiyu563/PrometheusAlert
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/prometheusalert-1.0.0/prometheusalert-1.0.0.tgz
+    version: 1.0.0
   rabbitmq-servicemonitor:
   - apiVersion: v1
     appVersion: v1.0.0-RC6.1
@@ -2789,4 +2822,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2024-11-20T02:39:36.117909342Z"
+generated: "2024-11-20T03:31:00.847720602Z"
