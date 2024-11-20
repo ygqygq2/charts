@@ -113,6 +113,33 @@ entries:
       category: Infrastructure
       licenses: Apache-2.0
     apiVersion: v2
+    appVersion: 2.27.0
+    created: "2024-11-20T01:45:17.133126298Z"
+    description: A Library Helm Chart for grouping common logic between bitnami charts.
+      This chart is not deployable by itself.
+    digest: abbdb12e17e78fa893c40d5519513cadf4fcf6cc47655e53eb393241de7bc0b7
+    home: https://bitnami.com
+    icon: https://bitnami.com/downloads/logos/bitnami-mark.png
+    keywords:
+    - common
+    - helper
+    - template
+    - function
+    - bitnami
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: common
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/common
+    type: library
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/common-2.27.0/common-2.27.0.tgz
+    version: 2.27.0
+  - annotations:
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
     appVersion: 2.20.0
     created: "2024-06-08T03:52:36.769406907Z"
     description: A Library Helm Chart for grouping common logic between bitnami charts.
@@ -914,6 +941,42 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: nginx
+          image: docker.io/bitnami/nginx:latest
+      licenses: ""
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-11-20T01:45:17.327135635Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Chart for the nginx server
+    digest: 20a9dbd033521860f7a9b1db815c9518f2babe479a7a5c20c49b5db1940c0071
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-4.0.1/mod-chart-4.0.1.tgz
+    version: 4.0.1
   - annotations:
       category: ApplicationServer
       images: |
@@ -2690,4 +2753,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2024-10-24T08:33:54.689981149Z"
+generated: "2024-11-20T01:45:17.327443331Z"
