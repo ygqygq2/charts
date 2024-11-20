@@ -1,0 +1,29 @@
+annotations:
+  category: ApplicationServer
+  licenses: Apache-2.0
+  images: |
+    - name: prometheusalert
+      image: docker.io/feiyu563/prometheus-alert:v4.9.1
+apiVersion: v2
+appVersion: 4.9.1
+dependencies:
+- name: common
+  repository: https://ygqygq2.github.io/charts/
+  tags:
+  - bitnami-common
+  version: 2.x.x
+description: Chart for PrometheusAlert
+engine: gotpl
+name: prometheusalert
+version: 1.0.0
+home: https://github.com/feiyu563/PrometheusAlert
+icon: https://raw.githubusercontent.com/feiyu563/PrometheusAlert/refs/heads/master/static/dist/img/logo.png
+keywords:
+- prometheus
+- alert
+- webhook
+maintainers:
+- email: ygqygq2@qq.com
+  name: ygqygq2
+sources:
+- https://github.com/feiyu563/PrometheusAlert
