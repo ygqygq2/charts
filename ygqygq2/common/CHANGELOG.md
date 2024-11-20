@@ -1,8 +1,59 @@
 # Changelog
 
+## 2.27.0 (2024-11-06)
+
+* [bitnami/common] feat: :sparkles: Add honorProvidedValues in common.secrets.manage ([#30243](https://github.com/bitnami/charts/pull/30243))
+
+## 2.26.0 (2024-10-14)
+
+* [bitnami/common] Drop unused custom empty password validators (#29432) ([5fb0e97](https://github.com/bitnami/charts/commit/5fb0e97d9336d40d86c3295637d4233218b8afea)), closes [#29432](https://github.com/bitnami/charts/issues/29432)
+
+## 2.25.0 (2024-10-11)
+
+* [bitnami/common] Add the ability to specify namespaces for affinity (#29479) ([005e0d6](https://github.com/bitnami/charts/commit/005e0d696004dd972915f290b7caffb2bc332400)), closes [#29479](https://github.com/bitnami/charts/issues/29479)
+
+## 2.24.0 (2024-10-03)
+
+* [bitnami/common] Add common.tplvalues.merge-overwrite helper (#29668) ([611b2a5](https://github.com/bitnami/charts/commit/611b2a59e06feaac878b3b218fd848a687216158)), closes [#29668](https://github.com/bitnami/charts/issues/29668)
+
+## 2.23.0 (2024-09-13)
+
+* [bitnami/common] Add option to remove empty seLinuxOptions from securityContext in non OpenShift env ([7e44e64](https://github.com/bitnami/charts/commit/7e44e64626f5b1fc6d56889cdfdeadc1f62c7cf1)), closes [#28945](https://github.com/bitnami/charts/issues/28945)
+
+## 2.22.0 (2024-08-08)
+
+* [bitnami/common] Fallback to chart appVersion in common.images.image (#28764) ([b4aa0a6](https://github.com/bitnami/charts/commit/b4aa0a685a21c50ca10e41e3eb2023bbd4282cf7)), closes [#28764](https://github.com/bitnami/charts/issues/28764)
+
+## 2.21.0 (2024-08-05)
+
+* [bitnami/common] Allow handling of new secrets after initial installation (#28581) ([07062ee](https://github.com/bitnami/charts/commit/07062ee01382e24b8204b27083ff3e8102110c2f)), closes [#28581](https://github.com/bitnami/charts/issues/28581)
+
+## <small>2.20.5 (2024-07-16)</small>
+
+* [bitnami/common] [bitnami/wordpress] Use global.storageClass for fallback, not override (#24863) ([2b78e13](https://github.com/bitnami/charts/commit/2b78e137ac278cdf9d54523e8d37833a4ff0cd5b)), closes [#24863](https://github.com/bitnami/charts/issues/24863)
+
+## <small>2.20.4 (2024-07-11)</small>
+
+* [bitnami/*] Update README changing TAC wording (#27530) ([52dfed6](https://github.com/bitnami/charts/commit/52dfed6bac44d791efabfaf06f15daddc4fefb0c)), closes [#27530](https://github.com/bitnami/charts/issues/27530)
+* [bitnami/common] Increase ephemeral-storage default limits (#27902) ([dc0000d](https://github.com/bitnami/charts/commit/dc0000d7b56f68991bb8d8fff473103ed9026f5f)), closes [#27902](https://github.com/bitnami/charts/issues/27902)
+
+## <small>2.20.3 (2024-06-17)</small>
+
+* [bitnami/common] chore: :wrench: Relax large and xlarge presets resource requests (#27312) ([6ca69f6](https://github.com/bitnami/charts/commit/6ca69f6769d0f65acc850fa0bcc08506de50cc41)), closes [#27312](https://github.com/bitnami/charts/issues/27312)
+
+## <small>2.20.2 (2024-06-10)</small>
+
+* [bitnami/common] remove trailing spaces from imagePullSecrets rendering (#26882) ([362d4ac](https://github.com/bitnami/charts/commit/362d4ac94dd69be1b607fc531ceac4d67d8d57ef)), closes [#26882](https://github.com/bitnami/charts/issues/26882)
+
+## <small>2.20.1 (2024-06-10)</small>
+
+* [bitnami/common] improve renderSecurityContext (#27053) ([5f0bdde](https://github.com/bitnami/charts/commit/5f0bdde77cf05afa20cb4a800090748a8d102d02)), closes [#27053](https://github.com/bitnami/charts/issues/27053)
+
 ## 2.20.0 (2024-06-05)
 
-* [bitnami/common] Capabilities to return latest apiVersion if kubeVersion is undefined ([#26758](https://github.com/bitnami/charts/pull/26758))
+* [bitnami/*] ci: :construction_worker: Add tag and changelog support (#25359) ([91c707c](https://github.com/bitnami/charts/commit/91c707c9e4e574725a09505d2d313fb93f1b4c0a)), closes [#25359](https://github.com/bitnami/charts/issues/25359)
+* [bitnami/common] Capabilities to return latest apiVersion if kubeVersion is undefined (#26758) ([6582c32](https://github.com/bitnami/charts/commit/6582c3237b772af9cb379f7eaceddb2d64b507f0)), closes [#26758](https://github.com/bitnami/charts/issues/26758)
+* [bitnami/common] docs: :memo: Add changelog ([23349c9](https://github.com/bitnami/charts/commit/23349c99b70313f3e19ebcf9d3e0c154836b2cc0))
 
 ## <small>2.19.3 (2024-05-20)</small>
 
