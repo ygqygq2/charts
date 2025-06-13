@@ -1,8 +1,63 @@
 # Changelog
 
-## 2.27.0 (2024-11-06)
+## 2.31.3 (2025-06-12)
 
-* [bitnami/common] feat: :sparkles: Add honorProvidedValues in common.secrets.manage ([#30243](https://github.com/bitnami/charts/pull/30243))
+* [bitnami/common] bugfix: common.capabilities.vpa.apiVersion context ([#34372](https://github.com/bitnami/charts/pull/34372))
+
+## <small>2.31.2 (2025-05-20)</small>
+
+* [bitnami/common] Prevent release name from breaking DNS naming specification (#33773) ([07f5233](https://github.com/bitnami/charts/commit/07f523329cad2dfe999b62dc45aa0072541f90be)), closes [#33773](https://github.com/bitnami/charts/issues/33773)
+* [bitnami/kubeapps] Deprecation followup (#33579) ([77e312c](https://github.com/bitnami/charts/commit/77e312c1772d4d7c4dc5d3ac0e80f4e452e3a062)), closes [#33579](https://github.com/bitnami/charts/issues/33579)
+
+## <small>2.31.1 (2025-05-07)</small>
+
+* [bitnami/common] chore: :recycle: Remove unused helpers (#33496) ([d96e16a](https://github.com/bitnami/charts/commit/d96e16aa1e2f1d42de829330f5c0dbc1c4666493)), closes [#33496](https://github.com/bitnami/charts/issues/33496)
+
+## 2.31.0 (2025-05-05)
+
+* [bitnami/common] chore: :recycle: Remove deprecated APIs (<1.23.0) (#33320) ([3826a9e](https://github.com/bitnami/charts/commit/3826a9e1488c12545f11cf8cb1a11d23daf90602)), closes [#33320](https://github.com/bitnami/charts/issues/33320)
+
+## <small>2.30.2 (2025-04-30)</small>
+
+* [bitnami/common] add namespaces to extraPodAffinityTerms for affinities (#33173) ([4e35d60](https://github.com/bitnami/charts/commit/4e35d6016945db7b9fd4eef72b177d4826d69ece)), closes [#33173](https://github.com/bitnami/charts/issues/33173)
+
+## <small>2.30.1 (2025-04-30)</small>
+
+* [bitnami/common] Allows tpl in provided passwords "common.secrets.passwords.manage" (#33196) ([1f53dd8](https://github.com/bitnami/charts/commit/1f53dd862f2aca1071f5734c3ba825e3ff4fa383)), closes [#33196](https://github.com/bitnami/charts/issues/33196)
+* [bitnami/common] Restore 'Paremeters' section of the README (#32861) ([72f3f35](https://github.com/bitnami/charts/commit/72f3f353e35da99060a1662770655a12a2253887)), closes [#32861](https://github.com/bitnami/charts/issues/32861)
+
+## 2.30.0 (2025-02-19)
+
+* [bitnami/*] Use CDN url for the Bitnami Application Icons (#31881) ([d9bb11a](https://github.com/bitnami/charts/commit/d9bb11a9076b9bfdcc70ea022c25ef50e9713657)), closes [#31881](https://github.com/bitnami/charts/issues/31881)
+* [bitnami/common] Add helper to check API versions (#31969) ([5ba89c5](https://github.com/bitnami/charts/commit/5ba89c5afc3d57e36f90364638d9beabb32499f4)), closes [#31969](https://github.com/bitnami/charts/issues/31969)
+* Update copyright year (#31682) ([e9f02f5](https://github.com/bitnami/charts/commit/e9f02f5007068751f7eb2270fece811e685c99b6)), closes [#31682](https://github.com/bitnami/charts/issues/31682)
+
+## <small>2.29.1 (2025-01-23)</small>
+
+* [bitnami/common] Removing seLinuxOptions from omission (#31279) ([e7cb168](https://github.com/bitnami/charts/commit/e7cb168ca2bccd57e28bb985e099953a4f7e3b38)), closes [#31279](https://github.com/bitnami/charts/issues/31279) [#31278](https://github.com/bitnami/charts/issues/31278)
+
+## 2.29.0 (2025-01-03)
+
+* [bitnami/common] Add "common.capabilities.job.apiVersion" template (#31164) ([2ca979a](https://github.com/bitnami/charts/commit/2ca979a6add279384d60e6b35199eaf13553cefa)), closes [#31164](https://github.com/bitnami/charts/issues/31164)
+
+## 2.28.0 (2024-12-10)
+
+* [bitnami/common] New helper to detect non-standard images (#30851) ([ae33d01](https://github.com/bitnami/charts/commit/ae33d01968e8a353a569785f9867827153c797dc)), closes [#30851](https://github.com/bitnami/charts/issues/30851)
+
+## <small>2.27.2 (2024-11-27)</small>
+
+* [bitnami/common] Fix appVersion (#30628) ([b87d39e](https://github.com/bitnami/charts/commit/b87d39e27a0889c74b20c3d2fe5ae0c4a2417bfd)), closes [#30628](https://github.com/bitnami/charts/issues/30628)
+* [bitnami/common]: bump patch version (#30639) ([623e584](https://github.com/bitnami/charts/commit/623e5846ff827b7ecbcffa2dc51e2e94b14ef8fd)), closes [#30639](https://github.com/bitnami/charts/issues/30639)
+
+## <small>2.27.1 (2024-11-26)</small>
+
+* [bitnami/common] Fix VPA apiVersion (#30625) ([8c24438](https://github.com/bitnami/charts/commit/8c24438a2f6e8ec646cad9901ed82d71d4196e3e)), closes [#30625](https://github.com/bitnami/charts/issues/30625)
+
+## 2.27.0 (2024-11-07)
+
+* [bitnami/*] Remove wrong comment about imagePullPolicy (#30107) ([a51f9e4](https://github.com/bitnami/charts/commit/a51f9e4bb0fbf77199512d35de7ac8abe055d026)), closes [#30107](https://github.com/bitnami/charts/issues/30107)
+* [bitnami/common] feat: :sparkles: Add honorProvidedValues in common.secrets.manage (#30243) ([3d76a49](https://github.com/bitnami/charts/commit/3d76a4955c11fa4d2464da2c4d2096e1e3c6fa37)), closes [#30243](https://github.com/bitnami/charts/issues/30243)
+* Update documentation links to techdocs.broadcom.com (#29931) ([f0d9ad7](https://github.com/bitnami/charts/commit/f0d9ad78f39f633d275fc576d32eae78ded4d0b8)), closes [#29931](https://github.com/bitnami/charts/issues/29931)
 
 ## 2.26.0 (2024-10-14)
 
@@ -246,7 +301,7 @@
 
 ## <small>2.1.2 (2022-10-31)</small>
 
-* [bitnami/common] Do not explicitly specify namespace in affinity term. (#12932) ([638a48e](https://github.com/bitnami/charts/commit/638a48e4d3ec7b5d160f4b525ec40218512c464b)), closes [#12932](https://github.com/bitnami/charts/issues/12932) [/kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#podaffinityterm-v1](https://github.com//kubernetes.io/docs/reference/generated/kubernetes-api/v1.23//issues/podaffinityterm-v1) [#12668](https://github.com/bitnami/charts/issues/12668)
+* [bitnami/common] Do not explicitly specify namespace in affinity term. (#12932) ([638a48e](https://github.com/bitnami/charts/commit/638a48e4d3ec7b5d160f4b525ec40218512c464b)), closes [#12932](https://github.com/bitnami/charts/issues/12932) [#12668](https://github.com/bitnami/charts/issues/12668)
 
 ## <small>2.1.1 (2022-10-27)</small>
 
