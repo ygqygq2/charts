@@ -13,10 +13,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           submodules: true
-
-      - name: Fetch history
-        run: git fetch --prune --unshallow
 
       - name: Configure Git
         run: |
@@ -39,7 +37,7 @@ jobs:
           charts_dir: ygqygq2
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      
+
       - name: Update speed up index.yaml
         run: |
           speed_up_addr="http://gh.linuxba.com/"
