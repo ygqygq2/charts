@@ -1,0 +1,3 @@
+[submodule "ygqygq2/nacos"]
+	path = ygqygq2/nacos
+	url = ../nacos-helm
