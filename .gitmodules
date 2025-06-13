@@ -1,0 +1,3 @@
+[submodule "ygqygq2/nacos"]
+	path = ygqygq2/nacos
+	url = git@github.com:ygqygq2/nacos-helm.git
