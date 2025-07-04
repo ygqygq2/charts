@@ -5,9 +5,11 @@ metadata:
   labels:
     app: {{ template "mongodb-servicemonitor.name" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-  namespace: {{ .Values.namespaceSelector }}
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+    {{- if .Values.additionalServiceLabels }}
+{{ toYaml .Values.additionalServiceLabels | indent 4 }}
+    {{- end }}
 spec:
   type: ClusterIP
   ports:

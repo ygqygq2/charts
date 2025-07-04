@@ -13,11 +13,10 @@ metadata:
     {{- end }}    
   name: {{ template "rabbitmq-servicemonitor.fullname" . }}
 spec:
+  jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
       app: {{ template "rabbitmq-servicemonitor.name" . }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      release: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Values.namespaceSelector }}

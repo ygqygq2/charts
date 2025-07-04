@@ -13,11 +13,10 @@ metadata:
     {{- end }}    
   name: {{ template "mongodb-servicemonitor.fullname" . }}
 spec:
+  jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
       app: {{ template "mongodb-servicemonitor.name" . }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      release: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Values.namespaceSelector }}

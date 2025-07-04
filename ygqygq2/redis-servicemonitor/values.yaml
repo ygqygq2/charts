@@ -8,19 +8,24 @@ fullnameOverride: ""
 
 # where the mysql installed namespace
 namespaceSelector: monitoring
+# jobLabel
+jobLabel: "job"
 # endports
 endpoints: []
-# on what port are the metrics exposed by etcd
+# on what port are the metrics exposed by service
 metricsPortName: metrics
 metricsPort: 9121
 # Are we talking http or https?
 scheme: http
+additionalServiceLabels:
+  job: "custom"
 ## Custom Labels to be added to ServiceMonitor
 # 经过测试，servicemonitor标签添加prometheus operator的release标签即可正常监控
 additionalServiceMonitorLabels:
   release: prometheus-operator
-# Custom Labels to be added to Prometheus Rules CRD
-additionalRulesLabels:
+  job: "custom"
+##Custom Labels to be added to Prometheus Rules CRD
+additionalRulesLabels: 
   release: prometheus-operator
 
 prometheusRule:
