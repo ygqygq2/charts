@@ -12,10 +12,10 @@ metadata:
     {{- end }}    
   name: {{ template "node-exporter-servicemonitor.fullname" . }}
 spec:
+  jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
       app: {{ template "node-exporter-servicemonitor.name" . }}
-      release: "{{ .Release.Name }}"      
   namespaceSelector:
     matchNames:
       - {{ .Values.namespaceSelector }}

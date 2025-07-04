@@ -40,7 +40,7 @@ The following table lists the configurable parameters of the chart and their def
 | `metricsPortName`          | metrics port name                   | `metrics`                              |
 | `metricsPort  `            | node exporter metrics port          | `9100`                                 |
 | `scheme`                   | metrics web scheme                  | `http`                                 |
-| `prometheusRule`           | prometheusRule                      | see in `values.yaml`                   |
+| `prometheusRule`           | prometheusRule                      | `{}`                                   |
 | `additionalServiceMonitorLabels`| one of prometheus operator label| `release: prometheus-operator`        |
 | `additionalRulesLabels`    | one of prometheus operator label    | `release: prometheus-operator`         |
 

@@ -12,11 +12,10 @@ metadata:
     {{- end }}    
   name: {{ template "mysql-servicemonitor.fullname" . }}
 spec:
+  jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
       app: {{ template "mysql-servicemonitor.name" . }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      release: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Values.namespaceSelector }}
