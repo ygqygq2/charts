@@ -28,4 +28,6 @@ additionalServiceMonitorLabels:
 additionalRulesLabels: 
   release: prometheus-operator
 # default rules are in templates/node-exporter-servicemonitor.rules.yaml
-# prometheusRule: {}
+prometheusRule:
+  enabled: false
+  rules: []

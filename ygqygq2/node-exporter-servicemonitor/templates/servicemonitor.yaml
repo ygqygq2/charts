@@ -15,6 +15,7 @@ spec:
   jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
+      release: "{{ .Release.Name }}"
       app: {{ template "node-exporter-servicemonitor.name" . }}
   namespaceSelector:
     matchNames:

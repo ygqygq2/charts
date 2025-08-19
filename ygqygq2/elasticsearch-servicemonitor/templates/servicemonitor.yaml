@@ -16,6 +16,7 @@ spec:
   jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
+      release: "{{ .Release.Name }}"
       app: {{ template "elasticsearch-servicemonitor.name" . }}
   namespaceSelector:
     matchNames:

@@ -1,5 +1,4 @@
-#apiVersion: {{ template "prometheus-operator.apiVersion" . }}
-apiVersion: monitoring.coreos.com/v1
+apiVersion: {{ template "prometheus-operator.apiVersion" . }}
 kind: ServiceMonitor
 metadata:
   labels:
@@ -13,11 +12,11 @@ metadata:
     {{- end }}    
   name: {{ template "nginx-servicemonitor.fullname" . }}
 spec:
+  jobLabel: {{ .Values.jobLabel }}
   selector:
     matchLabels:
-      app: {{ template "nginx-servicemonitor.name" . }}
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
       release: {{ .Release.Name }}
+      app: {{ template "nginx-servicemonitor.name" . }}
   namespaceSelector:
     matchNames:
       - {{ .Values.namespaceSelector }}
