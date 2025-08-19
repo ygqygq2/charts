@@ -5,7 +5,7 @@ chart-repos:
 check-version-increment: true
 debug: true
 remote: origin
-target-branch: origin/master
+target-branch: master
 validate-chart-schema: true
 validate-maintainers: false
 validate-yaml: true
