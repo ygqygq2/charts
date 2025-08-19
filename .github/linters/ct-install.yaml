@@ -4,6 +4,7 @@ chart-repos:
   - ygqygq2=https://ygqygq2.github.io/charts
   - bitnami=https://charts.bitnami.com/bitnami
 debug: true
+remote: origin
+target-branch: master
 excluded-charts:
   - common
-remote: origin
