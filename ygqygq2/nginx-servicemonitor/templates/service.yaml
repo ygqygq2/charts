@@ -7,6 +7,9 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    {{- if .Values.additionalServiceLabels }}
+{{ toYaml .Values.additionalServiceLabels | indent 4 }}
+    {{- end }}
   namespace: {{ .Values.namespaceSelector }}
 spec:
   type: ClusterIP

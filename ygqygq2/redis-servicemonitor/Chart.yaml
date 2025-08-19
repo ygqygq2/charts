@@ -1,8 +1,8 @@
 apiVersion: v1
 description: A Helm chart servicemonitor for redis exporter
 name: redis-servicemonitor
-version: 1.0.1
-appVersion: v1.0.1
+version: 1.0.2
+appVersion: v1.0.2
 maintainers:
   - name: Chinge Yang
     email: 29ygq@sina.com
