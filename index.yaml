@@ -43,6 +43,42 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/alertmanager2es-1.0.0.tgz
     version: 1.0.0
+  alibaba-sentinel:
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: alibaba-sentinel
+          image: ghcr.io/docker-autodevops/alibaba-sentinel:1.8.9
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.8.9
+    created: "2025-12-02T09:18:53.87435331Z"
+    dependencies:
+    - name: common
+      repository: https://ygqygq2.github.io/charts/
+      version: 2.x.x
+    description: Chart for Alibaba Sentinel Dashboard
+    digest: 15ef2f46a8f592d8fde574c3736e80145f7c588c959f02e68c19fb6b235749f4
+    home: https://sentinelguard.io/
+    icon: https://sentinelguard.io/img/sentinel_colorful.png
+    keywords:
+    - sentinel
+    - alibaba
+    - flow-control
+    - circuit-breaker
+    - rate-limiting
+    - microservices
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: alibaba-sentinel
+    sources:
+    - https://github.com/alibaba/Sentinel
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/alibaba-sentinel-0.1.0/alibaba-sentinel-0.1.0.tgz
+    version: 0.1.0
   bookstack:
   - apiVersion: v2
     appVersion: v2.1
@@ -109,6 +145,32 @@ entries:
     - http://ygqygq2.github.io/charts/ceph-exporter-1.0.0.tgz
     version: 1.0.0
   common:
+  - annotations:
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 2.31.7
+    created: "2025-12-02T09:18:54.089299105Z"
+    description: A Library Helm Chart for grouping common logic between bitnami charts.
+      This chart is not deployable by itself.
+    digest: 99c7e96b0cf0c07323ab09c9e2219913d2b986f4da625c9d50d0e398df009ee6
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/downloads/logos/bitnami-mark.png
+    keywords:
+    - common
+    - helper
+    - template
+    - function
+    - bitnami
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: common
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/common
+    type: library
+    urls:
+    - https://github.com/ygqygq2/charts/releases/download/common-2.31.7/common-2.31.7.tgz
+    version: 2.31.7
   - annotations:
       category: Infrastructure
       licenses: Apache-2.0
@@ -3265,4 +3327,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2025-08-19T06:51:57.055146562Z"
+generated: "2025-12-02T09:18:54.089509168Z"
