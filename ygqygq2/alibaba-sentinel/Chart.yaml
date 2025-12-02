@@ -1,0 +1,33 @@
+annotations:
+  category: ApplicationServer
+  licenses: Apache-2.0
+  images: |
+    - name: nginx-exporter
+      image: docker.io/bitnami/nginx-exporter:latest
+    - name: alibaba-sentinel
+      image: ghcr.io/docker-autodevops/alibaba-sentinel:1.8.9
+apiVersion: v2
+appVersion: 1.8.9
+dependencies:
+  - name: common
+    repository: oci://registry-1.docker.io/bitnamicharts
+    tags:
+      - bitnami-common
+    version: 2.x.x
+description: Chart for Alibaba Sentinel Dashboard
+name: alibaba-sentinel
+version: 0.1.0
+home: https://sentinelguard.io/
+icon: https://sentinelguard.io/img/sentinel_colorful.png
+keywords:
+  - sentinel
+  - alibaba
+  - flow-control
+  - circuit-breaker
+  - rate-limiting
+  - microservices
+maintainers:
+  - email: ygqygq2@qq.com
+    name: ygqygq2
+sources:
+  - https://github.com/alibaba/Sentinel
