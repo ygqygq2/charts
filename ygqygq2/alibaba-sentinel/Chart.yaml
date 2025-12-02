@@ -14,7 +14,7 @@ dependencies:
     version: 2.x.x
 description: Chart for Alibaba Sentinel Dashboard
 name: alibaba-sentinel
-version: 0.1.0
+version: 0.1.1
 home: https://sentinelguard.io/
 icon: https://sentinelguard.io/img/sentinel_colorful.png
 keywords:

@@ -15,9 +15,8 @@ dependencies:
   - bitnami-common
   version: 2.x.x
 description: Chart for the nginx server
-engine: gotpl
 name: mod-chart
-version: 5.0.1
+version: 5.0.2
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:
