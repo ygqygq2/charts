@@ -1,0 +1,127 @@
+{{- if and .Values.gateway.enabled .Values.gateway.grpc.enabled }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: {{ include "common.names.fullname" . }}-grpc
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+  {{- if or .Values.gateway.grpc.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.gateway.grpc.annotations .Values.commonAnnotations ) "context" . ) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.gateway.gatewayClassName }}
+  parentRefs:
+    - name: {{ .Values.gateway.gatewayClassName }}
+      {{- if .Values.gateway.namespace }}
+      namespace: {{ .Values.gateway.namespace }}
+      {{- end }}
+      {{- if .Values.gateway.sectionName }}
+      sectionName: {{ .Values.gateway.sectionName }}
+      {{- end }}
+  {{- end }}
+  {{- if .Values.gateway.grpc.hostnames }}
+  hostnames:
+    {{- range .Values.gateway.grpc.hostnames }}
+    - {{ . | quote }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.gateway.grpc.rules }}
+    - {{- if .matches }}
+      matches:
+        {{- range .matches }}
+        - {{- if .method }}
+          method:
+            {{- if .method.type }}
+            type: {{ .method.type }}
+            {{- end }}
+            {{- if .method.service }}
+            service: {{ .method.service }}
+            {{- end }}
+            {{- if .method.method }}
+            method: {{ .method.method }}
+            {{- end }}
+          {{- end }}
+          {{- if .headers }}
+          headers:
+            {{- range .headers }}
+            - type: {{ .type | default "Exact" }}
+              name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- if .filters }}
+      filters:
+        {{- range .filters }}
+        - type: {{ .type }}
+          {{- if eq .type "RequestHeaderModifier" }}
+          requestHeaderModifier:
+            {{- if .requestHeaderModifier.set }}
+            set:
+              {{- range .requestHeaderModifier.set }}
+              - name: {{ .name }}
+                value: {{ .value }}
+              {{- end }}
+            {{- end }}
+            {{- if .requestHeaderModifier.add }}
+            add:
+              {{- range .requestHeaderModifier.add }}
+              - name: {{ .name }}
+                value: {{ .value }}
+              {{- end }}
+            {{- end }}
+            {{- if .requestHeaderModifier.remove }}
+            remove:
+              {{- range .requestHeaderModifier.remove }}
+              - {{ . }}
+              {{- end }}
+            {{- end }}
+          {{- else if eq .type "ResponseHeaderModifier" }}
+          responseHeaderModifier:
+            {{- if .responseHeaderModifier.set }}
+            set:
+              {{- range .responseHeaderModifier.set }}
+              - name: {{ .name }}
+                value: {{ .value }}
+              {{- end }}
+            {{- end }}
+            {{- if .responseHeaderModifier.add }}
+            add:
+              {{- range .responseHeaderModifier.add }}
+              - name: {{ .name }}
+                value: {{ .value }}
+              {{- end }}
+            {{- end }}
+            {{- if .responseHeaderModifier.remove }}
+            remove:
+              {{- range .responseHeaderModifier.remove }}
+              - {{ . }}
+              {{- end }}
+            {{- end }}
+          {{- else if eq .type "RequestMirror" }}
+          requestMirror:
+            backendRef:
+              name: {{ .requestMirror.backendRef.name }}
+              {{- if .requestMirror.backendRef.namespace }}
+              namespace: {{ .requestMirror.backendRef.namespace }}
+              {{- end }}
+              port: {{ .requestMirror.backendRef.port }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      backendRefs:
+        {{- range .backendRefs }}
+        - name: {{ .name | default (include "common.names.fullname" $) }}
+          {{- if .namespace }}
+          namespace: {{ .namespace }}
+          {{- end }}
+          port: {{ .port | default $.Values.service.ports.http.port }}
+          {{- if .weight }}
+          weight: {{ .weight }}
+          {{- end }}
+        {{- end }}
+    {{- end }}
+{{- end }}
