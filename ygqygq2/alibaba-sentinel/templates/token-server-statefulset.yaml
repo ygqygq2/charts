@@ -1,0 +1,157 @@
+{{- if .Values.tokenServer.enabled }}
+---
+# Headless Service for StatefulSet (stable network identity)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "common.names.fullname" . }}-token-server-headless
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: token-server
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: {{ .Values.tokenServer.service.port }}
+    targetPort: http
+    protocol: {{ .Values.tokenServer.service.protocol }}
+    name: http
+  selector: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.tokenServer.podLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: token-server
+---
+# StatefulSet for Token Server (stable pod names: xxx-token-server-0, xxx-token-server-1, ...)
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}-token-server
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: token-server
+  {{- if .Values.commonAnnotations }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.tokenServer.replicaCount }}
+  serviceName: {{ include "common.names.fullname" . }}-token-server-headless
+  podManagementPolicy: {{ .Values.tokenServer.podManagementPolicy | default "OrderedReady" }}
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.tokenServer.podLabels "context" $ ) | nindent 6 }}
+      app.kubernetes.io/component: token-server
+  template:
+    metadata:
+      labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.tokenServer.podLabels "context" $ ) | nindent 8 }}
+        app.kubernetes.io/component: token-server
+      {{- if .Values.tokenServer.podAnnotations }}
+      annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.tokenServer.podAnnotations "context" $ ) | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "alibaba-sentinel.serviceAccountName" . }}
+      {{- if .Values.tokenServer.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.affinity "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tokenServer.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tokenServer.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tokenServer.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.tokenServer.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: token-server
+        image: {{ include "common.images.image" (dict "imageRoot" .Values.tokenServer.image "global" .Values.global) }}
+        imagePullPolicy: {{ .Values.tokenServer.image.pullPolicy }}
+        {{- if .Values.tokenServer.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.tokenServer.containerSecurityContext "enabled" | toYaml | nindent 10 }}
+        {{- end }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        {{- if .Values.tokenServer.extraEnvVars }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.extraEnvVars "context" $) | nindent 8 }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: 8081
+          protocol: TCP
+        {{- if .Values.tokenServer.healthCheck.liveness.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: {{ .Values.tokenServer.healthCheck.liveness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.tokenServer.healthCheck.liveness.periodSeconds }}
+        {{- end }}
+        {{- if .Values.tokenServer.healthCheck.readiness.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: {{ .Values.tokenServer.healthCheck.readiness.initialDelaySeconds }}
+          periodSeconds: {{ .Values.tokenServer.healthCheck.readiness.periodSeconds }}
+        {{- end }}
+        {{- if .Values.tokenServer.resources }}
+        resources: {{- toYaml .Values.tokenServer.resources | nindent 10 }}
+        {{- end }}
+        {{- if .Values.tokenServer.extraVolumeMounts }}
+        volumeMounts: {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.extraVolumeMounts "context" $) | nindent 8 }}
+        {{- end }}
+      {{- if .Values.tokenServer.extraVolumes }}
+      volumes: {{- include "common.tplvalues.render" (dict "value" .Values.tokenServer.extraVolumes "context" $) | nindent 6 }}
+      {{- end }}
+  {{- if .Values.tokenServer.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      labels: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.tokenServer.podLabels "context" $ ) | nindent 8 }}
+        app.kubernetes.io/component: token-server
+    spec:
+      accessModes:
+      {{- range .Values.tokenServer.persistence.accessModes }}
+        - {{ . | quote }}
+      {{- end }}
+      {{- if .Values.tokenServer.persistence.storageClass }}
+      storageClassName: {{ .Values.tokenServer.persistence.storageClass | quote }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.tokenServer.persistence.size | quote }}
+  {{- end }}
+---
+# Regular Service for Token Server (load balancing)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "common.names.fullname" . }}-token-server
+  namespace: {{ .Release.Namespace | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: token-server
+  {{- if or .Values.commonAnnotations .Values.tokenServer.service.annotations }}
+  annotations:
+    {{- if .Values.commonAnnotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+    {{- end }}
+    {{- if .Values.tokenServer.service.annotations }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.tokenServer.service.annotations "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.tokenServer.service.type }}
+  ports:
+  - port: {{ .Values.tokenServer.service.port }}
+    targetPort: http
+    protocol: {{ .Values.tokenServer.service.protocol }}
+    name: http
+  selector: {{- include "common.labels.matchLabels" ( dict "customLabels" .Values.tokenServer.podLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/component: token-server
+{{- end }}

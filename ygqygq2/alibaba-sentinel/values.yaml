@@ -102,18 +102,18 @@ image:
 ##
 service:
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
-  type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
+  type: ClusterIP # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
   loadBalancerIP: ""
   ## Enable client source IP preservation
   ## @param service.externalTrafficPolicy External traffic policy, configure to Local to preserve client source IP when using an external loadBalancer
   ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   ##
-  externalTrafficPolicy: Cluster  # 支持Cluster/Local
+  externalTrafficPolicy: Cluster # 支持Cluster/Local
   ports:
     ## 多端口暴露时，复制一段
     http:
-      port: 8080  # Service port number for client-a port.
-      protocol: TCP  # Service port protocol for client-a port.
+      port: 8080 # Service port number for client-a port.
+      protocol: TCP # Service port protocol for client-a port.
       ## Use nodePorts to requets some specific ports when usin NodePort
       # nodePort: 30020  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
   ## @param service.loadBalancerSourceRanges Addresses that are allowed when service is LoadBalancer
@@ -217,20 +217,20 @@ customStartupProbe: {}
 ## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
-  type: tcp  # http/tcp
-  port: http  # 上面的端口名或端口
-  httpPath: '/'  # http时必须设置
+  type: tcp # http/tcp
+  port: http # 上面的端口名或端口
+  httpPath: "/" # http时必须设置
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
-    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    initialDelaySeconds: 10 # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20 # 检测周期，k8s默认值10，最小为1
     # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
     # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
     # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
-    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    initialDelaySeconds: 10 # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20 # 检测周期，k8s默认值10，最小为1
     # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
     # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
     # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
@@ -351,7 +351,7 @@ containerSecurityContext:
 
 ## @param Pod's DNS Policy
 ## https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
-dnsPolicy: ""  # ClusterFirst/ClusterFirstWithHostNet ...
+dnsPolicy: "" # ClusterFirst/ClusterFirstWithHostNet ...
 
 ## @param hostAliases Deployment pod host aliases
 ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
@@ -386,7 +386,8 @@ resources:
 ## If you do want to specify lifecycleHooks, uncomment the following
 ## lines, adjust them as necessary, and remove the curly braces on 'lifecycle:{}'.
 ## @param lifecycleHooks Optional lifecycleHooks for the NGINX container
-lifecycleHooks: {}
+lifecycleHooks:
+  {}
   ## Example:
   ## postStart:
   ##   exec:
@@ -931,3 +932,92 @@ metrics:
     ##       summary: Nginx instance is down.
     ##
     rules: []
+
+## @section Token Server (optional test service)
+##
+
+## @param tokenServer.enabled Enable Token Server deployment (optional testing service with Hello World endpoint)
+##
+tokenServer:
+  enabled: false
+  ## @param tokenServer.replicaCount Number of Token Server replicas
+  ##
+  replicaCount: 1
+  ## @param tokenServer.podManagementPolicy Pod management policy for StatefulSet
+  ## Options: OrderedReady (default) or Parallel
+  ##
+  podManagementPolicy: OrderedReady
+  ## @param tokenServer.image Token Server image configuration
+  ##
+  image:
+    registry: ghcr.io
+    repository: ygqygq2/alibaba-sentinel-dashboard-nacos
+    tag: latest
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  ## @param tokenServer.service Token Server service configuration
+  ##
+  service:
+    type: ClusterIP
+    port: 8081
+    protocol: TCP
+    annotations: {}
+  ## @param tokenServer.persistence Token Server persistence configuration (optional)
+  ##
+  persistence:
+    enabled: false
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+  ## @param tokenServer.resources Token Server resource requests and limits
+  ##
+  resources:
+    limits: {}
+    requests: {}
+  ## @param tokenServer.nodeSelector Token Server node selector
+  ##
+  nodeSelector: {}
+  ## @param tokenServer.tolerations Token Server tolerations
+  ##
+  tolerations: []
+  ## @param tokenServer.affinity Token Server affinity
+  ##
+  affinity: {}
+  ## @param tokenServer.podLabels Token Server pod labels
+  ##
+  podLabels: {}
+  ## @param tokenServer.podAnnotations Token Server pod annotations
+  ##
+  podAnnotations: {}
+  ## @param tokenServer.podSecurityContext Token Server pod security context
+  ##
+  podSecurityContext:
+    enabled: false
+    fsGroup: 1001
+  ## @param tokenServer.containerSecurityContext Token Server container security context
+  ##
+  containerSecurityContext:
+    enabled: false
+    runAsUser: 1001
+    runAsNonRoot: true
+  ## @param tokenServer.extraEnvVars Extra environment variables for Token Server
+  ##
+  extraEnvVars: []
+  ## @param tokenServer.extraVolumes Extra volumes for Token Server
+  ##
+  extraVolumes: []
+  ## @param tokenServer.extraVolumeMounts Extra volume mounts for Token Server
+  ##
+  extraVolumeMounts: []
+  ## @param tokenServer.healthCheck Token Server health check configuration
+  ##
+  healthCheck:
+    liveness:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 20
+    readiness:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 20
