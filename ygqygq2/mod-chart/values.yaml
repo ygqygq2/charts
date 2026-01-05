@@ -102,18 +102,18 @@ image:
 ##
 service:
   ## 支持ClusterIP修改为LoadBalancer，反之不允许。可手动修改svc,并将nodePort去掉
-  type: ClusterIP  # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
+  type: ClusterIP # 一般不用修改, 支持ClusterIP/LoadBalancer/NodePort
   loadBalancerIP: ""
   ## Enable client source IP preservation
   ## @param service.externalTrafficPolicy External traffic policy, configure to Local to preserve client source IP when using an external loadBalancer
   ## ref http://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   ##
-  externalTrafficPolicy: Cluster  # 支持Cluster/Local
+  externalTrafficPolicy: Cluster # 支持Cluster/Local
   ports:
     ## 多端口暴露时，复制一段
     http:
-      port: 8080  # Service port number for client-a port.
-      protocol: TCP  # Service port protocol for client-a port.
+      port: 8080 # Service port number for client-a port.
+      protocol: TCP # Service port protocol for client-a port.
       ## Use nodePorts to requets some specific ports when usin NodePort
       # nodePort: 30020  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
   ## @param service.loadBalancerSourceRanges Addresses that are allowed when service is LoadBalancer
@@ -217,20 +217,20 @@ customStartupProbe: {}
 ## liveness and readiness
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
 healthCheck:
-  type: tcp  # http/tcp
-  port: http  # 上面的端口名或端口
-  httpPath: '/'  # http时必须设置
+  type: tcp # http/tcp
+  port: http # 上面的端口名或端口
+  httpPath: "/" # http时必须设置
   livenessProbe:
     enabled: true
-    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
-    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    initialDelaySeconds: 10 # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20 # 检测周期，k8s默认值10，最小为1
     # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
     # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
     # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
   readinessProbe:
     enabled: true
-    initialDelaySeconds: 10   # 初始延迟秒数, k8s默认值为0，最小为0
-    periodSeconds: 20  # 检测周期，k8s默认值10，最小为1
+    initialDelaySeconds: 10 # 初始延迟秒数, k8s默认值为0，最小为0
+    periodSeconds: 20 # 检测周期，k8s默认值10，最小为1
     # timeoutSeconds: 3  # 检测超时，k8s默认值1，最小为1
     # successThreshold: 1  # 失败后成功次数，k8s默认值1，最小为1，只能设置为1
     # failureThreshold: 5  # 失败后重试次数，k8s默认值3，最小为1
@@ -351,7 +351,7 @@ containerSecurityContext:
 
 ## @param Pod's DNS Policy
 ## https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
-dnsPolicy: ""  # ClusterFirst/ClusterFirstWithHostNet ...
+dnsPolicy: "" # ClusterFirst/ClusterFirstWithHostNet ...
 
 ## @param hostAliases Deployment pod host aliases
 ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
@@ -506,6 +506,305 @@ extraVolumes: []
 # - hostPath:
 #     path: /home/logs
 #   name: logs
+
+## Configure Gateway API resources (HTTPRoute, GRPCRoute, TCPRoute, TLSRoute)
+## Gateway API is the next-generation Kubernetes ingress management standard
+## ref: https://gateway-api.sigs.k8s.io/
+##
+## IMPORTANT: You must first create a Gateway resource in your cluster
+## Example:
+## apiVersion: gateway.networking.k8s.io/v1
+## kind: Gateway
+## metadata:
+##   name: my-gateway
+##   namespace: default
+## spec:
+##   gatewayClassName: eg  # or your Gateway implementation
+##   listeners:
+##     - name: http
+##       protocol: HTTP
+##       port: 80
+##
+gateway:
+  ## @param gateway.enabled Enable Gateway API support
+  ##
+  enabled: false
+  ## @param gateway.gatewayClassName Name of the Gateway resource to attach to (acts as parentRef)
+  ## This should reference an existing Gateway resource name (e.g., "my-gateway")
+  ## Multiple HTTPRoute/GRPCRoute can share the same Gateway to reuse the LoadBalancer IP
+  ## ref: https://gateway-api.sigs.k8s.io/concepts/api-overview/#gateway
+  ##
+  gatewayClassName: ""
+  ## @param gateway.namespace Namespace of the Gateway (if different from release namespace)
+  ## Only needed if the Gateway is in a different namespace
+  ##
+  namespace: ""
+  ## @param gateway.sectionName Section name of the Gateway listener (optional)
+  ## Used when a Gateway has multiple listeners and you want to attach to a specific one
+  ##
+  sectionName: ""
+
+  ## HTTPRoute configuration - Routes HTTP/HTTPS traffic to your service
+  ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute
+  ##
+  http:
+    ## @param gateway.http.enabled Enable HTTPRoute for HTTP/HTTPS traffic
+    ##
+    enabled: false
+    ## @param gateway.http.annotations Additional annotations for the HTTPRoute resource
+    ##
+    annotations: {}
+    ## @param gateway.http.hostnames List of hostnames to match (SNI for HTTPS, Host header for HTTP)
+    ## Example:
+    ## hostnames:
+    ##   - example.com
+    ##   - api.example.com
+    ##   - "*.example.com"  # Wildcard support
+    ##
+    hostnames: []
+    ## @param gateway.http.rules HTTPRoute routing rules
+    ## Each rule defines match conditions and backend services
+    ##
+    ## Simple example (default):
+    ## rules:
+    ##   - matches:
+    ##       - path:
+    ##           type: PathPrefix     # PathPrefix, Exact, or RegularExpression
+    ##           value: /             # Match all paths
+    ##     backendRefs:
+    ##       - name: ""               # Empty means current release's service name
+    ##         port: 80               # Service port to route to
+    ##
+    ## Advanced example with multiple features:
+    ## rules:
+    ##   # Rule 1: API v1 routing with header matching
+    ##   - matches:
+    ##       - path:
+    ##           type: PathPrefix
+    ##           value: /api/v1
+    ##         headers:                # Optional: match specific headers
+    ##           - type: Exact
+    ##             name: X-API-Version
+    ##             value: "1.0"
+    ##         queryParams:            # Optional: match query parameters
+    ##           - type: Exact
+    ##             name: env
+    ##             value: production
+    ##         method: GET             # Optional: match HTTP method
+    ##     filters:                    # Optional: modify request/response
+    ##       - type: RequestHeaderModifier
+    ##         requestHeaderModifier:
+    ##           set:                  # Set/override headers
+    ##             - name: X-Backend
+    ##               value: v1
+    ##           add:                  # Add headers if not exists
+    ##             - name: X-Request-Id
+    ##               value: "{{.Request.ID}}"
+    ##           remove:               # Remove headers
+    ##             - X-Debug
+    ##       - type: URLRewrite        # Rewrite URL before sending to backend
+    ##         urlRewrite:
+    ##           hostname: backend.internal.example.com
+    ##           path:
+    ##             type: ReplacePrefixMatch
+    ##             replacePrefixMatch: /v1
+    ##     timeouts:                   # Optional: configure timeouts
+    ##       request: 30s              # Overall request timeout
+    ##       backendRequest: 10s       # Backend request timeout
+    ##     backendRefs:
+    ##       - name: ""                # Empty = current service, or specify service name
+    ##         port: 8080
+    ##
+    ##   # Rule 2: Canary deployment with traffic weight
+    ##   - matches:
+    ##       - path:
+    ##           type: PathPrefix
+    ##           value: /app
+    ##     backendRefs:
+    ##       - name: ""                # Main version gets 90% traffic
+    ##         port: 80
+    ##         weight: 90
+    ##       - name: myapp-canary      # Canary version gets 10% traffic
+    ##         port: 80
+    ##         weight: 10
+    ##
+    ##   # Rule 3: Redirect HTTP to HTTPS
+    ##   - matches:
+    ##       - path:
+    ##           type: PathPrefix
+    ##           value: /
+    ##     filters:
+    ##       - type: RequestRedirect
+    ##         requestRedirect:
+    ##           scheme: https
+    ##           port: 443
+    ##           statusCode: 301       # 301 (permanent) or 302 (temporary)
+    ##
+    ##   # Rule 4: Traffic mirroring for testing
+    ##   - matches:
+    ##       - path:
+    ##           type: PathPrefix
+    ##           value: /test
+    ##     filters:
+    ##       - type: RequestMirror     # Send copy of traffic to test service
+    ##         requestMirror:
+    ##           backendRef:
+    ##             name: test-service
+    ##             namespace: testing
+    ##             port: 8080
+    ##     backendRefs:
+    ##       - name: ""
+    ##         port: 80
+    ##
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
+            port: 80
+
+  ## GRPCRoute configuration - Routes gRPC traffic to your service
+  ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.GRPCRoute
+  ##
+  grpc:
+    ## @param gateway.grpc.enabled Enable GRPCRoute for gRPC traffic
+    ##
+    enabled: false
+    ## @param gateway.grpc.annotations Additional annotations for the GRPCRoute resource
+    ##
+    annotations: {}
+    ## @param gateway.grpc.hostnames List of hostnames to match (for gRPC services)
+    ## Example:
+    ## hostnames:
+    ##   - grpc.example.com
+    ##
+    hostnames: []
+    ## @param gateway.grpc.rules GRPCRoute routing rules
+    ##
+    ## Simple example (default):
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: ""               # Empty means current release's service name
+    ##         port: 50051            # gRPC service port
+    ##
+    ## Advanced example with method matching:
+    ## rules:
+    ##   # Route specific gRPC method
+    ##   - matches:
+    ##       - method:
+    ##           type: Exact          # Exact or RegularExpression
+    ##           service: com.example.UserService    # gRPC service name
+    ##           method: GetUser      # gRPC method name
+    ##         headers:               # Optional: match gRPC metadata (headers)
+    ##           - type: Exact
+    ##             name: authorization
+    ##             value: "Bearer token"
+    ##     filters:
+    ##       - type: RequestHeaderModifier
+    ##         requestHeaderModifier:
+    ##           set:
+    ##             - name: x-trace-id
+    ##               value: "{{.Request.ID}}"
+    ##     backendRefs:
+    ##       - name: ""               # Current service
+    ##         port: 50051
+    ##
+    ##   # Route all other gRPC methods to different backend
+    ##   - matches:
+    ##       - method:
+    ##           type: RegularExpression
+    ##           service: com.example.UserService
+    ##           method: ".*"         # Match all methods
+    ##     backendRefs:
+    ##       - name: user-service-v2
+    ##         port: 50051
+    ##
+    rules:
+      - backendRefs:
+          - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
+            port: 50051
+
+  ## TCPRoute configuration - Routes raw TCP traffic (databases, message queues, etc.)
+  ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1alpha2.TCPRoute
+  ##
+  tcp:
+    ## @param gateway.tcp.enabled Enable TCPRoute for TCP traffic
+    ##
+    enabled: false
+    ## @param gateway.tcp.annotations Additional annotations for the TCPRoute resource
+    ##
+    annotations: {}
+    ## @param gateway.tcp.rules TCPRoute routing rules
+    ##
+    ## TCPRoute is simple - it only routes based on port, no path or header matching
+    ##
+    ## Example for MySQL:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: ""               # Current service (MySQL)
+    ##         port: 3306
+    ##
+    ## Example for Redis with traffic weight:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: redis-p- Routes TLS traffic with SNI matching (TLS passthrough)
+  ## Use this when you want the backend to handle TLS termination, not the Gateway
+  ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1alpha2.TLSRoute
+  ##
+  tls:
+    ## @param gateway.tls.enabled Enable TLSRoute for TLS passthrough
+    ##
+    enabled: false
+    ## @param gateway.tls.annotations Additional annotations for the TLSRoute resource
+    ##
+    annotations: {}
+    ## @param gateway.tls.hostnames List of SNI hostnames to match
+    ## TLSRoute matches based on SNI (Server Name Indication) from TLS handshake
+    ## Example:
+    ## hostnames:
+    ##   - secure.example.com
+    ##   - "*.secure.example.com"
+    ##
+    hostnames: []
+    ## @param gateway.tls.rules TLSRoute routing rules
+    ##
+    ## TLSRoute passes encrypted traffic directly to backend (no TLS termination at Gateway)
+    ## Backend service must handle TLS termination itself
+    ##
+    ## Example for HTTPS backend:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: ""               # Backend service with TLS
+    ##         port: 443
+    ##
+    ## Example with traffic weight:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: secure-v1
+    ##         port: 443
+    ##         weight: 70
+    ##       - name: secure-v2
+    ##         port: 443
+    ##         weight: 30
+    ##
+    rules:
+      - backendRefs:
+          - name: ""  # Empty string means: use the current release's service name (auto-filled by template)e.com"
+    ##
+    hostnames: []
+    ## @param gateway.tls.rules TLSRoute rules
+    ## Example:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: ""
+    ##         port: 443
+    ##
+    rules:
+      - backendRefs:
+          - name: ""
+            port: 443
 
 ## Configure the ingress resource that allows you to access the
 ## ref: https://kubernetes.io/docs/user-guide/ingress/

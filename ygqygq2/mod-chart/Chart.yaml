@@ -9,24 +9,24 @@ annotations:
 apiVersion: v2
 appVersion: 1.0.0
 dependencies:
-- name: common
-  repository: oci://registry-1.docker.io/bitnamicharts
-  tags:
-  - bitnami-common
-  version: 2.x.x
+  - name: common
+    repository: oci://registry-1.docker.io/bitnamicharts
+    tags:
+      - bitnami-common
+    version: 2.x.x
 description: Chart for the nginx server
 name: mod-chart
-version: 5.0.2
+version: 5.1.0
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:
-- nginx
-- http
-- web
-- www
-- reverse proxy
+  - nginx
+  - http
+  - web
+  - www
+  - reverse proxy
 maintainers:
-- email: ygqygq2@qq.com
-  name: ygqygq2
+  - email: ygqygq2@qq.com
+    name: ygqygq2
 sources:
-- https://github.com/bitnami/bitnami-docker-nginx
+  - https://github.com/bitnami/bitnami-docker-nginx
