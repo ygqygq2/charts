@@ -54,6 +54,41 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.8.9
+    created: "2026-01-05T10:35:15.006037464Z"
+    dependencies:
+    - name: common
+      repository: https://ygqygq2.github.io/charts/
+      version: 2.x.x
+    description: Chart for Alibaba Sentinel Dashboard
+    digest: eda6d7f484ce7d7d87afae994f3cf12834c028c0f5706741803ddd4a90339db3
+    home: https://sentinelguard.io/
+    icon: https://sentinelguard.io/img/sentinel_colorful.png
+    keywords:
+    - sentinel
+    - alibaba
+    - flow-control
+    - circuit-breaker
+    - rate-limiting
+    - microservices
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: alibaba-sentinel
+    sources:
+    - https://github.com/alibaba/Sentinel
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/alibaba-sentinel-0.1.1/alibaba-sentinel-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: alibaba-sentinel
+          image: ghcr.io/docker-autodevops/alibaba-sentinel:1.8.9
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.8.9
     created: "2025-12-02T09:18:53.87435331Z"
     dependencies:
     - name: common
@@ -1108,6 +1143,42 @@ entries:
     - http://ygqygq2.github.io/charts/mindoc-1.0.0.tgz
     version: 1.0.0
   mod-chart:
+  - annotations:
+      category: ApplicationServer
+      images: |
+        - name: nginx-exporter
+          image: docker.io/bitnami/nginx-exporter:latest
+        - name: nginx
+          image: docker.io/bitnami/nginx:latest
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-01-05T10:35:15.201208639Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Chart for the nginx server
+    digest: dd4deae3cc2cfc89fa7e5ea610182f59d28f46d5f1d372629ecc667a3488e13c
+    home: http://www.nginx.org
+    icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
+    keywords:
+    - nginx
+    - http
+    - web
+    - www
+    - reverse proxy
+    maintainers:
+    - email: ygqygq2@qq.com
+      name: ygqygq2
+    name: mod-chart
+    sources:
+    - https://github.com/bitnami/bitnami-docker-nginx
+    urls:
+    - http://gh.linuxba.com/https://github.com/ygqygq2/charts/releases/download/mod-chart-5.1.0/mod-chart-5.1.0.tgz
+    version: 5.1.0
   - annotations:
       category: ApplicationServer
       images: |
@@ -3327,4 +3398,4 @@ entries:
     urls:
     - http://ygqygq2.github.io/charts/zipkin-1.0.1.tgz
     version: 1.0.1
-generated: "2025-12-02T09:18:54.089509168Z"
+generated: "2026-01-05T10:35:15.201512082Z"
