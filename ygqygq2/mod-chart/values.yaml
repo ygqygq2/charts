@@ -512,18 +512,49 @@ extraVolumes: []
 ## ref: https://gateway-api.sigs.k8s.io/
 ##
 ## IMPORTANT: You must first create a Gateway resource in your cluster
-## Example:
+##
+## TLS处理说明:
+## 1. TLS Termination (TLS终止) - 推荐，类似Ingress的方式
+##    - Gateway处理HTTPS，应用只需提供HTTP服务
+##    - 证书配置在Gateway的listener中
+##    - HTTPRoute连接到HTTPS listener，应用无需支持HTTPS
+## 2. TLS Passthrough (TLS透传) - 应用处理HTTPS
+##    - Gateway不解密，直接转发加密流量到应用
+##    - 使用TLSRoute而非HTTPRoute
+##    - 应用必须自己处理TLS
+##
+## Example 1: HTTP Gateway (no TLS)
 ## apiVersion: gateway.networking.k8s.io/v1
 ## kind: Gateway
 ## metadata:
 ##   name: my-gateway
 ##   namespace: default
 ## spec:
-##   gatewayClassName: eg  # or your Gateway implementation
+##   gatewayClassName: eg
 ##   listeners:
 ##     - name: http
 ##       protocol: HTTP
 ##       port: 80
+##
+## Example 2: HTTPS Gateway with TLS Termination (类似Ingress)
+## apiVersion: gateway.networking.k8s.io/v1
+## kind: Gateway
+## metadata:
+##   name: my-gateway
+##   namespace: default
+## spec:
+##   gatewayClassName: eg
+##   listeners:
+##     - name: https
+##       protocol: HTTPS      # Gateway处理HTTPS
+##       port: 443
+##       tls:
+##         mode: Terminate    # TLS终止，Gateway解密后转发HTTP到应用
+##         certificateRefs:
+##           - name: my-tls-secret  # TLS证书Secret
+##       allowedRoutes:
+##         namespaces:
+##           from: All
 ##
 gateway:
   ## @param gateway.enabled Enable Gateway API support
@@ -546,6 +577,11 @@ gateway:
 
   ## HTTPRoute configuration - Routes HTTP/HTTPS traffic to your service
   ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.HTTPRoute
+  ##
+  ## 说明: HTTPRoute用于路由HTTP/HTTPS流量
+  ## - 当Gateway listener配置为HTTPS(TLS Termination)时，Gateway处理TLS，应用只需HTTP
+  ## - 当Gateway listener配置为HTTP时，全程HTTP
+  ## - HTTPRoute只需配置路由规则，不需要配置TLS证书（证书在Gateway中配置）
   ##
   http:
     ## @param gateway.http.enabled Enable HTTPRoute for HTTP/HTTPS traffic
@@ -663,7 +699,7 @@ gateway:
               value: /
         backendRefs:
           - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
-            port: 80
+            # port: 80  # 如果不指定,默认使用上面service.ports中定义的端口;如果指定,则会覆盖上面的端口配置
 
   ## GRPCRoute configuration - Routes gRPC traffic to your service
   ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.GRPCRoute
@@ -724,7 +760,7 @@ gateway:
     rules:
       - backendRefs:
           - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
-            port: 50051
+            # port: 50051  # 如果不指定,默认使用上面service.ports中定义的端口;如果指定,则会覆盖上面的端口配置
 
   ## TCPRoute configuration - Routes raw TCP traffic (databases, message queues, etc.)
   ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1alpha2.TCPRoute
@@ -791,20 +827,58 @@ gateway:
     ##
     rules:
       - backendRefs:
-          - name: ""  # Empty string means: use the current release's service name (auto-filled by template)e.com"
+          - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
+            # port: 3306  # 如果不指定,默认使用上面service.ports中定义的端口;如果指定,则会覆盖上面的端口配置
+
+  ## TLSRoute configuration - Routes TLS traffic with SNI matching (TLS passthrough)
+  ## Use this when you want the backend to handle TLS termination, not the Gateway
+  ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1alpha2.TLSRoute
+  ##
+  ## 说明: TLSRoute用于TLS Passthrough场景
+  ## - Gateway不解密TLS，直接转发加密流量到应用
+  ## - 应用必须自己处理HTTPS和TLS证书
+  ## - 如果你习惯Ingress的方式（Gateway处理TLS），应该使用HTTPRoute而非TLSRoute
+  ##
+  tls:
+    ## @param gateway.tls.enabled Enable TLSRoute for TLS passthrough
+    ##
+    enabled: false
+    ## @param gateway.tls.annotations Additional annotations for the TLSRoute resource
+    ##
+    annotations: {}
+    ## @param gateway.tls.hostnames List of SNI hostnames to match
+    ## TLSRoute matches based on SNI (Server Name Indication) from TLS handshake
+    ## Example:
+    ## hostnames:
+    ##   - secure.example.com
+    ##   - "*.secure.example.com"
     ##
     hostnames: []
-    ## @param gateway.tls.rules TLSRoute rules
-    ## Example:
+    ## @param gateway.tls.rules TLSRoute routing rules
+    ##
+    ## TLSRoute passes encrypted traffic directly to backend (no TLS termination at Gateway)
+    ## Backend service must handle TLS termination itself
+    ##
+    ## Example for HTTPS backend:
     ## rules:
     ##   - backendRefs:
-    ##       - name: ""
+    ##       - name: ""               # Backend service with TLS
     ##         port: 443
+    ##
+    ## Example with traffic weight:
+    ## rules:
+    ##   - backendRefs:
+    ##       - name: secure-v1
+    ##         port: 443
+    ##         weight: 70
+    ##       - name: secure-v2
+    ##         port: 443
+    ##         weight: 30
     ##
     rules:
       - backendRefs:
           - name: ""
-            port: 443
+            # port: 443  # 如果不指定,默认使用上面service.ports中定义的端口;如果指定,则会覆盖上面的端口配置
 
 ## Configure the ingress resource that allows you to access the
 ## ref: https://kubernetes.io/docs/user-guide/ingress/
