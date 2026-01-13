@@ -1,0 +1,26 @@
+# 测试场景1: 基础 HTTPRoute（最简配置）
+nameOverride: "test-app"
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 80
+
+gateway:
+  enabled: true
+  name: "my-gateway"
+  namespace: "default"
+
+  http:
+    enabled: true
+    hostnames:
+      - "test.example.com"
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - name: "" # 空字符串，应该自动填充为 test-app
+            port: 80

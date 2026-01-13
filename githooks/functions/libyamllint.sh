@@ -6,7 +6,7 @@ render_and_yaml_lint_full() {
     local -r repo_path="$(git rev-parse --show-toplevel)"
     local -r display_chart_path=${chart_path#"$repo_path/"}
     local -r display_values=${values#"$repo_path/"}
-    local -r lint_rules="{extends: default, rules: {line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2} }}"
+    local -r lint_rules="{extends: default, rules: {line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2}, comments: {min-spaces-from-content: 1} }}"
 
     local -r helm_version="$(helm version --template={{.Version}})"
     local -r helm_three="^v3.*"
@@ -34,7 +34,7 @@ render_and_yaml_lint_file() {
     local -r display_chart_path=${chart_path#"$repo_path/"}
     local -r display_values=${values#"$repo_path/"}
     local -r basename_template_path=${path#"$chart_path/"}
-    local -r lint_rules="{extends: default, rules: {line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2} }}"
+    local -r lint_rules="{extends: default, rules: {line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2}, comments: {min-spaces-from-content: 1} }}"
     # printf '\033[0;34m- Running yamllint on %s/%s (values: %s)\n\033[0m' "$display_chart_path" "$basename_template_path" "$display_values"
 
     local -r helm_version="$(helm version --template={{.Version}})"
@@ -57,7 +57,7 @@ render_and_yaml_lint_file() {
 
 yaml_lint_file() {
     local -r path="${1:?missing_file}"
-    local -r lint_rules="{extends: default, rules: { line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2}}}"
+    local -r lint_rules="{extends: default, rules: { line-length: disable, trailing-spaces: disable, truthy: enable, document-start: disable, empty-lines: {max-end: 2}, comments: {min-spaces-from-content: 1}}}"
     local -r repo_path="$(git rev-parse --show-toplevel)"
     local -r display_path=${path#"$repo_path/"}
     # printf '\033[0;34m- Running yamllint on %s\n' "$display_path"

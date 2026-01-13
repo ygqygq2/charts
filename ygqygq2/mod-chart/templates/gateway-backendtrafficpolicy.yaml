@@ -1,0 +1,14 @@
+{{- if and .Values.gateway.enabled .Values.gateway.backendTrafficPolicy.enabled }}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: {{ include "common.names.gateway.backendtrafficpolicy" . }}
+  namespace: {{ include "common.names.namespace" . | quote }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+  {{- if or .Values.gateway.backendTrafficPolicy.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" ( dict "values" ( list .Values.gateway.backendTrafficPolicy.annotations .Values.commonAnnotations ) "context" . ) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
+  {{- end }}
+spec:
+{{- include "common.gateway.backendtrafficpolicy.spec" (dict "config" .Values.gateway.backendTrafficPolicy "fullname" (include "common.names.fullname" .) "values" .Values "context" $) | nindent 2 }}
+{{- end }}

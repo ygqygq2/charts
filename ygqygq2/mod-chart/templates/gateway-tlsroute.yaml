@@ -2,7 +2,7 @@
 apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TLSRoute
 metadata:
-  name: {{ include "common.names.fullname" . }}-tls
+  name: {{ include "common.names.gateway.tlsroute" . }}
   namespace: {{ include "common.names.namespace" . | quote }}
   labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
   {{- if or .Values.gateway.tls.annotations .Values.commonAnnotations }}
@@ -10,16 +10,7 @@ metadata:
   annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $) | nindent 4 }}
   {{- end }}
 spec:
-  {{- if .Values.gateway.gatewayClassName }}
-  parentRefs:
-    - name: {{ .Values.gateway.gatewayClassName }}
-      {{- if .Values.gateway.namespace }}
-      namespace: {{ .Values.gateway.namespace }}
-      {{- end }}
-      {{- if .Values.gateway.sectionName }}
-      sectionName: {{ .Values.gateway.sectionName }}
-      {{- end }}
-  {{- end }}
+  {{- include "common.gateway.parentRefs" (dict "gateway" .Values.gateway "context" $) | nindent 2 }}
   {{- if .Values.gateway.tls.hostnames }}
   hostnames:
     {{- range .Values.gateway.tls.hostnames }}
@@ -27,17 +18,5 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.gateway.tls.rules }}
-    - backendRefs:
-        {{- range .backendRefs }}
-        - name: {{ .name | default (include "common.names.fullname" $) }}
-          {{- if .namespace }}
-          namespace: {{ .namespace }}
-          {{- end }}
-          port: {{ .port | default $.Values.service.ports.http.port }}
-          {{- if .weight }}
-          weight: {{ .weight }}
-          {{- end }}
-        {{- end }}
-    {{- end }}
+{{- include "common.gateway.tlsroute.rules" (dict "rules" .Values.gateway.tls.rules "serviceName" (include "common.names.fullname" .) "servicePort" .Values.service.ports.https.port "context" $) | nindent 4 }}
 {{- end }}

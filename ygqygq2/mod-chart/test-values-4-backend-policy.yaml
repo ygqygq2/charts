@@ -1,0 +1,47 @@
+# 测试场景4: HTTPRoute + BackendTrafficPolicy（解决 HTTP/2 问题）
+nameOverride: "nginx-app"
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 80
+
+gateway:
+  enabled: true
+  name: "eg-gateway"
+
+  http:
+    enabled: true
+    hostnames:
+      - "nginx.example.com"
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - name: ""
+            port: 80
+
+  # BackendTrafficPolicy - 使用分散字段模式（向后兼容）
+  backendTrafficPolicy:
+    enabled: true
+    # targetRefs 不指定，应该自动指向 HTTPRoute
+    loadBalancer:
+      type: RoundRobin
+    timeout:
+      tcp:
+        connectTimeout: 10s
+      http:
+        requestTimeout: 60s
+    http:
+      http2:
+        disabled: true # 禁用到 nginx 后端的 HTTP/2
+    retry:
+      numRetries: 2
+      perRetry:
+        timeout: 250ms
+      retryOn:
+        httpStatusCodes:
+          - 503
