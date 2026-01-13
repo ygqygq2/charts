@@ -16,7 +16,7 @@ dependencies:
     version: 2.x.x
 description: Chart for the nginx server
 name: mod-chart
-version: 5.1.0
+version: 5.1.1
 home: http://www.nginx.org
 icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
 keywords:

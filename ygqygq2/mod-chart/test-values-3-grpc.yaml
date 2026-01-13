@@ -1,0 +1,26 @@
+# 测试场景3: GRPCRoute
+nameOverride: "grpc-service"
+
+service:
+  type: ClusterIP
+  ports:
+    grpc:
+      port: 50051
+
+gateway:
+  enabled: true
+  name: "grpc-gateway"
+
+  grpc:
+    enabled: true
+    hostnames:
+      - "grpc.example.com"
+    rules:
+      - matches:
+          - method:
+              type: Exact
+              service: "com.example.UserService"
+              method: "GetUser"
+        backendRefs:
+          - name: "" # 应该填充为 grpc-service
+            # port 应该使用 service.ports.grpc.port (50051)

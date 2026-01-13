@@ -1,0 +1,57 @@
+# 测试场景2: 高级 HTTPRoute（带 filters、多 backend、权重）
+nameOverride: "api-service"
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 8080
+
+gateway:
+  enabled: true
+  name: "shared-gateway"
+  namespace: "gateway-system"
+  sectionName: "https"
+
+  http:
+    enabled: true
+    hostnames:
+      - "api.example.com"
+      - "*.api.example.com"
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    rules:
+      # 规则1: API v1 带请求头修改
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /api/v1
+            headers:
+              - type: Exact
+                name: X-API-Version
+                value: "1.0"
+        filters:
+          - type: RequestHeaderModifier
+            requestHeaderModifier:
+              set:
+                - name: X-Backend-Version
+                  value: v1
+              add:
+                - name: X-Request-ID
+                  value: "{{.Request.ID}}"
+        backendRefs:
+          - name: "" # 当前服务
+            port: 8080
+
+      # 规则2: Canary 部署（90% 主版本，10% 金丝雀）
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /app
+        backendRefs:
+          - name: ""
+            # port 不指定，应该使用默认 service.ports.http.port (8080)
+            weight: 90
+          - name: api-service-canary
+            port: 8080
+            weight: 10

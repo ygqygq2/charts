@@ -1,0 +1,56 @@
+# 测试场景5: 使用完整 spec 模式（新推荐方式）
+nameOverride: "modern-app"
+
+service:
+  type: ClusterIP
+  ports:
+    http:
+      port: 3000
+
+gateway:
+  enabled: true
+  name: "modern-gateway"
+
+  http:
+    enabled: true
+    hostnames:
+      - "modern.example.com"
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        timeouts:
+          request: 30s
+          backendRequest: 10s
+        backendRefs:
+          - name: ""
+
+  # BackendTrafficPolicy - 使用完整 spec 模式
+  backendTrafficPolicy:
+    enabled: true
+    spec:
+      targetRefs:
+        - group: gateway.networking.k8s.io
+          kind: HTTPRoute
+          name: modern-app # 应该匹配 nameOverride
+      loadBalancer:
+        type: LeastRequest
+      timeout:
+        http:
+          requestTimeout: 30s
+      circuitBreaker:
+        maxConnections: 1024
+        maxPendingRequests: 1024
+      healthCheck:
+        active:
+          timeout: 1s
+          interval: 3s
+          unhealthyThreshold: 3
+          healthyThreshold: 1
+          type: HTTP
+          http:
+            path: /health
+            expectedStatuses:
+              - start: 200
+                end: 300

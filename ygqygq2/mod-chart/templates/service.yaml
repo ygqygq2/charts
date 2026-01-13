@@ -36,6 +36,9 @@ spec:
   {{- range $key, $value := .Values.service.ports }}
     - name: {{ $key }}
       targetPort: {{ $key }}
+      {{- if $value.appProtocol }}
+      appProtocol: {{ $value.appProtocol }}
+      {{- end }}
       {{- toYaml $value | nindent 6 }}
     {{- end }}
     {{- if .Values.metrics.enabled }}

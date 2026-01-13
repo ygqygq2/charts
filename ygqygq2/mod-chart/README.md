@@ -509,6 +509,32 @@ $ helm delete my-release
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
+## Template Architecture
+
+This chart leverages the **ygqygq2/common** library chart which extends Bitnami's common library with Gateway API support.
+
+### Gateway API Helpers
+
+The chart uses these common helpers for Gateway resources:
+
+**Naming Helpers:**
+
+- `common.names.gateway.httproute` - HTTPRoute resource name
+- `common.names.gateway.grpcroute` - GRPCRoute resource name
+- `common.names.gateway.tcproute` - TCPRoute resource name
+- `common.names.gateway.tlsroute` - TLSRoute resource name
+- `common.names.gateway.backend` - Backend resource name
+- `common.names.gateway.backendtrafficpolicy` - BackendTrafficPolicy resource name
+
+**Core Helpers:**
+
+- `common.gateway.parentRefs` - Generate parentRefs structure
+- `common.gateway.httproute.rules` - Render HTTPRoute rules with auto-filled backendRefs
+- `common.gateway.backendtrafficpolicy.spec` - Generate BackendTrafficPolicy spec
+- `common.gateway.backend.spec` - Generate Backend spec
+
+For more details, see [ygqygq2/common Gateway API documentation](https://github.com/ygqygq2/charts/tree/master/ygqygq2/common#gateway-api).
+
 ## Parameters
 
 ### Global parameters
@@ -683,6 +709,47 @@ gateway:
 | `gateway.tls.annotations`  | Annotations for TLSRoute resource                         | `{}`    |
 | `gateway.tls.hostnames`    | List of SNI hostnames for TLSRoute                        | `[]`    |
 | `gateway.tls.rules`        | TLSRoute rules (backend services)                         | `[...]` |
+
+**Advanced: BackendTrafficPolicy Support (Envoy Gateway)**
+
+BackendTrafficPolicy allows fine-grained control of traffic between Envoy Gateway and backend services:
+
+```yaml
+gateway:
+  enabled: true
+  backendTrafficPolicy:
+    enabled: true
+    # HTTP/2 connection settings (adjust for backend compatibility)
+    http2:
+      initialStreamWindowSize: 1048576 # 1MB stream window
+      initialConnectionWindowSize: 16777216 # 16MB connection window
+      maxConcurrentStreams: 200
+    # Connection limits and timeouts
+    connection:
+      bufferLimit: 32768
+    timeout:
+      http:
+        connectionIdleTimeout: 60s
+        maxConnectionDuration: 0s # 0 means unlimited
+    # Load balancer settings
+    loadBalancer:
+      type: LeastRequest
+    # Health checks, retry policies, etc.
+```
+
+Common use cases:
+
+- **HTTP/2 tuning**: Adjust window sizes for high-throughput applications
+- **Connection pooling**: Control connection limits and reuse
+- **Timeout management**: Set appropriate timeouts for slow backends
+
+| Name                                        | Description                                 | Value   |
+| ------------------------------------------- | ------------------------------------------- | ------- |
+| `gateway.backendTrafficPolicy.enabled`      | Enable BackendTrafficPolicy (Envoy Gateway) | `false` |
+| `gateway.backendTrafficPolicy.http2`        | HTTP/2 connection settings                  | `{}`    |
+| `gateway.backendTrafficPolicy.connection`   | Connection buffer and pool settings         | `{}`    |
+| `gateway.backendTrafficPolicy.timeout`      | Timeout configurations                      | `{}`    |
+| `gateway.backendTrafficPolicy.loadBalancer` | Load balancing algorithm                    | `{}`    |
 
 ### Ingress parameters (Legacy)
 

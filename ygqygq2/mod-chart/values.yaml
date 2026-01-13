@@ -114,6 +114,11 @@ service:
     http:
       port: 8080 # Service port number for client-a port.
       protocol: TCP # Service port protocol for client-a port.
+      ## appProtocol 用于声明后端应用层协议，告诉 Gateway 后端使用什么协议
+      ## ⚠️ 注意：对于 Envoy Gateway，Service 的 appProtocol 可能不起作用
+      ## 如果遇到 HTTP/2 协议错误，建议使用 gateway.backend 资源明确声明
+      ## kubernetes.io/h1c = HTTP/1.1, gateway.envoyproxy.io/h2c = HTTP/2
+      # appProtocol: kubernetes.io/h1c
       ## Use nodePorts to requets some specific ports when usin NodePort
       # nodePort: 30020  # <to set explicitly, choose port between 30000-32767> 默认会自动生成
   ## @param service.loadBalancerSourceRanges Addresses that are allowed when service is LoadBalancer
@@ -560,18 +565,20 @@ gateway:
   ## @param gateway.enabled Enable Gateway API support
   ##
   enabled: false
-  ## @param gateway.gatewayClassName Name of the Gateway resource to attach to (acts as parentRef)
-  ## This should reference an existing Gateway resource name (e.g., "my-gateway")
+  ## @param gateway.name Name of the Gateway resource to attach to (used in parentRefs)
+  ## This should reference an existing Gateway resource name (e.g., "shared-gateway")
   ## Multiple HTTPRoute/GRPCRoute can share the same Gateway to reuse the LoadBalancer IP
   ## ref: https://gateway-api.sigs.k8s.io/concepts/api-overview/#gateway
+  ## Note: This is the Gateway NAME, not the GatewayClass name
   ##
-  gatewayClassName: ""
+  name: ""
   ## @param gateway.namespace Namespace of the Gateway (if different from release namespace)
-  ## Only needed if the Gateway is in a different namespace
+  ## Required if the Gateway is in a different namespace (e.g., "envoy-gateway-system")
   ##
   namespace: ""
   ## @param gateway.sectionName Section name of the Gateway listener (optional)
   ## Used when a Gateway has multiple listeners and you want to attach to a specific one
+  ## For example: "http" or "https" to attach to a specific listener
   ##
   sectionName: ""
 
@@ -582,6 +589,11 @@ gateway:
   ## - 当Gateway listener配置为HTTPS(TLS Termination)时，Gateway处理TLS，应用只需HTTP
   ## - 当Gateway listener配置为HTTP时，全程HTTP
   ## - HTTPRoute只需配置路由规则，不需要配置TLS证书（证书在Gateway中配置）
+  ##
+  ## 配置方式: 完全兼容原生 Gateway API HTTPRoute spec.rules 字段
+  ## - 支持所有 Gateway API 原生字段（matches, filters, backendRefs, timeouts 等）
+  ## - 自动处理 backendRefs 中的空 name（填充为当前 service）和空 port（使用 service.ports.http.port）
+  ## - 你可以直接复制 Gateway API 文档中的 rules 配置，无需修改
   ##
   http:
     ## @param gateway.http.enabled Enable HTTPRoute for HTTP/HTTPS traffic
@@ -701,8 +713,163 @@ gateway:
           - name: ""  # Empty string means: use the current release's service name (auto-filled by template)
             # port: 80  # 如果不指定,默认使用上面service.ports中定义的端口;如果指定,则会覆盖上面的端口配置
 
+  ## BackendTrafficPolicy configuration - Controls traffic from Gateway to backend
+  ## ref: https://gateway.envoyproxy.io/latest/api/extension_types/#backendtrafficpolicy
+  ##
+  ## 说明: BackendTrafficPolicy 用于配置负载均衡、超时、重试、健康检查等高级流量策略
+  ## - 注意: BackendTrafficPolicy 必须 attach 到 HTTPRoute/GRPCRoute，不能直接 attach 到 Service
+  ## - 协议配置: 推荐使用 Service 的 appProtocol 字段声明后端协议，而不是 useClientProtocol
+  ## - 默认不启用，只在需要高级流量控制时启用
+  ##
+  ## 配置方式: 完全兼容原生 BackendTrafficPolicy API spec 字段
+  ## - 推荐使用 spec 字段完全自定义配置
+  ## - 也支持分散字段配置（loadBalancer/timeout/http 等）向后兼容
+  ##
+  backendTrafficPolicy:
+    ## @param gateway.backendTrafficPolicy.enabled Enable BackendTrafficPolicy
+    ##
+    enabled: false
+    ## @param gateway.backendTrafficPolicy.annotations Additional annotations for the BackendTrafficPolicy resource
+    ##
+    annotations: {}
+    ## @param gateway.backendTrafficPolicy.spec Complete BackendTrafficPolicy spec (recommended)
+    ## 支持所有 BackendTrafficPolicy API 字段: targetRefs, loadBalancer, timeout,
+    ## retry, healthCheck, circuitBreaker, proxyProtocol, tcpKeepalive, connection,
+    ## http2, dns, useClientProtocol, faultInjection, rateLimit 等
+    ##
+    ## Example:
+    ## spec:
+    ##   targetRefs:
+    ##     - group: gateway.networking.k8s.io
+    ##       kind: HTTPRoute
+    ##       name: my-httproute
+    ##   loadBalancer:
+    ##     type: RoundRobin
+    ##   timeout:
+    ##     tcp:
+    ##       connectTimeout: 10s
+    ##     http:
+    ##       requestTimeout: 60s
+    ##   http:
+    ##     http2:
+    ##       disabled: true  # 禁用到后端的 HTTP/2，解决 ERR_HTTP2_PROTOCOL_ERROR
+    ##   retry:
+    ##     numRetries: 2
+    ##     retryOn:
+    ##       httpStatusCodes: [503]
+    ##
+    spec: {}
+    ## @param gateway.backendTrafficPolicy.targetRefs (Optional) Target references
+    ## 留空时自动指向当前的 HTTPRoute 或 GRPCRoute
+    ## 如果需要自定义 targetRefs，可以在此配置或使用 spec.targetRefs
+    ##
+    targetRefs: []
+    ## @param gateway.backendTrafficPolicy.loadBalancer (Deprecated) Load balancing - 推荐使用 spec.loadBalancer
+    ##
+    loadBalancer: {}
+      # type: RoundRobin  # RoundRobin, LeastRequest, Random, ConsistentHash
+    ## @param gateway.backendTrafficPolicy.timeout (Deprecated) Timeout - 推荐使用 spec.timeout
+    ##
+    timeout: {}
+      # tcp:
+      #   connectTimeout: 10s
+      # http:
+      #   requestTimeout: 60s
+    ## @param gateway.backendTrafficPolicy.http (Deprecated) HTTP protocol - 推荐使用 spec.http
+    ## 用于解决 ERR_HTTP2_PROTOCOL_ERROR 问题
+    ## 当后端服务（如 nginx）不支持 HTTP/2 时，需要禁用到后端的 HTTP/2
+    ##
+    http: {}
+      # http2:
+      #   disabled: true  # 禁用到后端的 HTTP/2，强制使用 HTTP/1.1
+    ## @param gateway.backendTrafficPolicy.retry (Deprecated) Retry - 推荐使用 spec.retry
+    ##
+    retry: {}
+      # numRetries: 2
+      # perRetry:
+      #   timeout: 250ms
+      # retryOn:
+      #   httpStatusCodes:
+      #     - 503
+    ## @param gateway.backendTrafficPolicy.healthCheck (Deprecated) Health check - 推荐使用 spec.healthCheck
+    ##
+    healthCheck: {}
+      # active:
+      #   timeout: 1s
+      #   interval: 3s
+      #   unhealthyThreshold: 3
+      #   healthyThreshold: 1
+      #   type: HTTP
+      #   http:
+      #     path: /health
+      #     expectedStatuses:
+      #       - start: 200
+      #         end: 300
+    ## @param gateway.backendTrafficPolicy.circuitBreaker (Deprecated) Circuit breaker - 推荐使用 spec.circuitBreaker
+    ##
+    circuitBreaker: {}
+      # maxConnections: 1024
+      # maxPendingRequests: 1024
+      # maxParallelRequests: 1024
+
+  ## Backend configuration - Declares backend endpoint protocol (Envoy Gateway extension)
+  ## ref: https://gateway.envoyproxy.io/latest/api/extension_types/#backend
+  ##
+  ## 说明: Backend CRD 用于明确声明后端服务的协议和端点
+  ## - Envoy Gateway 默认使用 HTTP/2 连接后端，导致 nginx HTTP/1.1 后端失败
+  ## - 通过 Backend 资源声明后端不支持 HTTP/2，强制使用 HTTP/1.1
+  ## - 注意: Service 的 appProtocol 对 Envoy Gateway 不起作用！
+  ##
+  ## 关键：此方案避免修改 Service，完全在 Gateway 层面解决协议问题
+  ##
+  ## 配置方式: 完全兼容原生 Backend API spec 字段
+  ## - 推荐使用 spec 字段完全自定义配置
+  ## - 也支持旧的 endpoints/appProtocols 字段配置（向后兼容）
+  ##
+  backend:
+    ## @param gateway.backend.enabled Enable Backend resource (推荐启用以解决 HTTP/2 协议错误)
+    ##
+    enabled: false
+    ## @param gateway.backend.annotations Additional annotations for the Backend resource
+    ##
+    annotations: {}
+    ## @param gateway.backend.spec Complete Backend spec (recommended)
+    ## 支持所有 Backend API 字段: endpoints, appProtocols 等
+    ##
+    ## Example with FQDN endpoint:
+    ## spec:
+    ##   endpoints:
+    ##     - fqdn:
+    ##         hostname: myservice.namespace.svc.cluster.local
+    ##         port: 80
+    ##   appProtocols: []  # 留空使用 HTTP/1.1，或 ["gateway.envoyproxy.io/h2c"] 启用 HTTP/2
+    ##
+    ## Example with IP endpoint:
+    ## spec:
+    ##   endpoints:
+    ##     - ip:
+    ##         address: 10.0.0.1
+    ##         port: 80
+    ##
+    spec: {}
+    ## @param gateway.backend.endpoints (Deprecated) Backend endpoints - 向后兼容旧配置
+    ## 推荐使用 spec.endpoints 替代
+    ##
+    endpoints: []
+    # - fqdn:
+    #     hostname: myservice.namespace.svc.cluster.local
+    #     port: 80
+    ## @param gateway.backend.appProtocols (Deprecated) Application protocols - 向后兼容旧配置
+    ## 推荐使用 spec.appProtocols 替代
+    ##
+    appProtocols: []
+
   ## GRPCRoute configuration - Routes gRPC traffic to your service
   ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1.GRPCRoute
+  ##
+  ## 配置方式: 完全兼容原生 Gateway API GRPCRoute spec.rules 字段
+  ## - 支持所有原生字段（matches.method, matches.headers, filters, backendRefs 等）
+  ## - 自动处理 backendRefs 中的空 name 和 port
   ##
   grpc:
     ## @param gateway.grpc.enabled Enable GRPCRoute for gRPC traffic
@@ -764,6 +931,9 @@ gateway:
 
   ## TCPRoute configuration - Routes raw TCP traffic (databases, message queues, etc.)
   ## ref: https://gateway-api.sigs.k8s.io/references/spec/#gateway.networking.k8s.io/v1alpha2.TCPRoute
+  ##
+  ## 配置方式: 完全兼容原生 Gateway API TCPRoute spec.rules 字段
+  ## - TCPRoute 只支持 backendRefs，不支持 matches（TCP 层无法匹配路径/头部）
   ##
   tcp:
     ## @param gateway.tcp.enabled Enable TCPRoute for TCP traffic
@@ -838,6 +1008,8 @@ gateway:
   ## - Gateway不解密TLS，直接转发加密流量到应用
   ## - 应用必须自己处理HTTPS和TLS证书
   ## - 如果你习惯Ingress的方式（Gateway处理TLS），应该使用HTTPRoute而非TLSRoute
+  ##
+  ## 配置方式: 完全兼容原生 Gateway API TLSRoute spec.rules 字段
   ##
   tls:
     ## @param gateway.tls.enabled Enable TLSRoute for TLS passthrough

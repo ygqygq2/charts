@@ -19,7 +19,7 @@ helm dependency update
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "common.names.fullname" . }}
+  name: { { include "common.names.fullname" . } }
 data:
   myvalue: "Hello World"
 ```
@@ -116,10 +116,10 @@ The following table lists the helpers available in the library which are scoped 
 
 ### Ingress
 
-| Helper identifier                         | Description                                                                                                       | Expected Input                                                                                                                                                                   |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `common.ingress.backend`                  | Generate a proper Ingress backend entry depending on the API version                                              | `dict "serviceName" "foo" "servicePort" "bar"`, see the [Ingress deprecation notice](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) for the syntax differences |
-| `common.ingress.certManagerRequest`       | Prints "true" if required cert-manager annotations for TLS signed certificates are set in the Ingress annotations | `dict "annotations" .Values.path.to.the.ingress.annotations`                                                                                                                     |
+| Helper identifier                   | Description                                                                                                       | Expected Input                                                                                                                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `common.ingress.backend`            | Generate a proper Ingress backend entry depending on the API version                                              | `dict "serviceName" "foo" "servicePort" "bar"`, see the [Ingress deprecation notice](https://kubernetes.io/blog/2019/07/18/api-deprecations-in-1-16/) for the syntax differences |
+| `common.ingress.certManagerRequest` | Prints "true" if required cert-manager annotations for TLS signed certificates are set in the Ingress annotations | `dict "annotations" .Values.path.to.the.ingress.annotations`                                                                                                                     |
 
 ### Labels
 
@@ -157,9 +157,9 @@ The following table lists the helpers available in the library which are scoped 
 
 ### Storage
 
-| Helper identifier      | Description                      | Expected Input                                                                                                      |
-| ---------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `common.storage.class` | Return  the proper Storage Class | `dict "persistence" .Values.path.to.the.persistence "global" $`, see [Persistence](#persistence) for the structure. |
+| Helper identifier      | Description                     | Expected Input                                                                                                      |
+| ---------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `common.storage.class` | Return the proper Storage Class | `dict "persistence" .Values.path.to.the.persistence "global" $`, see [Persistence](#persistence) for the structure. |
 
 ### TplValues
 
@@ -177,7 +177,7 @@ The following table lists the helpers available in the library which are scoped 
 | `common.utils.secret.getvalue`  | Print instructions to get a secret value.                                                                                                       | `dict "secret" "secret-name" "field" "secret-value-field" "context" $` |
 | `common.utils.getValueFromKey`  | Gets a value from `.Values` object given its key path                                                                                           | `dict "key" "path.to.key" "context" $`                                 |
 | `common.utils.getKeyFromList`   | Returns first `.Values` key with a defined value or first of the list if all non-defined                                                        | `dict "keys" (list "path.to.key1" "path.to.key2") "context" $`         |
-| `common.utils.checksumTemplate` | Checksum a template at "path" containing a *single* resource (ConfigMap,Secret) for use in pod annotations, excluding the metadata (see #18376) | `dict "path" "/configmap.yaml" "context" $`                            |
+| `common.utils.checksumTemplate` | Checksum a template at "path" containing a _single_ resource (ConfigMap,Secret) for use in pod annotations, excluding the metadata (see #18376) | `dict "path" "/configmap.yaml" "context" $`                            |
 
 ### Validations
 
@@ -194,6 +194,27 @@ The following table lists the helpers available in the library which are scoped 
 | `common.warnings.rollingTag`     | Warning about using rolling tag.                                  | `ImageRoot` see [ImageRoot](#imageroot) for the structure. |
 | `common.warnings.modifiedImages` | Warning about replaced images from the original.                  | `ImageRoot` see [ImageRoot](#imageroot) for the structure. |
 | `common.warnings.resources`      | Warning about not setting the resource object in all deployments. | `dict "sections" (list "path1" "path2") context $`         |
+
+### Gateway API
+
+| Helper identifier                                | Description                                                                                      | Expected Input                                                                                                              |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `common.names.gateway.httproute`                 | Return the HTTPRoute resource name                                                               | `.` Chart context                                                                                                           |
+| `common.names.gateway.grpcroute`                 | Return the GRPCRoute resource name                                                               | `.` Chart context                                                                                                           |
+| `common.names.gateway.tcproute`                  | Return the TCPRoute resource name                                                                | `.` Chart context                                                                                                           |
+| `common.names.gateway.tlsroute`                  | Return the TLSRoute resource name                                                                | `.` Chart context                                                                                                           |
+| `common.names.gateway.backend`                   | Return the Backend resource name                                                                 | `.` Chart context                                                                                                           |
+| `common.names.gateway.backendtrafficpolicy`      | Return the BackendTrafficPolicy resource name                                                    | `.` Chart context                                                                                                           |
+| `common.names.gateway.clienttrafficpolicy`       | Return the ClientTrafficPolicy resource name                                                     | `.` Chart context                                                                                                           |
+| `common.gateway.parentRefs`                      | Generate parentRefs for Gateway API route resources                                              | `dict "gateway" .Values.gateway "context" $`                                                                                |
+| `common.gateway.processBackendRefs`              | Process backendRefs with smart defaults (auto-fill empty name and port)                          | `dict "backendRefs" .backendRefs "serviceName" $serviceName "servicePort" $servicePort "context" $`                         |
+| `common.gateway.httproute.rules`                 | Render HTTPRoute rules with auto-filled backendRefs                                              | `dict "rules" .Values.gateway.http.rules "serviceName" $fullname "servicePort" .Values.service.ports.http.port "context" $` |
+| `common.gateway.grpcroute.rules`                 | Render GRPCRoute rules with auto-filled backendRefs                                              | `dict "rules" .Values.gateway.grpc.rules "serviceName" $fullname "servicePort" .Values.service.ports.grpc.port "context" $` |
+| `common.gateway.tcproute.rules`                  | Render TCPRoute rules with auto-filled backendRefs                                               | `dict "rules" .Values.gateway.tcp.rules "serviceName" $fullname "servicePort" .Values.service.ports.tcp.port "context" $`   |
+| `common.gateway.tlsroute.rules`                  | Render TLSRoute rules with auto-filled backendRefs                                               | `dict "rules" .Values.gateway.tls.rules "serviceName" $fullname "servicePort" .Values.service.ports.https.port "context" $` |
+| `common.gateway.backendtrafficpolicy.targetRefs` | Generate BackendTrafficPolicy targetRefs with smart defaults                                     | `dict "spec" .Values.gateway.backendTrafficPolicy.spec "values" .Values "fullname" $fullname "context" $`                   |
+| `common.gateway.backendtrafficpolicy.spec`       | Generate BackendTrafficPolicy spec (supports both full spec mode and legacy field-by-field mode) | `dict "config" .Values.gateway.backendTrafficPolicy "fullname" $fullname "values" .Values "context" $`                      |
+| `common.gateway.backend.spec`                    | Generate Backend spec (supports both full spec mode and legacy endpoints/appProtocols mode)      | `dict "config" .Values.gateway.backend "context" $`                                                                         |
 
 ## Special input schemas
 
@@ -229,7 +250,6 @@ debug:
   type: boolean
   description: Set to true if you would like to see extra information on logs
   example: false
-
 ## An instance would be:
 # registry: docker.io
 # repository: bitnami/nginx
@@ -284,7 +304,6 @@ name:
 keyMapping:
   description: Mapping between the expected key name and the name of the key in the existing secret.
   type: object
-
 ## An instance would be:
 # name: mySecret
 # keyMapping:
@@ -301,24 +320,24 @@ When we store sensitive data for a deployment in a secret, some times we want to
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ include "common.names.fullname" . }}
+  name: { { include "common.names.fullname" . } }
   labels:
-    app: {{ include "common.names.fullname" . }}
+    app: { { include "common.names.fullname" . } }
 type: Opaque
 data:
-  password: {{ .Values.password | b64enc | quote }}
+  password: { { .Values.password | b64enc | quote } }
 
 # templates/dpl.yaml
 ---
-...
-      env:
-        - name: PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ include "common.secrets.name" (dict "existingSecret" .Values.existingSecret "context" $) }}
-              key: {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "password") }}
-...
 
+---
+env:
+  - name: PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: { { include "common.secrets.name" (dict "existingSecret" .Values.existingSecret "context" $) } }
+        key: { { include "common.secrets.key" (dict "existingSecret" .Values.existingSecret "key" "password") } }
+...
 # values.yaml
 ---
 name: mySecret
@@ -360,7 +379,7 @@ helm install test mychart --set path.to.value00="",path.to.value01=""
 
 - Previous versions of this Helm Chart use `apiVersion: v1` (installable by both Helm 2 and 3), this Helm Chart was updated to `apiVersion: v2` (installable by Helm 3 only). [Here](https://helm.sh/docs/topics/charts/#the-apiversion-field) you can find more information about the `apiVersion` field.
 - Use `type: library`. [Here](https://v3.helm.sh/docs/faq/#library-chart-support) you can find more information.
-- The different fields present in the *Chart.yaml* file has been ordered alphabetically in a homogeneous way for all the Bitnami Helm Charts
+- The different fields present in the _Chart.yaml_ file has been ordered alphabetically in a homogeneous way for all the Bitnami Helm Charts
 
 #### Considerations when upgrading to this version
 
